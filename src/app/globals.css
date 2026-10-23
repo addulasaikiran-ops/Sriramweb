@@ -185,3 +185,13 @@ em{font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.
 }
 @media(max-width:380px){.announcement{font-size:6px}.announcement a{font-size:7px}.header-cta{display:none}.hero h1{font-size:53px}.hero-buttons .button{padding:0 10px;gap:7px;font-size:8px}.trust-item small{font-size:7px}.hero-location{font-size:7px}.fleet-list-item{gap:7px}.fleet-list-name{font-size:9px}.fleet-image-title h3{font-size:29px}.contact-actions .button{width:100%}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+
+/* Reference fleet pricing */
+.fleet-feature-detail{align-items:flex-start}
+.fleet-detail-copy{min-width:0;flex:1}
+.fleet-rate{display:flex;align-items:baseline;gap:8px;margin-bottom:10px}
+.fleet-rate strong{font-family:Manrope,sans-serif;font-size:clamp(28px,3vw,38px);line-height:1;color:#9a7945;letter-spacing:-.06em}
+.fleet-rate span{font-size:10px;color:#777d84}
+.fleet-feature-detail .text-link{align-self:center}
+@media(max-width:1050px){.fleet-feature-detail .text-link{align-self:flex-start}}
