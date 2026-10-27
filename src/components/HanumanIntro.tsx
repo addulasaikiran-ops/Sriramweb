@@ -1,445 +1,641 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
+import { gsap } from "gsap";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import styles from "./HanumanIntro.module.css";
-import { HANUMAN_INTRO, HANUMAN_SESSION_KEY } from "./hanumanIntro.config";
+import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import { IntroScene } from "./IntroScene";
 import { IntroParticles } from "./IntroParticles";
 import { SkipButton } from "./SkipButton";
+import { CornerBrackets, IntroGrid, LoadCounter, Marquee } from "./IntroEditorial";
+
+function withoutNulls<T>(values: Array<T | null | undefined>): T[] {
+  return values.filter((value): value is T => value !== null && value !== undefined);
+}
 
 export function HanumanIntro() {
-  // Render the opaque overlay on the server to avoid a homepage flash.
+  // The opaque shell is server-rendered, so the homepage never flashes before hydration.
   const [visible, setVisible] = useState(true);
-  const [isExiting, setIsExiting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [lightMode, setLightMode] = useState(false);
+  const [lowPower, setLowPower] = useState(false);
   const [skipReady, setSkipReady] = useState(false);
-  const [exitDuration, setExitDuration] = useState<number>(HANUMAN_INTRO.timings.exitDurationMs);
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const artRef = useRef<HTMLDivElement>(null);
+  const orbitRef = useRef<HTMLDivElement>(null);
+  const counterRef = useRef<HTMLSpanElement>(null);
   const skipButtonRef = useRef<HTMLButtonElement>(null);
-  const skipReadyRef = useRef(false);
-  const timers = useRef<number[]>([]);
+  const masterTimelineRef = useRef<gsap.core.Timeline | null>(null);
+  const finishRef = useRef<() => void>(() => undefined);
   const effectStartedRef = useRef(false);
-  const seenMarkerTimer = useRef<number | null>(null);
-  const keydownHandlerRef = useRef<((event: KeyboardEvent) => void) | null>(null);
-  const pointerHandlerRef = useRef<((event: PointerEvent) => void) | null>(null);
-  const pointerFrameRef = useRef<number | null>(null);
-  const reducedMotionRef = useRef(false);
-  const originalBodyOverflow = useRef<string | null>(null);
-  const originalHtmlOverflow = useRef<string | null>(null);
-
-  const clearTimers = useCallback(() => {
-    timers.current.forEach((timer) => window.clearTimeout(timer));
-    timers.current = [];
-  }, []);
-
-  const restoreScroll = useCallback(() => {
-    if (originalBodyOverflow.current !== null) {
-      document.body.style.overflow = originalBodyOverflow.current;
-      originalBodyOverflow.current = null;
-    }
-    if (originalHtmlOverflow.current !== null) {
-      document.documentElement.style.overflow = originalHtmlOverflow.current;
-      originalHtmlOverflow.current = null;
-    }
-  }, []);
-
-  const finishIntro = useCallback((duration: number = HANUMAN_INTRO.timings.exitDurationMs) => {
-    clearTimers();
-
-    if (keydownHandlerRef.current) {
-      document.removeEventListener("keydown", keydownHandlerRef.current);
-      keydownHandlerRef.current = null;
-    }
-    if (pointerHandlerRef.current) {
-      window.removeEventListener("pointermove", pointerHandlerRef.current);
-      pointerHandlerRef.current = null;
-    }
-
-    if (pointerFrameRef.current !== null) {
-      window.cancelAnimationFrame(pointerFrameRef.current);
-      pointerFrameRef.current = null;
-    }
-
-    setExitDuration(duration);
-    setIsExiting(true);
-
-    timers.current.push(window.setTimeout(() => {
-      const html = document.documentElement;
-      html.classList.remove("hanuman-intro-active");
-      html.classList.add("hanuman-home-reveal");
-      html.dataset.hanumanIntroSeen = "true";
-      setVisible(false);
-      restoreScroll();
-
-      // Only move focus if the intro owned it; never steal focus from another control.
-      if (rootRef.current?.contains(document.activeElement)) {
-        window.requestAnimationFrame(() => {
-          document.querySelector<HTMLElement>(".hero .button, .hero a[href='#enquiry']")?.focus({ preventScroll: true });
-        });
-      }
-    }, duration));
-  }, [clearTimers, restoreScroll]);
 
   useEffect(() => {
+    const root = rootRef.current;
+    const artStage = artRef.current;
+    const orbit = orbitRef.current;
+    if (!root || !artStage || !orbit) return;
+
     const html = document.documentElement;
+    let finished = false;
+    let onKeyDown: ((event: KeyboardEvent) => void) | null = null;
+    let originalBodyOverflow: string | null = null;
+    let originalHtmlOverflow: string | null = null;
 
-    if (seenMarkerTimer.current !== null) {
-      window.clearTimeout(seenMarkerTimer.current);
-      seenMarkerTimer.current = null;
+    let seenThisSession = html.dataset.hanumanIntroSeen === "true";
+    try {
+      seenThisSession ||= window.sessionStorage.getItem(HANUMAN_INTRO.sessionKey) === "1";
+    } catch {
+      // The animation still works when storage is restricted by the browser.
     }
 
-    const isEffectReplay = effectStartedRef.current;
-
-    if (!isEffectReplay) {
-      let seenThisSession = html.dataset.hanumanIntroSeen === "true";
-      try {
-        seenThisSession ||= window.sessionStorage.getItem(HANUMAN_SESSION_KEY) === "1";
-      } catch {
-        // Gracefully continue when sessionStorage is disabled by the browser.
-      }
-
-      if (seenThisSession) {
-        html.dataset.hanumanIntroSeen = "true";
-        setVisible(false);
-        return;
-      }
-
-      // Only mark initialized after deciding to play; Strict Mode must not replay a skipped intro.
-      effectStartedRef.current = true;
+    if (!effectStartedRef.current && seenThisSession) {
+      html.dataset.hanumanIntroSeen = "true";
+      setVisible(false);
+      return;
     }
+    // React Strict Mode replays effects in development. Do not mistake our own
+    // entry marker from the first setup for a genuine second visit.
+    effectStartedRef.current = true;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    reducedMotionRef.current = reduce;
-    setReducedMotion(reduce);
-
-    const navigatorWithMemory = window.navigator as Navigator & { deviceMemory?: number };
-    const hasLowHardware = (
-      (navigatorWithMemory.hardwareConcurrency > 0 && navigatorWithMemory.hardwareConcurrency <= 4) ||
-      (navigatorWithMemory.deviceMemory !== undefined && navigatorWithMemory.deviceMemory <= 4)
+    if (!reduce) gsap.registerPlugin(MotionPathPlugin);
+    const nav = window.navigator as Navigator & { deviceMemory?: number };
+    const isLowPower = (
+      (nav.hardwareConcurrency > 0 && nav.hardwareConcurrency <= 4) ||
+      (nav.deviceMemory !== undefined && nav.deviceMemory <= 4)
     );
-    setLightMode(hasLowHardware);
+
+    setReducedMotion(reduce);
+    setLowPower(isLowPower);
+    root.classList.toggle(styles.reduced, reduce);
+    root.classList.toggle(styles.lowPower, isLowPower);
 
     try {
-      // Mark at entry so refresh/back-navigation cannot replay mid-flight.
-      window.sessionStorage.setItem(HANUMAN_SESSION_KEY, "1");
+      window.sessionStorage.setItem(HANUMAN_INTRO.sessionKey, "1");
     } catch {
-      // The intro remains usable if storage cannot be written.
+      // Session storage is an optimization, never a requirement for dismissal.
     }
 
     html.classList.remove("hanuman-home-reveal");
     html.classList.add("hanuman-intro-active");
-    originalBodyOverflow.current = document.body.style.overflow;
-    originalHtmlOverflow.current = html.style.overflow;
+    originalBodyOverflow = document.body.style.overflow;
+    originalHtmlOverflow = html.style.overflow;
     document.body.style.overflow = "hidden";
     html.style.overflow = "hidden";
 
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const q = <T extends Element>(selector: string) => root.querySelector<T>(selector);
+    const qa = <T extends Element>(selector: string) => Array.from(root.querySelectorAll<T>(selector));
+
+    const screenFrame = q<HTMLElement>('[data-frame="screen"]');
+    const artFrame = q<HTMLElement>('[data-frame="art"]');
+    const welcomeFrame = q<HTMLElement>('[data-frame="welcome"]');
+    const scene = q<HTMLElement>(`.${styles.scene}`);
+    const grid = q<HTMLElement>(`.${styles.gridLines}`);
+    const gridLines = qa<HTMLElement>(`.${styles.gridLine}`);
+    const screenMarks = qa<SVGElement>('[data-frame="screen"] .' + styles.cornerMark);
+    const artMarks = qa<SVGElement>('[data-frame="art"] .' + styles.cornerMark);
+    const welcomeMarks = qa<SVGElement>('[data-frame="welcome"] .' + styles.cornerMark);
+    const skipButton = skipButtonRef.current;
+    const copyBlock = q<HTMLElement>(`.${styles.copyBlock}`);
+    const upperLabel = q<HTMLElement>(`.${styles.upperLabel}`);
+    const headlineLines = qa<HTMLElement>(`.${styles.headlineLine}`);
+    const telugu = q<HTMLElement>(`.${styles.teluguLine}`);
+    const lowerLabel = q<HTMLElement>(`.${styles.lowerLabel}`);
+    const welcome = q<HTMLElement>(`.${styles.welcomeText}`);
+    const statusDock = q<HTMLElement>(`.${styles.statusDock}`);
+    const marquee = q<HTMLElement>(`.${styles.marquee}`);
+    const speedLines = qa<HTMLElement>(`.${styles.speedLine}`);
+    const shockwave = q<HTMLElement>(`.${styles.shockwaveRing}`);
+    const exitBar = q<HTMLElement>(`.${styles.exitBar}`);
+    const exitTop = q<HTMLElement>(`.${styles.exitPanelTop}`);
+    const exitBottom = q<HTMLElement>(`.${styles.exitPanelBottom}`);
+    const particles = q<HTMLElement>(`.${styles.emberField}`);
+    const { timings, easing } = HANUMAN_INTRO;
+
+    const restoreScroll = () => {
+      if (originalBodyOverflow !== null) {
+        document.body.style.overflow = originalBodyOverflow;
+        originalBodyOverflow = null;
+      }
+      if (originalHtmlOverflow !== null) {
+        html.style.overflow = originalHtmlOverflow;
+        originalHtmlOverflow = null;
+      }
+    };
+
+    const revealHomepage = () => {
+      if (finished) return;
+      finished = true;
+      masterTimelineRef.current?.kill();
+      masterTimelineRef.current = null;
+      if (onKeyDown) { document.removeEventListener("keydown", onKeyDown);
+        onKeyDown = null;
+      }
+      finishRef.current = () => undefined;
+      html.classList.remove("hanuman-intro-active");
+      html.classList.add("hanuman-home-reveal");
+      html.dataset.hanumanIntroSeen = "true";
+      try {
+        window.sessionStorage.setItem(HANUMAN_INTRO.sessionKey, "1");
+      } catch {
+        // The root data attribute still prevents a replay for this document.
+      }
+      restoreScroll();
+
+      const introOwnedFocus = root.contains(document.activeElement);
+      setVisible(false);
+      if (introOwnedFocus) {
+        window.requestAnimationFrame(() => {
+          document.querySelector<HTMLElement>(".hero .button, .hero a[href='#enquiry']")?.focus({ preventScroll: true });
+        });
+      }
+    };
+
+    const runQuickExit = () => {
+      if (finished) return;
+      masterTimelineRef.current?.kill();
+      masterTimelineRef.current = null;
+
+      if (reduce) {
+        const reducedExit = gsap.timeline({ onComplete: revealHomepage });
+        reducedExit.to(root, {
+          opacity: 0,
+          duration: timings.reducedMotionExitMs / 1000,
+          ease: easing.quartOut,
+        });
+        masterTimelineRef.current = reducedExit;
+        return;
+      }
+
+      const quick = gsap.timeline({ onComplete: revealHomepage });
+      quick.to(
+        withoutNulls([scene, grid, screenFrame, artFrame, welcomeFrame, orbit, artStage, copyBlock, statusDock, marquee, skipButton, particles, speedLines, shockwave]),
+        { autoAlpha: 0, duration: timings.skipFadeDurationMs / 1000, ease: easing.expoOut },
+        0,
+      );
+      if (exitBar) {
+        quick.fromTo(exitBar, { scaleX: 0 }, { scaleX: 1, duration: timings.skipWipeDurationMs / 1000, ease: easing.expoInOut }, timings.skipWipeStartMs / 1000);
+      }
+      if (exitTop && exitBottom) {
+        quick.fromTo(exitTop, { yPercent: -105 }, { yPercent: 0, duration: timings.skipCurtainCloseDurationMs / 1000, ease: easing.expoInOut }, timings.skipCurtainCloseStartMs / 1000);
+        quick.fromTo(exitBottom, { yPercent: 105 }, { yPercent: 0, duration: timings.skipCurtainCloseDurationMs / 1000, ease: easing.expoInOut }, timings.skipCurtainCloseStartMs / 1000);
+        quick.set(root, { backgroundColor: "transparent" }, timings.skipCurtainOpenStartMs / 1000);
+        const quickCurtainOpenDuration = Math.max(0, timings.skipExitDurationMs - timings.skipCurtainOpenStartMs) / 1000;
+        quick.to(exitTop, { yPercent: -105, duration: quickCurtainOpenDuration, ease: easing.expoInOut }, timings.skipCurtainOpenStartMs / 1000);
+        quick.to(exitBottom, { yPercent: 105, duration: quickCurtainOpenDuration, ease: easing.expoInOut }, timings.skipCurtainOpenStartMs / 1000);
+      } else {
+        quick.to(root, { opacity: 0, duration: timings.skipExitDurationMs / 1000, ease: easing.quartOut }, 0);
+      }
+      masterTimelineRef.current = quick;
+    };
+
+    finishRef.current = runQuickExit;
+
+    onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        finishIntro(reduce
-          ? HANUMAN_INTRO.timings.reducedMotionFadeMs
-          : HANUMAN_INTRO.timings.skipDurationMs);
-      } else if (event.key === "Tab") {
-        // Before the visible skip action arrives, Tab dismisses rather than trapping focus invisibly.
+        runQuickExit();
+        return;
+      }
+      if (event.key === "Enter" && event.target !== skipButton) {
         event.preventDefault();
-        if (!skipReadyRef.current) {
-          finishIntro(reduce
-            ? HANUMAN_INTRO.timings.reducedMotionFadeMs
-            : HANUMAN_INTRO.timings.skipDurationMs);
-          return;
-        }
-        skipButtonRef.current?.focus({ preventScroll: true });
+        runQuickExit();
+        return;
+      }
+      if (event.key === "Tab") {
+        event.preventDefault();
+        if (skipButton?.disabled) root.focus({ preventScroll: true });
+        else skipButton?.focus({ preventScroll: true });
       }
     };
+    if (onKeyDown) document.addEventListener("keydown", onKeyDown);
 
-    keydownHandlerRef.current = handleKeyDown;
-    document.addEventListener("keydown", handleKeyDown);
-
-    timers.current.push(window.setTimeout(() => {
-      skipReadyRef.current = true;
-      setSkipReady(true);
-      window.requestAnimationFrame(() => {
-        skipButtonRef.current?.focus({ preventScroll: true });
-      });
-    }, HANUMAN_INTRO.timings.focusSkipMs));
-
-    const canUseParallax = (
-      !reduce &&
-      !hasLowHardware &&
-      window.matchMedia("(pointer: fine)").matches &&
-      window.navigator.maxTouchPoints === 0
-    );
-
-    let lastPointerX = 0;
-    let lastPointerY = 0;
-    const updateParallax = () => {
-      pointerFrameRef.current = null;
-      const element = rootRef.current;
-      if (!element) return;
-      element.style.setProperty("--parallax-x", `${lastPointerX}px`);
-      element.style.setProperty("--parallax-y", `${lastPointerY}px`);
-      element.style.setProperty("--parallax-horizon-x", `${lastPointerX * 0.35}px`);
-      element.style.setProperty("--parallax-horizon-y", `${lastPointerY * 0.3}px`);
-      element.style.setProperty("--parallax-ray-x", `${lastPointerX * 0.55}px`);
-      element.style.setProperty("--parallax-ray-y", `${lastPointerY * 0.55}px`);
-    };
-
-    const handlePointerMove = (event: PointerEvent) => {
-      if (!canUseParallax || event.pointerType === "touch") return;
-      const xRatio = (event.clientX / Math.max(1, window.innerWidth)) * 2 - 1;
-      const yRatio = (event.clientY / Math.max(1, window.innerHeight)) * 2 - 1;
-      const parallaxLimit = HANUMAN_INTRO.particles.maxParallaxPx;
-      lastPointerX = Math.max(-parallaxLimit, Math.min(parallaxLimit, xRatio * parallaxLimit));
-      lastPointerY = Math.max(-parallaxLimit, Math.min(parallaxLimit, yRatio * parallaxLimit));
-      if (pointerFrameRef.current === null) {
-        pointerFrameRef.current = window.requestAnimationFrame(updateParallax);
+    const counterValue = { value: 0 };
+    const updateCounter = () => {
+      if (counterRef.current) {
+        counterRef.current.textContent = String(Math.round(counterValue.value)).padStart(3, "0");
       }
     };
-
-    if (canUseParallax) {
-      pointerHandlerRef.current = handlePointerMove;
-      window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    }
 
     if (reduce) {
-      timers.current.push(window.setTimeout(
-        () => finishIntro(HANUMAN_INTRO.timings.reducedMotionFadeMs),
-        HANUMAN_INTRO.timings.reducedMotionTotalMs - HANUMAN_INTRO.timings.reducedMotionFadeMs,
-      ));
+      // Keep the geometry still: reduced-motion mode uses one short fade, then reveals the page.
+      gsap.set(withoutNulls([screenFrame, artFrame, welcomeFrame]), {
+        clipPath: "inset(0% 0% 0% 0%)",
+        opacity: 0.76,
+        scale: 1,
+      });
+      gsap.set(gridLines, { scaleY: 1, opacity: 0.08 });
+      gsap.set(artStage, { x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1 });
+      gsap.set(copyBlock, { autoAlpha: 1, y: 0 });
+      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(withoutNulls([statusDock, skipButton]), { autoAlpha: 1 });
+      setSkipReady(true);
+      const reducedTimeline = gsap.timeline({ onComplete: revealHomepage });
+      reducedTimeline.fromTo(
+        withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]),
+        { opacity: 0 },
+        { opacity: 1, duration: 0.38, stagger: 0.05, ease: easing.quartOut },
+        0,
+      );
+      reducedTimeline.call(() => skipButton?.focus({ preventScroll: true }), [], 0.08);
+      reducedTimeline.to(root, { opacity: 0, duration: timings.reducedMotionExitMs / 1000, ease: easing.quartOut }, (timings.reducedMotionDurationMs - timings.reducedMotionExitMs) / 1000);
+      masterTimelineRef.current = reducedTimeline;
     } else {
-      timers.current.push(window.setTimeout(
-        () => finishIntro(HANUMAN_INTRO.timings.exitDurationMs),
-        HANUMAN_INTRO.timings.exitStartMs,
-      ));
+      gsap.set(screenMarks, { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 });
+      gsap.set([...artMarks, ...welcomeMarks], { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 });
+      gsap.set(gridLines, { scaleY: 0, opacity: 0, transformOrigin: "top center" });
+      gsap.set(artStage, {
+        x: -window.innerWidth * 0.88,
+        y: window.innerHeight * 0.11,
+        scale: 0.62,
+        rotation: -8,
+        autoAlpha: 0,
+      });
+      gsap.set(orbit, { scale: 0.84, rotation: -24, autoAlpha: 0 });
+      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), {
+        autoAlpha: 0,
+        y: 12,
+      });
+      gsap.set(headlineLines, { yPercent: 112, autoAlpha: 0 });
+      gsap.set(marquee, { yPercent: 110, autoAlpha: 0 });
+      gsap.set(skipButton!, { y: -8, autoAlpha: 0 });
+      gsap.set(shockwave, { scale: 0.18, autoAlpha: 0 });
+      gsap.set(speedLines, { scaleX: 0, autoAlpha: 0, transformOrigin: "right center" });
+      gsap.set(exitBar, { scaleX: 0, transformOrigin: "left center" });
+      gsap.set(exitTop, { yPercent: -105 });
+      gsap.set(exitBottom, { yPercent: 105 });
+      updateCounter();
+
+      const timeline = gsap.timeline({
+        defaults: { ease: easing.expoOut },
+        onComplete: revealHomepage,
+      });
+      masterTimelineRef.current = timeline;
+
+      // 0.00–0.42s — architecture draws in while the counter starts.
+      timeline.fromTo(
+        screenMarks,
+        { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 },
+        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 0.76, duration: timings.frameDurationMs / 1000, stagger: 0.02, ease: easing.quartOut },
+        timings.frameStartMs / 1000,
+      );
+      timeline.fromTo(
+        gridLines,
+        { scaleY: 0, opacity: 0 },
+        {
+          scaleY: 1,
+          opacity: 0.08,
+          duration: timings.gridDurationMs / 1000,
+          stagger: timings.gridStaggerMs / 1000,
+          ease: easing.quartOut,
+        },
+        timings.gridStartDelayMs / 1000,
+      );
+      timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], (timings.frameDurationMs + 120) / 1000);
+      timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
+      timeline.fromTo(
+        skipButton!,
+        { autoAlpha: 0, y: -8 },
+        { autoAlpha: 1, y: 0, duration: timings.skipDurationMs / 1000, ease: easing.expoOut },
+        timings.skipStartMs / 1000,
+      );
+      timeline.call(() => skipButton?.focus({ preventScroll: true }), [], timings.focusSkipMs / 1000);
+
+      // 0.30–1.90s — the artwork rides a curved MotionPath with three sharp ghost trails.
+      timeline.fromTo(
+        artMarks,
+        { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          autoAlpha: 0.72,
+          duration: timings.artFrameDurationMs / 1000,
+          stagger: timings.gridStaggerMs / 1600,
+          ease: easing.quartOut,
+        },
+        timings.artFrameStartMs / 1000,
+      );
+      timeline.call(() => artFrame?.classList.add(styles.frameLive), [], (timings.artFrameStartMs + timings.artFrameDurationMs + 30) / 1000);
+      timeline.fromTo(
+        orbit,
+        { scale: 0.84, rotation: -24, autoAlpha: 0 },
+        {
+          scale: 1,
+          rotation: 172,
+          autoAlpha: 0.64,
+          duration: timings.orbitDurationMs / 1000,
+          ease: easing.quartInOut,
+        },
+        timings.orbitStartMs / 1000,
+      );
+      timeline.fromTo(
+        artStage,
+        {
+          x: -window.innerWidth * 0.88,
+          y: window.innerHeight * 0.11,
+          scale: 0.62,
+          rotation: -8,
+          autoAlpha: 0,
+        },
+        {
+          motionPath: {
+            path: [
+              { x: -window.innerWidth * 0.88, y: window.innerHeight * 0.11 },
+              { x: -window.innerWidth * 0.55, y: window.innerHeight * 0.03 },
+              { x: -window.innerWidth * 0.2, y: -window.innerHeight * 0.07 },
+              { x: 0, y: 0 },
+            ],
+            curviness: 1.25,
+            autoRotate: false,
+          },
+          scale: 1,
+          rotation: 0,
+          autoAlpha: 1,
+          duration: (timings.flightEndMs - timings.flightStartMs) / 1000,
+          ease: easing.expoInOut,
+        },
+        timings.flightStartMs / 1000,
+      );
+      timeline.fromTo(
+        speedLines,
+        { scaleX: 0, autoAlpha: 0 },
+        { scaleX: 1, autoAlpha: 0.48, duration: timings.speedLineDurationMs / 1000, stagger: timings.gridStaggerMs / 1000, ease: easing.expoOut },
+        timings.speedLinesStartMs / 1000,
+      );
+      timeline.to(speedLines, { autoAlpha: 0, duration: timings.speedLineFadeDurationMs / 1000, ease: easing.expoIn }, (timings.landStartMs - 260) / 1000);
+
+      // Counter is tied to the precise arrival/landing beats, not a separate interval.
+      timeline.to(
+        counterValue,
+        {
+          value: 80,
+          duration: timings.flightEndMs / 1000,
+          ease: easing.expoOut,
+          onUpdate: updateCounter,
+        },
+        0,
+      );
+      timeline.to(
+        counterValue,
+        {
+          value: 100,
+          duration: timings.counterLandDurationMs / 1000,
+          ease: easing.expoOut,
+          onUpdate: updateCounter,
+        },
+        timings.landStartMs / 1000,
+      );
+
+      // 1.90–2.42s — hard landing, 80ms glitch slice (disabled on low-end hardware), shockwave.
+      timeline.call(() => {
+        if (!isLowPower) root.classList.add(styles.landingImpact);
+      }, [], timings.landStartMs / 1000);
+      const landingAt = timings.landStartMs / 1000;
+      const impactWindow = timings.landSliceDurationMs / 1000;
+      timeline.to(artStage, { x: 5, y: 2, scale: 1.018, duration: impactWindow * 0.375, ease: easing.expoOut }, landingAt);
+      timeline.to(artStage, { x: -3, y: -1, scale: 0.995, duration: impactWindow * 0.3125, ease: easing.expoInOut }, landingAt + impactWindow * 0.375);
+      timeline.to(artStage, { x: 0, y: 0, scale: 1, duration: impactWindow * 0.3125, ease: easing.expoOut }, landingAt + impactWindow * 0.6875);
+      timeline.call(() => root.classList.remove(styles.landingImpact), [], (timings.landStartMs + timings.landSliceDurationMs) / 1000);
+      timeline.fromTo(
+        shockwave,
+        { scale: 0.18, autoAlpha: 0.9 },
+        { scale: 2.55, autoAlpha: 0, duration: timings.shockwaveDurationMs / 1000, ease: easing.expoOut },
+        timings.shockwaveStartMs / 1000,
+      );
+
+      // 2.28–3.80s — clipped headlines, Telugu copy, bracketed welcome, then the ticker.
+      timeline.fromTo(
+        upperLabel,
+        { clipPath: "inset(0% 100% 0% 0%)", autoAlpha: 0, y: 8 },
+        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 1, y: 0, duration: timings.upperLabelDurationMs / 1000, ease: easing.expoOut },
+        timings.upperLabelStartMs / 1000,
+      );
+      timeline.fromTo(
+        welcomeMarks,
+        { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 },
+        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 0.76, duration: timings.copyFrameDurationMs / 1000, stagger: 0.025, ease: easing.quartOut },
+        timings.copyFrameStartMs / 1000,
+      );
+      timeline.call(() => welcomeFrame?.classList.add(styles.frameLive), [], (timings.copyFrameStartMs + timings.copyFrameDurationMs) / 1000);
+      timeline.fromTo(
+        headlineLines,
+        { yPercent: 112, autoAlpha: 0 },
+        {
+          yPercent: 0,
+          autoAlpha: 1,
+          duration: timings.headlineLineDurationMs / 1000,
+          stagger: timings.headlineLineGapMs / 1000,
+          ease: easing.expoOut,
+        },
+        timings.headlineStartMs / 1000,
+      );
+      timeline.fromTo(
+        telugu,
+        { clipPath: "inset(0% 0% 100% 0%)", autoAlpha: 0, y: 10 },
+        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 1, y: 0, duration: timings.teluguDurationMs / 1000, ease: easing.quartOut },
+        timings.teluguStartMs / 1000,
+      );
+      timeline.fromTo(
+        lowerLabel,
+        { clipPath: "inset(0% 100% 0% 0%)", autoAlpha: 0, y: 8 },
+        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 1, y: 0, duration: timings.lowerLabelDurationMs / 1000, ease: easing.expoOut },
+        timings.lowerLabelStartMs / 1000,
+      );
+      timeline.fromTo(
+        welcome,
+        { y: 10, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: timings.welcomeDurationMs / 1000, ease: easing.expoOut },
+        timings.welcomeStartMs / 1000,
+      );
+      timeline.fromTo(
+        marquee,
+        { yPercent: 110, autoAlpha: 0 },
+        { yPercent: 0, autoAlpha: 1, duration: timings.marqueeDurationMs / 1000, ease: easing.quartOut },
+        timings.marqueeStartMs / 1000,
+      );
+      timeline.call(() => marquee?.classList.add(styles.marqueeLive), [], timings.marqueeStartMs / 1000);
+
+      // 3.80–4.50s — frames contract, saffron line wipes, then two curtains open to the homepage.
+      timeline.to(
+        withoutNulls([screenFrame, grid, artFrame, welcomeFrame]),
+        { scale: 0.94, autoAlpha: 0, duration: 0.22, ease: easing.expoIn },
+        timings.exitStartMs / 1000,
+      );
+      timeline.to(
+        withoutNulls([scene, artStage, orbit, copyBlock, statusDock, marquee, skipButton, particles, speedLines, shockwave]),
+        { autoAlpha: 0, duration: 0.16, ease: easing.expoOut },
+        timings.exitStartMs / 1000,
+      );
+      timeline.fromTo(
+        exitBar!,
+        { scaleX: 0, transformOrigin: "left center" },
+        { scaleX: 1, duration: timings.exitBarDurationMs / 1000, ease: easing.expoInOut },
+        timings.exitStartMs / 1000,
+      );
+      timeline.fromTo(
+        exitTop!,
+        { yPercent: -105 },
+        { yPercent: 0, duration: timings.curtainCloseDurationMs / 1000, ease: easing.expoInOut },
+        (timings.exitStartMs + timings.exitBarDurationMs) / 1000,
+      );
+      timeline.fromTo(
+        exitBottom!,
+        { yPercent: 105 },
+        { yPercent: 0, duration: timings.curtainCloseDurationMs / 1000, ease: easing.expoInOut },
+        (timings.exitStartMs + timings.exitBarDurationMs) / 1000,
+      );
+      const curtainOpenStartMs = timings.exitStartMs + timings.exitBarDurationMs + timings.curtainCloseDurationMs;
+      const curtainOpenStart = curtainOpenStartMs / 1000;
+      const curtainOpenDuration = Math.max(0, timings.totalDurationMs - curtainOpenStartMs) / 1000;
+      timeline.set(root, { backgroundColor: "transparent" }, curtainOpenStart);
+      // Begin the homepage hero stagger behind the moving curtains.
+      timeline.call(() => {
+        html.classList.remove("hanuman-intro-active");
+        html.classList.add("hanuman-home-reveal");
+      }, [], curtainOpenStart);
+      timeline.call(() => undefined, [], timings.totalDurationMs / 1000);
+      timeline.to(
+        exitTop,
+        { yPercent: -105, duration: curtainOpenDuration, ease: easing.expoInOut },
+        curtainOpenStart,
+      );
+      timeline.to(
+        exitBottom,
+        { yPercent: 105, duration: curtainOpenDuration, ease: easing.expoInOut },
+        curtainOpenStart,
+      );
     }
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      if (canUseParallax) window.removeEventListener("pointermove", handlePointerMove);
-      pointerHandlerRef.current = null;
-      if (pointerFrameRef.current !== null) {
-        window.cancelAnimationFrame(pointerFrameRef.current);
-        pointerFrameRef.current = null;
-      }
-      keydownHandlerRef.current = null;
-      clearTimers();
-      restoreScroll();
-
-      const wasInterrupted = html.classList.contains("hanuman-intro-active");
+      masterTimelineRef.current?.kill();
+      masterTimelineRef.current = null;
+      finishRef.current = () => undefined;
+      if (onKeyDown) document.removeEventListener("keydown", onKeyDown);
       html.classList.remove("hanuman-intro-active");
-
-      // Mark an interrupted entrance as seen, but cancel this during React Strict Mode replay.
-      if (wasInterrupted) {
-        seenMarkerTimer.current = window.setTimeout(() => {
-          if (!html.classList.contains("hanuman-intro-active")) {
-            html.dataset.hanumanIntroSeen = "true";
-          }
-          seenMarkerTimer.current = null;
-        }, 0);
-      }
+      restoreScroll();
     };
-  }, [clearTimers, finishIntro, restoreScroll]);
+  }, []);
 
   if (!visible) return null;
 
-  const timings = HANUMAN_INTRO.timings;
+  const { colors, timings, text, trailOffsets } = HANUMAN_INTRO;
   const rootStyle = {
-    "--exit-duration": `${exitDuration}ms`,
-    "--scene-night": HANUMAN_INTRO.colors.midnight,
-    "--scene-indigo": HANUMAN_INTRO.colors.indigo,
-    "--scene-maroon": HANUMAN_INTRO.colors.maroon,
-    "--accent-saffron": HANUMAN_INTRO.colors.saffron,
-    "--accent-orange": HANUMAN_INTRO.colors.orange,
-    "--accent-gold": HANUMAN_INTRO.colors.gold,
-    "--scene-fade-duration": `${timings.sceneFadeMs}ms`,
-    "--frame-start": `${timings.frameStartMs}ms`,
-    "--frame-duration": `${timings.frameDurationMs}ms`,
-    "--signal-start": `${timings.signalStartMs}ms`,
-    "--signal-duration": `${timings.signalDurationMs}ms`,
-    "--skip-appear-duration": `${timings.skipAppearDurationMs}ms`,
-    "--flight-delay": `${timings.flightStartMs}ms`,
-    "--flight-duration": `${timings.flightDurationMs}ms`,
-    "--hover-duration": `${timings.hoverDurationMs}ms`,
-    "--hover-start": `${timings.hoverStartMs}ms`,
-    "--shockwave-delay": `${timings.shockwaveStartMs}ms`,
-    "--shockwave-duration": `${timings.shockwaveDurationMs}ms`,
-    "--exit-start": `${timings.exitStartMs}ms`,
-    "--sun-bloom-start": `${timings.sunBloomStartMs}ms`,
-    "--sun-bloom-duration": `${timings.sunBloomDurationMs}ms`,
-    "--kicker-start": `${timings.kickerStartMs}ms`,
-    "--telugu-start": `${timings.teluguStartMs}ms`,
-    "--telugu-duration": `${timings.teluguDurationMs}ms`,
-    "--english-letter-duration": `${timings.englishLetterDurationMs}ms`,
-    "--shimmer-start": `${timings.shimmerStartMs}ms`,
-    "--shimmer-duration": `${timings.shimmerDurationMs}ms`,
-    "--divider-duration": `${timings.dividerDurationMs}ms`,
-    "--welcome-duration": `${timings.welcomeDurationMs}ms`,
-    "--tagline-duration": `${timings.taglineDurationMs}ms`,
-    "--progress-duration": `${timings.progressDurationMs}ms`,
-    "--progress-delay": `${timings.skipAppearMs}ms`,
-    "--parallax-horizon-x": "0px",
-    "--parallax-horizon-y": "0px",
-    "--parallax-ray-x": "0px",
-    "--parallax-ray-y": "0px",
+    "--intro-black": colors.black,
+    "--intro-saffron": colors.saffron,
+    "--intro-orange": colors.deepOrange,
+    "--intro-gold": colors.gold,
+    "--intro-paper": colors.offWhite,
+    "--frame-pulse-duration": `${timings.framePulseDurationMs}ms`,
   } as CSSProperties;
 
   return (
     <div
       ref={rootRef}
-      className={`${styles.root} ${isExiting ? styles.exiting : ""} ${reducedMotion ? styles.reduced : ""} ${lightMode ? styles.lightMode : ""}`}
+      className={styles.root}
       style={rootStyle}
       role="dialog"
+      tabIndex={-1}
       aria-modal="true"
       aria-labelledby="hanuman-intro-title"
       aria-describedby="hanuman-intro-welcome"
     >
-      <IntroScene lightMode={lightMode} />
-      <div className={styles.editorialChrome} aria-hidden="true">
-        <div className={styles.chromeFrame} />
-        <div className={styles.chromeTop}>
-          <span className={styles.brandIndex}><span>SR</span><i /></span>
-          <span className={styles.chromeHeader}>
-            <strong>SRIRAM TRAVELS</strong>
-            <span>{HANUMAN_INTRO.text.header}</span>
-          </span>
-          <span className={styles.chromeCounter}>DIVINE ARRIVAL <b>01 / 04</b></span>
-        </div>
-        <span className={styles.sideStamp}>FAITH GUIDES THE WAY</span>
-        <div className={styles.editorialTicker}>
-          <div className={styles.tickerTrack}>
-            <div className={styles.tickerGroup}>
-              {Array.from({ length: 12 }, (_, index) => (
-                <span key={index}>{HANUMAN_INTRO.text.ticker}</span>
-              ))}
-            </div>
-            <div className={styles.tickerGroup} aria-hidden="true">
-              {Array.from({ length: 12 }, (_, index) => (
-                <span key={index}>{HANUMAN_INTRO.text.ticker}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-        <div className={styles.chromeBottom}>
-          <span>{HANUMAN_INTRO.text.location}</span>
-          <span className={styles.scrollCue}><i /> SCROLL TO EXPLORE <b>↓</b></span>
-        </div>
-      </div>
-      <IntroParticles lightMode={lightMode} reducedMotion={reducedMotion} />
+      <IntroScene lightMode={lowPower} />
+      <IntroParticles lightMode={lowPower} reducedMotion={reducedMotion} />
+      <IntroGrid />
+      <CornerBrackets variant="screen" />
 
-      <div
-        className={styles.lightBurst}
-        aria-hidden="true"
-        style={{ animationDelay: `${timings.shockwaveStartMs}ms` }}
-      />
-      <div
-        className={styles.shockwave}
-        aria-hidden="true"
-        style={{ animationDelay: `${timings.shockwaveStartMs}ms` }}
-      />
-
-      <div className={styles.flightStage}>
-        <div className={styles.flightOrigin}>
-          <div className={styles.flightPath}>
-            <div className={styles.flightHover}>
-              {!lightMode && HANUMAN_INTRO.trailOffsets.map((trail, index) => (
-                <Image
-                  key={index}
-                  src="/images/hanuman-flying-silhouette.svg"
-                  alt=""
-                  aria-hidden="true"
-                  width={850}
-                  height={480}
-                  className={`${styles.hanumanImage} ${styles.trailCopy}`}
-                  style={{
-                    "--trail-x": `${trail.x}%`,
-                    "--trail-y": `${trail.y}px`,
-                    "--trail-opacity": trail.opacity,
-                    "--trail-blur": `${trail.blur}px`,
-                    "--trail-scale": trail.scale,
-                  } as CSSProperties}
-                  draggable={false}
-                />
-              ))}
-              <Image
-                src="/images/hanuman-flying-silhouette.svg"
-                alt="Flying Hanuman carrying the Sanjeevani mountain"
-                width={850}
-                height={480}
-                priority
-                fetchPriority="high"
-                className={`${styles.hanumanImage} ${styles.mainImage}`}
-                draggable={false}
-              />
-            </div>
-          </div>
-        </div>
+      <div className={styles.orbitRing} ref={orbitRef} aria-hidden="true">
+        <svg viewBox="0 0 600 600" focusable="false">
+          <circle cx="300" cy="300" r="258" fill="none" stroke="currentColor" strokeWidth="1" />
+          <circle cx="300" cy="300" r="230" fill="none" stroke="currentColor" strokeWidth=".7" strokeDasharray="1 14" />
+          <path d="M300 12V52M300 548V588M12 300H52M548 300H588M97 97L125 125M475 475L503 503M503 97L475 125M125 475L97 503" fill="none" stroke="currentColor" strokeWidth="1.2" />
+        </svg>
       </div>
 
-      {!reducedMotion && (
-        <div className={styles.windLines} aria-hidden="true">
-          <span /><span /><span /><span /><span />
-        </div>
-      )}
-
-      <div className={styles.copy}>
-        <p
-          className={styles.kicker}
-          style={{ animationDelay: `${timings.kickerStartMs}ms` }}
-        >
-          {HANUMAN_INTRO.text.kicker}
-        </p>
-        <p
-          className={`${styles.teluguBlessing} ${styles.shimmer}`}
-          aria-label={HANUMAN_INTRO.text.telugu}
-          style={{ animationDelay: `${timings.teluguStartMs}ms` }}
-        >
-          <span>{HANUMAN_INTRO.text.telugu}</span>
-          <span className={styles.shimmerSweep} aria-hidden="true">{HANUMAN_INTRO.text.telugu}</span>
-        </p>
-        <h1 id="hanuman-intro-title" className={styles.englishTitle} data-text={HANUMAN_INTRO.text.english} aria-label={HANUMAN_INTRO.text.english}>
-          {Array.from(HANUMAN_INTRO.text.english).map((letter, index) => (
-            <span
+      <div className={styles.artStage} ref={artRef} data-layer="art">
+        <CornerBrackets variant="art" />
+        {trailOffsets.slice(0, lowPower ? 1 : 3).map((trail, index) => (
+          <Image
+            key={index}
+            src="/images/hanuman-flying-silhouette.svg"
+            alt=""
+            aria-hidden="true"
+            width={850}
+            height={480}
+            className={styles.trailImage}
+            style={{
+              "--trail-x": `${trail.x}%`,
+              "--trail-y": `${trail.y}px`,
+              "--trail-opacity": trail.opacity,
+              "--trail-scale": trail.scale,
+            } as CSSProperties}
+            draggable={false}
+          />
+        ))}
+        <Image
+          src="/images/hanuman-flying-silhouette.svg"
+          alt="Flying Hanuman carrying the Sanjeevani mountain"
+          width={850}
+          height={480}
+          priority
+          fetchPriority="high"
+          className={styles.hanumanImage}
+          draggable={false}
+        />
+        {!lowPower && (
+          <>
+            <Image
+              src="/images/hanuman-flying-silhouette.svg"
+              alt=""
               aria-hidden="true"
-              key={`${letter}-${index}`}
-              style={{
-                animationDelay: `${timings.englishStartMs + index * timings.englishStaggerMs}ms`,
-              }}
-            >
-              {letter === " " ? "\u00a0" : letter}
-            </span>
-          ))}
-        </h1>
-        <span
-          className={styles.divider}
-          aria-hidden="true"
-          style={{ animationDelay: `${timings.dividerStartMs}ms` }}
-        ><span /></span>
-        <p
-          id="hanuman-intro-welcome"
-          className={styles.welcome}
-          style={{ animationDelay: `${timings.welcomeStartMs}ms` }}
-        >
-          {HANUMAN_INTRO.text.welcome}
-        </p>
-        <p
-          className={styles.tagline}
-          style={{ animationDelay: `${timings.taglineStartMs}ms` }}
-        >
-          {HANUMAN_INTRO.text.tagline}
-        </p>
+              width={850}
+              height={480}
+              className={`${styles.hanumanImage} ${styles.glitchSlice} ${styles.glitchSliceOne}`}
+              draggable={false}
+            />
+            <Image
+              src="/images/hanuman-flying-silhouette.svg"
+              alt=""
+              aria-hidden="true"
+              width={850}
+              height={480}
+              className={`${styles.hanumanImage} ${styles.glitchSlice} ${styles.glitchSliceTwo}`}
+              draggable={false}
+            />
+          </>
+        )}
       </div>
 
-      <SkipButton
-        buttonRef={skipButtonRef}
-        onSkip={() => finishIntro(reducedMotion
-          ? timings.reducedMotionFadeMs
-          : timings.skipDurationMs)}
-        reducedMotion={reducedMotion}
-        disabled={!skipReady}
-      />
+      <div className={styles.speedLines} aria-hidden="true" data-layer="speed-lines">
+        <span className={styles.speedLine} />
+        <span className={styles.speedLine} />
+        <span className={styles.speedLine} />
+        <span className={styles.speedLine} />
+      </div>
+      <div className={styles.shockwaveRing} aria-hidden="true" />
+
+      <div className={styles.copyBlock} data-layer="copy">
+        <p className={styles.upperLabel}>{text.upperLabel}</p>
+        <h1 id="hanuman-intro-title" className={styles.headline} aria-label={text.headlineAccessible}>
+          <span className={styles.headlineMask}><span className={styles.headlineLine} aria-hidden="true">{text.headlineLineOne}</span></span>
+          <span className={styles.headlineMask}><span className={styles.headlineLine} aria-hidden="true">{text.headlineLineTwo}</span></span>
+        </h1>
+        <p className={styles.teluguLine} aria-label={text.telugu}>{text.telugu}</p>
+        <p className={styles.lowerLabel}>{text.lowerLabel}</p>
+        <div className={styles.welcomeBlock} id="hanuman-intro-welcome">
+          <CornerBrackets variant="welcome" />
+          <p className={styles.welcomeText}>{text.welcome}</p>
+        </div>
+      </div>
+
+      <LoadCounter counterRef={counterRef} />
+      <Marquee />
+      <SkipButton buttonRef={skipButtonRef} onSkip={() => finishRef.current()} disabled={!skipReady} />
+
+      <div className={styles.exitBar} aria-hidden="true" />
+      <div className={`${styles.exitPanel} ${styles.exitPanelTop}`} aria-hidden="true" />
+      <div className={`${styles.exitPanel} ${styles.exitPanelBottom}`} aria-hidden="true" />
     </div>
   );
 }

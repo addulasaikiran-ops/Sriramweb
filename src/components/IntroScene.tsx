@@ -42,8 +42,8 @@ export function IntroScene({ lightMode }: IntroSceneProps) {
           <path d="M42 288 55 233 75 252 83 201 104 225 115 165 127 225 148 201 156 252 176 233 189 288Z" />
           <path d="M25 309H205V337H25ZM38 351H192V378H38ZM48 392H182V419H48Z" />
           <path d="M72 520V430C72 399 158 399 158 430V520Z" />
-          <path d="M108 165V130H122V165M115 130V112" fill="none" stroke="#4c1d24" strokeWidth="4" />
-          <path d="M112 112 132 122 112 132Z" fill="#E8590C" />
+          <path d="M108 165V130H122V165M115 130V112" fill="none" stroke="#FF9933" strokeWidth="4" />
+          <path d="M112 112 132 122 112 132Z" fill="#FF9933" />
           <g fill="#FF9933" opacity=".56">
             <path d="M49 321H63V334H49ZM82 321H96V334H82ZM115 321H129V334H115ZM148 321H162V334H148ZM181 321H195V334H181Z" />
             <path d="M60 363H73V376H60ZM92 363H105V376H92ZM124 363H137V376H124ZM156 363H169V376H156Z" />
