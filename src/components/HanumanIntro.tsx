@@ -166,7 +166,7 @@ export function HanumanIntro() {
 
       const quick = gsap.timeline({ onComplete: revealHomepage });
       quick.to(
-        withoutNulls([scene, grid, screenFrame, artFrame, welcomeFrame, orbit, artStage, copyBlock, statusDock, marquee, skipButton, particles, shockwave]),
+        withoutNulls([scene, grid, screenFrame, artFrame, welcomeFrame, orbit, artStage, copyBlock, statusDock, marquee, skipButton, particles, speedLines, shockwave]),
         { autoAlpha: 0, duration: 0.1, ease: easing.expoOut },
         0,
       );
@@ -288,7 +288,6 @@ export function HanumanIntro() {
         0.02,
       );
       timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], 0.42);
-      timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
       timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
       timeline.fromTo(
         skipButton!,
@@ -463,7 +462,7 @@ export function HanumanIntro() {
         timings.exitStartMs / 1000,
       );
       timeline.to(
-        withoutNulls([scene, artStage, orbit, copyBlock, statusDock, marquee, skipButton, particles, shockwave]),
+        withoutNulls([scene, artStage, orbit, copyBlock, statusDock, marquee, skipButton, particles, speedLines, shockwave]),
         { autoAlpha: 0, duration: 0.16, ease: easing.expoOut },
         timings.exitStartMs / 1000,
       );
@@ -505,7 +504,7 @@ export function HanumanIntro() {
       masterTimelineRef.current?.kill();
       masterTimelineRef.current = null;
       finishRef.current = () => undefined;
-      document.removeEventListener("keydown", onKeyDown);
+      if (onKeyDown) document.removeEventListener("keydown", onKeyDown);
       html.classList.remove("hanuman-intro-active");
       restoreScroll();
     };
@@ -534,6 +533,7 @@ export function HanumanIntro() {
       aria-describedby="hanuman-intro-welcome"
     >
       <IntroScene lightMode={lowPower} />
+      <IntroParticles lightMode={lowPower} reducedMotion={reducedMotion} />
       <IntroGrid />
       <CornerBrackets variant="screen" />
 
