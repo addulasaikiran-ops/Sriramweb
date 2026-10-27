@@ -84,14 +84,14 @@ em{font-family:var(--font-cormorant),Georgia,serif;font-weight:400;font-style:it
 .trust-strip{background:#eeebe4;padding:24px 5.25%;display:grid;grid-template-columns:repeat(4,1fr);gap:25px;border-bottom:1px solid #111b2b10}
 .trust-item{display:flex;align-items:center;gap:12px;justify-content:center;border-right:1px solid var(--line)}
 .trust-item:last-child{border:0}
-.trust-symbol{color:#9d7c43}.trust-symbol svg{width:19px;height:19px;stroke-width:1.5}
-.trust-item strong,.trust-item small{display:block}.trust-item strong{font-family:var(--font-manrope),sans-serif;font-size:12px;font-weight:700}.trust-item small{font-size:12px;color:#7b8189;margin-top:4px}
+.trust-symbol{color:var(--gold-deep)}.trust-symbol svg{width:19px;height:19px;stroke-width:1.5}
+.trust-item strong,.trust-item small{display:block}.trust-item strong{font-family:var(--font-manrope),sans-serif;font-size:12px;font-weight:700}.trust-item small{font-size:12px;color:var(--text-muted);margin-top:4px}
 .section-pad{padding:112px 5.25%;max-width:1600px;margin:0 auto}
 .section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;margin-bottom:48px}
-.dark-eyebrow{color:#74726b}
+.dark-eyebrow{color:var(--text-muted)}
 .section-heading h2{font-size:clamp(40px,4.3vw,60px);line-height:1.12;margin:19px 0 0}
 .section-heading h2 em{color:var(--gold-deep)}
-.section-heading>p{max-width:330px;color:#727783;font-size:12px;line-height:1.9;margin:0 0 5px}
+.section-heading>p{max-width:330px;color:var(--text-muted);font-size:12px;line-height:1.9;margin:0 0 5px}
 .fleet-layout{display:grid;grid-template-columns:245px minmax(0,1fr);gap:27px}
 .fleet-sidebar{background:#edeae3;padding:23px 20px 20px;display:flex;flex-direction:column;min-height:100%}
 .fleet-list-label{display:flex;justify-content:space-between;padding:0 2px 17px;font-size:12px;color:#777a7c;letter-spacing:.15em;border-bottom:1px solid #111b2b22}
@@ -128,7 +128,7 @@ em{font-family:var(--font-cormorant),Georgia,serif;font-weight:400;font-style:it
 .spec-list span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)}
 .spec-list svg{color:var(--gold-deep)}
 .text-link{font-size:12px;display:flex;align-items:center;gap:8px;white-space:nowrap;font-weight:700;border-bottom:1px solid #c9a96e;padding-bottom:7px}
-.text-link svg{color:#9b7d4a}
+.text-link svg{color:var(--gold-deep)}
 .fleet-disclaimer{margin-top:13px;color:var(--text-muted);font-size:12px}
 .manifesto{min-height:570px;position:relative;display:flex;align-items:center;padding:90px 9%;color:white;background:var(--ink);isolation:isolate}
 .manifesto-image,.manifesto-shade{position:absolute;z-index:-1;inset:0}
