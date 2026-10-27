@@ -161,7 +161,7 @@ export default function HomePage() {
             <div className="hero-visual">
               <div className="visual-arc arc-one" /><div className="visual-arc arc-two" />
               <div className="hero-number">01<span> / JOURNEY</span></div>
-              <div className="image-frame hero-image-frame"><Image src="/images/hero-road.svg" alt="Premium SUV ready for a scenic journey" fill priority sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
+              <div className="image-frame hero-image-frame"><Image src="/images/hero-road.svg" alt="Illustrative vehicle artwork for a scenic journey" fill priority sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
               <div className="image-caption"><span className="caption-line" /><span>THE JOURNEY IS PART OF THE DESTINATION</span></div>
               <div className="floating-note"><span className="note-star">✳</span><span>Made for the<br /><em>long way home.</em></span></div>
               
