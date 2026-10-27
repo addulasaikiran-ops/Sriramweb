@@ -15,7 +15,7 @@ export function HanumanIntro() {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [lightMode, setLightMode] = useState(false);
   const [skipReady, setSkipReady] = useState(false);
-  const [exitDuration, setExitDuration] = useState(HANUMAN_INTRO.timings.exitDurationMs);
+  const [exitDuration, setExitDuration] = useState<number>(HANUMAN_INTRO.timings.exitDurationMs);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const skipButtonRef = useRef<HTMLButtonElement>(null);
