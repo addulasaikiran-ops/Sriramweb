@@ -29,6 +29,7 @@ export function HanumanIntro() {
   const skipButtonRef = useRef<HTMLButtonElement>(null);
   const masterTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const finishRef = useRef<() => void>(() => undefined);
+  const effectStartedRef = useRef(false);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -49,11 +50,14 @@ export function HanumanIntro() {
       // The animation still works when storage is restricted by the browser.
     }
 
-    if (seenThisSession) {
+    if (!effectStartedRef.current && seenThisSession) {
       html.dataset.hanumanIntroSeen = "true";
       setVisible(false);
       return;
     }
+    // React Strict Mode replays effects in development. Do not mistake our own
+    // entry marker from the first setup for a genuine second visit.
+    effectStartedRef.current = true;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!reduce) gsap.registerPlugin(MotionPathPlugin);
@@ -155,12 +159,13 @@ export function HanumanIntro() {
       masterTimelineRef.current = null;
 
       if (reduce) {
-        gsap.to(root, {
+        const reducedExit = gsap.timeline({ onComplete: revealHomepage });
+        reducedExit.to(root, {
           opacity: 0,
           duration: timings.reducedMotionExitMs / 1000,
           ease: easing.quartOut,
-          onComplete: revealHomepage,
         });
+        masterTimelineRef.current = reducedExit;
         return;
       }
 
@@ -233,6 +238,7 @@ export function HanumanIntro() {
         { opacity: 1, duration: 0.38, stagger: 0.05, ease: easing.quartOut },
         0,
       );
+      reducedTimeline.call(() => skipButton?.focus({ preventScroll: true }), [], 0.08);
       reducedTimeline.to(root, { opacity: 0, duration: 0.3, ease: easing.quartOut }, 0.5);
       masterTimelineRef.current = reducedTimeline;
     } else {
