@@ -307,3 +307,7 @@ em{font-family:var(--font-cormorant),Georgia,serif;font-weight:400;font-style:it
 
 @media(prefers-reduced-motion:reduce){.cinematic-stage{height:auto;display:block}.cinematic-sticky-visual{display:none}.cinematic-chapter{position:relative;height:auto;min-height:0;top:auto;opacity:1!important;transform:none!important}.cinematic-visual-image{display:none!important}.cinematic-chapter p{font-size:16px}}
 @media(max-width:320px){.site-shell{overflow-x:clip}.enquiry-section,.towing-section{padding-left:16px;padding-right:16px}.brand small{letter-spacing:.06em}}
+
+/* Comfortable reading scale for customer-facing copy */
+.hero-description,.section-heading>p,.trust-item small,.contact-copy>p,.manifesto-content p,.service-card p,.story-card-copy p,.destination-cta p,.booking-step p,.faq-intro p,.faq-answer p,.cinematic-chapter p,.cinematic-intro p{font-size:16px;line-height:1.7}.hero-subtitle{font-size:18px}.button,.main-nav a{font-size:14px}.announcement,.eyebrow,.manifesto-kicker,.fleet-image-badge,.fleet-disclaimer,.fleet-list-label,.cinematic-chapter-number,.destination-kicker{font-size:12px}
+@media(max-width:760px){.hero-description,.section-heading>p,.trust-item small,.contact-copy>p,.manifesto-content p,.service-card p,.story-card-copy p,.destination-cta p,.booking-step p,.faq-intro p,.faq-answer p,.cinematic-chapter p,.cinematic-intro p{font-size:16px}.hero-subtitle{font-size:17px}.main-nav a{font-size:14px}}
