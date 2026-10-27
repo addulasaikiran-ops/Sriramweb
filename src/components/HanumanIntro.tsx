@@ -46,6 +46,7 @@ export function HanumanIntro() {
   const timers = useRef<number[]>([]);
   const effectStartedRef = useRef(false);
   const skipButtonRef = useRef<HTMLButtonElement>(null);
+  const keydownHandlerRef = useRef<((event: KeyboardEvent) => void) | null>(null);
   const reducedMotionRef = useRef(false);
   const originalBodyOverflow = useRef<string | null>(null);
   const originalHtmlOverflow = useRef<string | null>(null);
@@ -68,6 +69,10 @@ export function HanumanIntro() {
 
   const finishIntro = useCallback((fadeMs?: number) => {
     clearTimers();
+    if (keydownHandlerRef.current) {
+      document.removeEventListener("keydown", keydownHandlerRef.current);
+      keydownHandlerRef.current = null;
+    }
     setIsExiting(true);
     const duration = fadeMs ?? (reducedMotionRef.current
       ? INTRO_TIMING.reducedMotionFadeMs
@@ -130,6 +135,7 @@ export function HanumanIntro() {
         skipButtonRef.current?.focus({ preventScroll: true });
       }
     };
+    keydownHandlerRef.current = handleKeyDown;
     document.addEventListener("keydown", handleKeyDown);
 
     timers.current.push(window.setTimeout(
@@ -155,6 +161,7 @@ export function HanumanIntro() {
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      keydownHandlerRef.current = null;
       clearTimers();
       restoreScroll();
       root.classList.remove("hanuman-intro-active");
