@@ -314,14 +314,6 @@
 .reduced .divider { transform: scaleX(1); }
 .reduced .skip { opacity: 1; animation: none; transform: none; }
 .reduced.exiting { transition-duration: 280ms; }
-:global(html.hanuman-intro-active) :global(.hero-copy),
-:global(html.hanuman-intro-active) :global(.hero-visual) {
-  opacity: 0;
-}
-:global(html.hanuman-home-reveal) :global(.hero-copy),
-:global(html.hanuman-home-reveal) :global(.hero-visual) {
-  animation: homepage-reveal 850ms cubic-bezier(.22, 1, .36, 1) both;
-}
 @keyframes hanuman-flight-in {
   0% { opacity: 0; transform: translate3d(-128vw, 8vh, 0) scale(.6) rotate(-6deg); }
   48% { opacity: var(--trail-opacity, 1); transform: translate3d(-22vw, -1vh, 0) scale(.92) rotate(-2deg); }
@@ -363,10 +355,6 @@
   25% { opacity: .8; }
   100% { opacity: 0; transform: translate3d(-45vw, 0, 0); }
 }
-@keyframes homepage-reveal {
-  from { opacity: 0; transform: scale(1.05); }
-  to { opacity: 1; transform: scale(1); }
-}
 @media (max-width: 600px) {
   .flight { top: 37%; width: min(91vw, 560px); }
   .copy { top: 63%; width: 92vw; }
@@ -400,6 +388,4 @@
   }
   .divider { transform: scaleX(1) !important; }
   .root.exiting { transition: opacity 280ms ease, visibility 0s linear 280ms; }
-  :global(html.hanuman-intro-active) :global(.hero-copy),
-  :global(html.hanuman-intro-active) :global(.hero-visual) { opacity: 0; }
 }
