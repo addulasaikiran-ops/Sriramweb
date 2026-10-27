@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Clock3, MapPin, Menu, Phone, ShieldCheck, Users, X, Zap } from "lucide-react";
+import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, Clock3, MapPin, Menu, Phone, ShieldCheck, Users, X, Zap } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fleet, services, site } from "@/data/site";
@@ -21,7 +21,7 @@ function WhatsAppLink({ label = "Book your journey", className = "", message = "
 export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null);
   const [activeVehicle, setActiveVehicle] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);\n  const [openFaq, setOpenFaq] = useState(0);
   const active = fleet[activeVehicle];
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function HomePage() {
           <span><strong>SRIRAM<span>.</span></strong><small>TRAVELS & TOWING SERVICES</small></span>
         </a>
         <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">
-          <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
+          <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#destinations">Destinations</a><a onClick={() => setMenuOpen(false)} href="#faq">FAQ</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
         </nav>
         <div className="header-actions"><a className="header-phone" href={`tel:+${site.phone}`}><Phone size={14} /> <span>{site.phoneDisplay}</span></a><WhatsAppLink label="Enquire now" className="button button-dark header-cta" /></div>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X /> : <Menu />}</button>
@@ -113,7 +113,43 @@ export default function HomePage() {
           <div className="fleet-disclaimer">Reference rates shown for design setup only. Confirm Sriram Travels pricing, vehicle availability, seating and features before booking.</div>
         </section>
 
-        <section className="manifesto" id="about"><div className="manifesto-image"><Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85" alt="Mountain road landscape" fill sizes="100vw" unoptimized /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
+
+        <section className="journey-story section-pad" aria-labelledby="journey-title">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> THE JOURNEY</div><h2 id="journey-title">From the first mile<br />to <em>the moment that matters.</em></h2></div><p>A little planning makes the road feel easier. Tell us what your trip needs and we can discuss the details directly.</p></div>
+          <div className="story-grid">
+            <article className="story-card story-card-wide reveal"><div className="story-photo story-photo-road" role="img" aria-label="Scenic road stretching toward the horizon" /><div className="story-card-copy"><span>01 / THE DEPARTURE</span><h3>Every journey starts somewhere.</h3><p>Share your starting point, travel date and destination when you enquire.</p></div></article>
+            <article className="story-card reveal"><div className="story-photo story-photo-cabin" role="img" aria-label="Vehicle ready for a road journey" /><div className="story-card-copy"><span>02 / THE RIDE</span><h3>Find the right fit for your trip.</h3><p>Tell us how many people are travelling so we can discuss suitable options.</p></div></article>
+            <article className="story-card reveal"><div className="story-photo story-photo-arrival" role="img" aria-label="Open road leading into a landscape" /><div className="story-card-copy"><span>03 / THE ARRIVAL</span><h3>Make the miles count.</h3><p>Confirm your route, fare and vehicle details with our team before you travel.</p><WhatsAppLink label="Plan your journey" className="text-link" message="Hello Sriram Travels, I'd like to discuss a trip. Please help me plan the journey." /></div></article>
+          </div>
+        </section>
+
+        <section className="destinations-section section-pad" id="destinations">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> YOUR NEXT STOP</div><h2>Where to <em>next?</em></h2></div><p>Have a destination in mind? Send us your route and dates to enquire about your trip.</p></div>
+          <div className="destination-cta reveal"><div><span className="destination-kicker">YOUR ROUTE, YOUR PLANS</span><h3>Let’s talk about<br /><em>where you’re going.</em></h3><p>Share the pickup point, destination, travel date and number of passengers. We’ll discuss availability and pricing with you.</p></div><WhatsAppLink label="Enquire about a trip" className="button button-gold" message="Hello Sriram Travels, I'd like to enquire about a trip. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
+        </section>
+
+        <section className="booking-section section-pad">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> SIMPLE NEXT STEPS</div><h2>Booking, in <em>three steps.</em></h2></div><p>Start a conversation first. Confirm the details directly before finalising your journey.</p></div>
+          <div className="booking-steps">
+            <article className="booking-step reveal"><span className="booking-step-number">01</span><h3>Message or call</h3><p>Choose WhatsApp or phone to reach Sriram Travels.</p></article>
+            <article className="booking-step reveal"><span className="booking-step-number">02</span><h3>Share your trip</h3><p>Tell us the route, date, passenger count and any special requirements.</p></article>
+            <article className="booking-step reveal"><span className="booking-step-number">03</span><h3>Confirm the details</h3><p>Check the vehicle, availability, fare and trip terms with us before booking.</p></article>
+          </div>
+        </section>
+
+        <section className="faq-section section-pad" id="faq">
+          <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p>Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
+          <div className="faq-list reveal">
+            {[
+              { question: "How do I book a vehicle?", answer: "Message us on WhatsApp or call. Share where you are going, your travel date and how many people are travelling. We’ll discuss availability and next steps with you." },
+              { question: "Which places do you travel to?", answer: "Please message us with your pickup point and destination so we can confirm whether your requested route is available." },
+              { question: "How is the fare decided?", answer: "Fare can depend on the vehicle, route and trip details. Ask us for a confirmed quote before booking; any rates shown on this page are reference-only until confirmed by Sriram Travels." },
+              { question: "Can I confirm the vehicle before booking?", answer: "Yes—please ask us to confirm the vehicle, seating and availability for your dates before you finalise the trip." },
+              { question: "What if my plans change?", answer: "Contact us as soon as possible. We’ll explain what changes can be accommodated for your booking." }
+            ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button>{openFaq === index && <div className="faq-answer"><p>{item.answer}</p></div>}</article>)}
+          </div>
+        </section>
+\n        <section className="manifesto" id="about"><div className="manifesto-image"><Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85" alt="Mountain road landscape" fill sizes="100vw" unoptimized /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
 
         <section className="services-section section-pad" id="services"><div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> WHAT WE DO</div><h2>Ready for the road.<br /><em>There when it isn&apos;t.</em></h2></div><p>From planning the miles ahead to helping when the road gets difficult, we’re one call away from your next step.</p></div>
           <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{service.title}</h3><p>{service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
