@@ -190,7 +190,7 @@ export function HanumanIntro() {
                 bottom: `${ember.bottom}%`,
                 animationDelay: `${ember.delay}s`,
                 animationDuration: `${ember.duration}s`,
-                opacity: ember.alpha,
+                "--ember-alpha": ember.alpha,
                 "--ember-drift": `${ember.drift}px`,
                 "--ember-size": `${ember.size}px`,
               } as CSSProperties}
