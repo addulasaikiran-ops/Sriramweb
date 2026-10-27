@@ -187,7 +187,7 @@
 .cornerBottomRight { right: 0; bottom: 0; transform: rotate(180deg); }
 .cornerBottomLeft { left: 0; bottom: 0; transform: rotate(270deg); }
 .frameLive .cornerMark {
-  animation: bracket-pulse 2400ms cubic-bezier(.76, 0, .24, 1) infinite alternate;
+  animation: bracket-pulse var(--frame-pulse-duration, 2400ms) cubic-bezier(.76, 0, .24, 1) infinite alternate;
 }
 @keyframes bracket-pulse {
   from { opacity: .44; }
@@ -477,7 +477,7 @@
   width: max-content;
   align-items: center;
   transform: translate3d(0, 0, 0);
-  animation: marquee-loop 34s cubic-bezier(.76, 0, .24, 1) infinite;
+  animation: marquee-loop var(--marquee-duration, 34000ms) cubic-bezier(.76, 0, .24, 1) infinite;
   animation-play-state: paused;
   will-change: transform;
 }
