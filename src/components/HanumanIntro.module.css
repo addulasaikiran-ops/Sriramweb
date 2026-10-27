@@ -12,6 +12,7 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  --exit-duration: 650ms;
   transition: opacity var(--exit-duration) ease, visibility 0s linear var(--exit-duration);
 }
 .root.exiting {
@@ -29,6 +30,14 @@
   background:
     radial-gradient(ellipse at 50% 40%, rgba(110, 24, 31, .45), transparent 49%),
     linear-gradient(128deg, #050812 0%, #170912 44%, #240b13 61%, #05060b 100%);
+}
+.backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(103, 18, 29, .55), transparent 58%);
+  opacity: 0;
+  animation: background-bloom var(--background-reveal, 400ms) ease-out forwards;
 }
 .rays {
   position: absolute;
@@ -100,7 +109,7 @@
   opacity: 0;
   background: radial-gradient(ellipse, rgba(255, 193, 7, .2) 0%, rgba(255, 120, 25, .105) 31%, transparent 72%);
   transform: translate3d(-50%, -50%, 0) scale(.25);
-  animation: light-pulse 900ms 1800ms ease-out both;
+  animation: light-pulse 900ms var(--burst-delay, 1800ms) ease-out both;
   will-change: transform, opacity;
 }
 .flightStage {
@@ -324,6 +333,7 @@
   from { transform: translate3d(0, 0, 0) scale(1) rotate(0); }
   to { transform: translate3d(0, -8px, 0) scale(1) rotate(.35deg); }
 }
+@keyframes background-bloom { to { opacity: 1; } }
 @keyframes rays-rotate { to { transform: rotate(360deg); } }
 @keyframes light-pulse {
   0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(.25); }
@@ -381,7 +391,7 @@
   .welcome { font-size: 9px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .rays, .emberField, .noise, .lightBurst, .windLines, .trailCopy { display: none !important; }
+  .backdrop::after, .rays, .emberField, .noise, .lightBurst, .windLines, .trailCopy { display: none !important; }
   .hanumanImage { opacity: 1 !important; animation: none !important; transform: none !important; filter: none !important; }
   .teluguBlessing, .englishTitle span, .divider, .welcome, .skip {
     opacity: 1 !important;
