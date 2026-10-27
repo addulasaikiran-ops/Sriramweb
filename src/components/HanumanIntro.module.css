@@ -198,8 +198,8 @@
   position: absolute;
   z-index: 2;
   left: 50%;
-  top: 29%;
-  width: min(53vw, 570px);
+  top: 31%;
+  width: min(38vw, 500px);
   aspect-ratio: 1;
   translate: -50% -50%;
   transform: scale(.84) rotate(-24deg);
@@ -213,8 +213,8 @@
   position: absolute;
   z-index: 4;
   left: 50%;
-  top: 29%;
-  width: min(65vw, 830px);
+  top: 31%;
+  width: min(58vw, 760px);
   aspect-ratio: 850 / 480;
   translate: -50% -50%;
   transform: translate3d(-120vw, 13vh, 0) scale(.62) rotate(-8deg);
@@ -292,7 +292,7 @@
   position: absolute;
   z-index: 3;
   left: 50%;
-  top: 29%;
+  top: 31%;
   width: min(38vw, 430px);
   aspect-ratio: 1;
   translate: -50% -50%;
