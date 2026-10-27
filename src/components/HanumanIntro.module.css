@@ -95,7 +95,6 @@
   animation-name: ember-float;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-  will-change: transform, opacity;
 }
 .lightBurst {
   position: absolute;
@@ -143,6 +142,7 @@
   filter: blur(var(--trail-blur, 2px));
   --flight-duration: 1700ms;
   --trail-opacity: .18;
+  will-change: auto;
 }
 .hanumanImage:not(.trailCopy) {
   z-index: 2;
