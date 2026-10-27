@@ -91,6 +91,13 @@ export default function HomePage() {
         cinematicImages.forEach((image, index) => {
           gsap.set(image, { autoAlpha: index === 0 ? 1 : 0, scale: index === 0 ? 1 : 1.08 });
         });
+        // Keep stacked sticky chapters mutually exclusive so inactive text cannot ghost through.
+        cinematicChapters.forEach((chapter, index) => {
+          const isFirstChapter = index === 0;
+          gsap.set(chapter, { autoAlpha: isFirstChapter ? 1 : 0, y: isFirstChapter ? 0 : 28 });
+          chapter.classList.toggle("is-active", isFirstChapter);
+          chapter.setAttribute("aria-hidden", String(!isFirstChapter));
+        });
         const storyTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: cinematicStage,
@@ -101,7 +108,11 @@ export default function HomePage() {
               if (progressFill) progressFill.style.transform = `scaleX(${self.progress})`;
               const chapterIndex = Math.min(3, Math.floor(self.progress * 4));
               if (frameCount) frameCount.textContent = `0${chapterIndex + 1}`;
-              cinematicChapters.forEach((chapter, index) => chapter.classList.toggle("is-active", index === chapterIndex));
+              cinematicChapters.forEach((chapter, index) => {
+                const isActive = index === chapterIndex;
+                chapter.classList.toggle("is-active", isActive);
+                chapter.setAttribute("aria-hidden", String(!isActive));
+              });
             },
           },
         });
@@ -112,8 +123,17 @@ export default function HomePage() {
             storyTimeline.to(cinematicImages[index - 1], { autoAlpha: 0, scale: 0.96, duration: 0.16 }, start);
             storyTimeline.fromTo(cinematicImages[index], { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.22 }, start + 0.02);
           }
-          storyTimeline.fromTo(chapter, { autoAlpha: 0.35, y: 38 }, { autoAlpha: 1, y: 0, duration: 0.18 }, start + 0.04);
-          storyTimeline.to(chapter, { autoAlpha: index === 3 ? 1 : 0.45, y: index === 3 ? 0 : -22, duration: 0.14 }, end - 0.08);
+          storyTimeline.fromTo(
+            chapter,
+            { autoAlpha: 0, y: 28 },
+            { autoAlpha: 1, y: 0, duration: 0.18, immediateRender: false },
+            start + 0.04,
+          );
+          storyTimeline.to(
+            chapter,
+            { autoAlpha: index === 3 ? 1 : 0, y: index === 3 ? 0 : -22, duration: 0.14 },
+            end - 0.08,
+          );
         });
       }
       });
