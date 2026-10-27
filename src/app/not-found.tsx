@@ -1,12 +1,5 @@
 import Link from "next/link";
-
-export default function NotFound() {
-  return (
-    <main style={{ minHeight: "70vh", display: "grid", placeContent: "center", textAlign: "center", padding: 24 }}>
-      <p style={{ letterSpacing: ".2em", fontSize: 11 }}>SRIRAM TRAVELS</p>
-      <h1 style={{ fontSize: "clamp(42px, 8vw, 76px)", margin: "14px 0" }}>Wrong turn.</h1>
-      <p style={{ color: "#737982" }}>That page could not be found. Let&apos;s get you back on the road.</p>
-      <Link href="/" style={{ marginTop: 24, textDecoration: "underline" }}>Back to home →</Link>
-    </main>
-  );
-}
+import { Phone } from "lucide-react";
+import { site } from "@/data/site";
+import { buildWhatsAppUrl } from "@/components/whatsapp";
+export default function NotFound() { return <main className="not-found-page"><p className="eyebrow dark-eyebrow">SRIRAM TRAVELS</p><h1>Wrong turn.</h1><p>That page could not be found. Let&apos;s get you back on the road.</p><div className="not-found-actions"><Link className="button button-gold" href="/">Back to home</Link><a className="button button-dark" href={`tel:+${site.phone}`}><Phone size={16}/> Call us</a><a className="button button-dark" href={buildWhatsAppUrl("Hello Sriram Travels, I need help finding a page on your website.")} target="_blank" rel="noreferrer">WhatsApp</a></div></main>; }
