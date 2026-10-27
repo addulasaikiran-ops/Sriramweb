@@ -22,6 +22,7 @@ export function HanumanIntro() {
   const effectStartedRef = useRef(false);
   const seenMarkerTimer = useRef<number | null>(null);
   const keydownHandlerRef = useRef<((event: KeyboardEvent) => void) | null>(null);
+  const pointerHandlerRef = useRef<((event: PointerEvent) => void) | null>(null);
   const pointerFrameRef = useRef<number | null>(null);
   const reducedMotionRef = useRef(false);
   const originalBodyOverflow = useRef<string | null>(null);
@@ -49,6 +50,10 @@ export function HanumanIntro() {
     if (keydownHandlerRef.current) {
       document.removeEventListener("keydown", keydownHandlerRef.current);
       keydownHandlerRef.current = null;
+    }
+    if (pointerHandlerRef.current) {
+      window.removeEventListener("pointermove", pointerHandlerRef.current);
+      pointerHandlerRef.current = null;
     }
 
     if (pointerFrameRef.current !== null) {
@@ -181,7 +186,10 @@ export function HanumanIntro() {
       }
     };
 
-    if (canUseParallax) window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    if (canUseParallax) {
+      pointerHandlerRef.current = handlePointerMove;
+      window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    }
 
     if (reduce) {
       timers.current.push(window.setTimeout(
@@ -198,6 +206,7 @@ export function HanumanIntro() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       if (canUseParallax) window.removeEventListener("pointermove", handlePointerMove);
+      pointerHandlerRef.current = null;
       if (pointerFrameRef.current !== null) {
         window.cancelAnimationFrame(pointerFrameRef.current);
         pointerFrameRef.current = null;
@@ -237,8 +246,10 @@ export function HanumanIntro() {
     "--flight-delay": `${timings.flightStartMs}ms`,
     "--flight-duration": `${timings.flightDurationMs}ms`,
     "--hover-duration": `${timings.hoverDurationMs}ms`,
+    "--hover-start": `${timings.hoverStartMs}ms`,
     "--shockwave-delay": `${timings.shockwaveStartMs}ms`,
     "--shockwave-duration": `${timings.shockwaveDurationMs}ms`,
+    "--exit-start": `${timings.exitStartMs}ms`,
     "--sun-bloom-start": `${timings.sunBloomStartMs}ms`,
     "--sun-bloom-duration": `${timings.sunBloomDurationMs}ms`,
     "--telugu-duration": `${timings.teluguDurationMs}ms`,
