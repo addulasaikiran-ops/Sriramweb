@@ -265,6 +265,7 @@ export function HanumanIntro() {
     "--exit-start": `${timings.exitStartMs}ms`,
     "--sun-bloom-start": `${timings.sunBloomStartMs}ms`,
     "--sun-bloom-duration": `${timings.sunBloomDurationMs}ms`,
+    "--kicker-start": `${timings.kickerStartMs}ms`,
     "--telugu-start": `${timings.teluguStartMs}ms`,
     "--telugu-duration": `${timings.teluguDurationMs}ms`,
     "--english-letter-duration": `${timings.englishLetterDurationMs}ms`,
