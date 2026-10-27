@@ -36,7 +36,7 @@ export function IntroScene({ lightMode }: IntroSceneProps) {
         />
 
         {/* A small, purely vector gopuram keeps the horizon devotional, not busy. */}
-        <g className={styles.temple} transform="translate(1123 214)">
+        <g className={styles.temple} transform="translate(1123 0)">
           <path d="M0 306H230V520H0Z" />
           <path d="M18 306 115 258 212 306Z" />
           <path d="M42 288 55 233 75 252 83 201 104 225 115 165 127 225 148 201 156 252 176 233 189 288Z" />
