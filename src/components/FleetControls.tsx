@@ -1,0 +1,2 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
+export function FleetControls({index,total,onChange}:{index:number;total:number;onChange:(index:number)=>void}){return <div className="fleet-controls"><button aria-label="Previous vehicle" onClick={()=>onChange(index-1)}><ChevronLeft size={18}/></button><span>0{index+1} <i>/</i> 0{total}</span><button aria-label="Next vehicle" onClick={()=>onChange(index+1)}><ChevronRight size={18}/></button></div>;}
