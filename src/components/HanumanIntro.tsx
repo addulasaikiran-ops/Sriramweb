@@ -14,10 +14,12 @@ export function HanumanIntro() {
   const [isExiting, setIsExiting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [lightMode, setLightMode] = useState(false);
+  const [skipReady, setSkipReady] = useState(false);
   const [exitDuration, setExitDuration] = useState(HANUMAN_INTRO.timings.exitDurationMs);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const skipButtonRef = useRef<HTMLButtonElement>(null);
+  const skipReadyRef = useRef(false);
   const timers = useRef<number[]>([]);
   const effectStartedRef = useRef(false);
   const seenMarkerTimer = useRef<number | null>(null);
@@ -141,8 +143,14 @@ export function HanumanIntro() {
           ? HANUMAN_INTRO.timings.reducedMotionFadeMs
           : HANUMAN_INTRO.timings.skipDurationMs);
       } else if (event.key === "Tab") {
-        // A one-action intro dialog has a single focusable control.
+        // Before the visible skip action arrives, Tab dismisses rather than trapping focus invisibly.
         event.preventDefault();
+        if (!skipReadyRef.current) {
+          finishIntro(reduce
+            ? HANUMAN_INTRO.timings.reducedMotionFadeMs
+            : HANUMAN_INTRO.timings.skipDurationMs);
+          return;
+        }
         skipButtonRef.current?.focus({ preventScroll: true });
       }
     };
@@ -150,10 +158,11 @@ export function HanumanIntro() {
     keydownHandlerRef.current = handleKeyDown;
     document.addEventListener("keydown", handleKeyDown);
 
-    timers.current.push(window.setTimeout(
-      () => skipButtonRef.current?.focus({ preventScroll: true }),
-      HANUMAN_INTRO.timings.focusSkipMs,
-    ));
+    timers.current.push(window.setTimeout(() => {
+      skipReadyRef.current = true;
+      setSkipReady(true);
+      skipButtonRef.current?.focus({ preventScroll: true });
+    }, HANUMAN_INTRO.timings.focusSkipMs));
 
     const canUseParallax = (
       !reduce &&
@@ -386,6 +395,7 @@ export function HanumanIntro() {
           ? timings.reducedMotionFadeMs
           : timings.skipDurationMs)}
         reducedMotion={reducedMotion}
+        disabled={!skipReady}
       />
     </div>
   );
