@@ -86,7 +86,7 @@ export function EnquiryForm({ selectedVehicle }: Props) {
       `Additional details: ${values.notes.trim() || "Not specified"}`,
     ];
 
-    window.open(buildWhatsAppUrl(messageLines.join("\\n")), "_blank", "noopener,noreferrer");
+    window.open(buildWhatsAppUrl(messageLines.join("\n")), "_blank", "noopener,noreferrer");
   };
 
   const field = (
