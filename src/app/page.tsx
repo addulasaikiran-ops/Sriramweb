@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Clock3, MapPin, Menu, Phone, ShieldCheck, Users, X, Zap } from "lucide-react";
+import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, ChevronLeft, ChevronRight, Clock3, MapPin, Menu, Phone, ShieldCheck, Users, X, Zap } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { fleet, services, site } from "@/data/site";
@@ -22,6 +22,7 @@ export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null);
   const [activeVehicle, setActiveVehicle] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [openFaq, setOpenFaq] = useState(0);
   const active = fleet[activeVehicle];
 
   useEffect(() => {
@@ -42,6 +43,69 @@ export default function HomePage() {
         yPercent: 15, ease: "none",
         scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
       });
+      // Cinematic, scroll-linked vehicle showcase.
+      gsap.utils.toArray<HTMLElement>(".fleet-feature-image").forEach((frame) => {
+        const image = frame.querySelector<HTMLElement>(".fleet-car-image");
+        if (!image) return;
+        gsap.fromTo(image, { scale: 1.12, yPercent: 2 }, {
+          scale: 1, yPercent: 0, ease: "none",
+          scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.8 },
+        });
+      });
+      gsap.utils.toArray<HTMLElement>(".story-card").forEach((card, index) => {
+        gsap.fromTo(card, { y: 46, opacity: 0.55 }, {
+          y: 0, opacity: 1, ease: "power2.out",
+          scrollTrigger: { trigger: card, start: "top 88%", end: "top 48%", scrub: 0.7 },
+          delay: index * 0.04,
+        });
+        const photo = card.querySelector<HTMLElement>(".story-photo");
+        if (photo) gsap.fromTo(photo, { backgroundPosition: "50% 62%" }, {
+          backgroundPosition: "50% 38%", ease: "none",
+          scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 0.7 },
+        });
+      });
+      gsap.to(".manifesto-image img", {
+        yPercent: 12, ease: "none",
+        scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "bottom top", scrub: 0.8 },
+      });
+      gsap.fromTo(".manifesto-content h2", { y: 34, opacity: 0.65 }, {
+        y: 0, opacity: 1, ease: "none",
+        scrollTrigger: { trigger: ".manifesto", start: "top 72%", end: "center 42%", scrub: 0.7 },
+      });
+      const cinematicStage = root.querySelector<HTMLElement>(".cinematic-stage");
+      const cinematicChapters = gsap.utils.toArray<HTMLElement>(".cinematic-chapter");
+      const cinematicImages = gsap.utils.toArray<HTMLElement>(".cinematic-visual-image");
+      const progressFill = root.querySelector<HTMLElement>(".cinematic-progress-fill");
+      const frameCount = root.querySelector<HTMLElement>(".cinematic-frame-count strong");
+      if (cinematicStage && cinematicChapters.length === 4 && cinematicImages.length === 4) {
+        cinematicImages.forEach((image, index) => {
+          gsap.set(image, { autoAlpha: index === 0 ? 1 : 0, scale: index === 0 ? 1 : 1.08 });
+        });
+        const storyTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: cinematicStage,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.8,
+            onUpdate: (self) => {
+              if (progressFill) progressFill.style.transform = `scaleX(${self.progress})`;
+              const chapterIndex = Math.min(3, Math.floor(self.progress * 4));
+              if (frameCount) frameCount.textContent = `0${chapterIndex + 1}`;
+              cinematicChapters.forEach((chapter, index) => chapter.classList.toggle("is-active", index === chapterIndex));
+            },
+          },
+        });
+        cinematicChapters.forEach((chapter, index) => {
+          const start = index / 4;
+          const end = (index + 1) / 4;
+          if (index > 0) {
+            storyTimeline.to(cinematicImages[index - 1], { autoAlpha: 0, scale: 0.96, duration: 0.16 }, start);
+            storyTimeline.fromTo(cinematicImages[index], { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.22 }, start + 0.02);
+          }
+          storyTimeline.fromTo(chapter, { autoAlpha: 0.35, y: 38 }, { autoAlpha: 1, y: 0, duration: 0.18 }, start + 0.04);
+          storyTimeline.to(chapter, { autoAlpha: index === 3 ? 1 : 0.45, y: index === 3 ? 0 : -22, duration: 0.14 }, end - 0.08);
+        });
+      }
     }, root);
     return () => ctx.revert();
   }, []);
@@ -60,7 +124,7 @@ export default function HomePage() {
           <span><strong>SRIRAM<span>.</span></strong><small>TRAVELS & TOWING SERVICES</small></span>
         </a>
         <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">
-          <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
+          <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#destinations">Destinations</a><a onClick={() => setMenuOpen(false)} href="#faq">FAQ</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
         </nav>
         <div className="header-actions"><a className="header-phone" href={`tel:+${site.phone}`}><Phone size={14} /> <span>{site.phoneDisplay}</span></a><WhatsAppLink label="Enquire now" className="button button-dark header-cta" /></div>
         <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X /> : <Menu />}</button>
@@ -111,6 +175,84 @@ export default function HomePage() {
             </div>
           </div>
           <div className="fleet-disclaimer">Reference rates shown for design setup only. Confirm Sriram Travels pricing, vehicle availability, seating and features before booking.</div>
+        </section>
+
+
+        <section className="cinematic-journey" id="journey-story" aria-labelledby="journey-title">
+          <div className="cinematic-intro">
+            <div className="cinematic-intro-copy">
+              <div className="eyebrow"><span className="eyebrow-line" /> THE ROAD AHEAD</div>
+              <h2 id="journey-title">Every mile has<br /><em>a moment.</em></h2>
+              <p>Four chapters. One journey. Scroll to travel from the first plan to the moment you arrive.</p>
+              <a href="#destinations" className="button button-gold">Plan your journey <ArrowDownRight size={16} /></a>
+            </div>
+            <span className="cinematic-intro-index">SRIRAM TRAVELS <i> / </i> THE JOURNEY</span>
+          </div>
+          <div className="cinematic-stage">
+            <div className="cinematic-sticky-visual" aria-hidden="true">
+              <div className="cinematic-visual-image cinematic-image-departure" />
+              <div className="cinematic-visual-image cinematic-image-ride" />
+              <div className="cinematic-visual-image cinematic-image-openroad" />
+              <div className="cinematic-visual-image cinematic-image-arrival" />
+              <div className="cinematic-visual-shade" />
+              <div className="cinematic-visual-label"><span className="status-dot" /> THE JOURNEY, FRAME BY FRAME</div>
+              <div className="cinematic-progress"><span className="cinematic-progress-fill" /></div>
+              <div className="cinematic-frame-count"><strong>01</strong><span> / 04</span></div>
+            </div>
+            <div className="cinematic-chapters">
+              <article className="cinematic-chapter is-active" data-chapter="0">
+                <span className="cinematic-chapter-number">01 <i> / THE DEPARTURE</i></span>
+                <h3>It starts with<br /><em>a destination.</em></h3>
+                <p>A place to be. A date to remember. Start by sharing your pickup point, route and travel plans with our team.</p>
+                <span className="cinematic-chapter-foot">SET YOUR COURSE <ArrowDownRight size={15} /></span>
+              </article>
+              <article className="cinematic-chapter" data-chapter="1">
+                <span className="cinematic-chapter-number">02 <i> / THE RIDE</i></span>
+                <h3>Find your<br /><em>kind of comfort.</em></h3>
+                <p>From a quick trip to a family journey, tell us how many people are travelling so we can discuss a suitable vehicle.</p>
+                <span className="cinematic-chapter-foot">CHOOSE YOUR RIDE <ArrowDownRight size={15} /></span>
+              </article>
+              <article className="cinematic-chapter" data-chapter="2">
+                <span className="cinematic-chapter-number">03 <i> / THE OPEN ROAD</i></span>
+                <h3>Let the miles<br /><em>become memories.</em></h3>
+                <p>Confirm the route, timing, fare and vehicle details with Sriram Travels before your journey begins.</p>
+                <span className="cinematic-chapter-foot">ENJOY THE JOURNEY <ArrowDownRight size={15} /></span>
+              </article>
+              <article className="cinematic-chapter" data-chapter="3">
+                <span className="cinematic-chapter-number">04 <i> / THE ARRIVAL</i></span>
+                <h3>Arrive at<br /><em>what matters.</em></h3>
+                <p>Whether it is a family visit or a place you have always wanted to see, let us help you plan the next step.</p>
+                <WhatsAppLink label="Discuss your trip" className="button button-gold" message="Hello Sriram Travels, I'd like to plan a journey. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." />
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section className="destinations-section section-pad" id="destinations">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> YOUR NEXT STOP</div><h2>Where to <em>next?</em></h2></div><p>Have a destination in mind? Send us your route and dates to enquire about your trip.</p></div>
+          <div className="destination-cta reveal"><div><span className="destination-kicker">YOUR ROUTE, YOUR PLANS</span><h3>Let’s talk about<br /><em>where you’re going.</em></h3><p>Share the pickup point, destination, travel date and number of passengers. We’ll discuss availability and pricing with you.</p></div><WhatsAppLink label="Enquire about a trip" className="button button-gold" message="Hello Sriram Travels, I'd like to enquire about a trip. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
+        </section>
+
+        <section className="booking-section section-pad">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> SIMPLE NEXT STEPS</div><h2>Booking, in <em>three steps.</em></h2></div><p>Start a conversation first. Confirm the details directly before finalising your journey.</p></div>
+          <div className="booking-steps">
+            <article className="booking-step reveal"><span className="booking-step-number">01</span><h3>Message or call</h3><p>Choose WhatsApp or phone to reach Sriram Travels.</p></article>
+            <article className="booking-step reveal"><span className="booking-step-number">02</span><h3>Share your trip</h3><p>Tell us the route, date, passenger count and any special requirements.</p></article>
+            <article className="booking-step reveal"><span className="booking-step-number">03</span><h3>Confirm the details</h3><p>Check the vehicle, availability, fare and trip terms with us before booking.</p></article>
+          </div>
+        </section>
+
+        <section className="faq-section section-pad" id="faq">
+          <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p>Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
+          <div className="faq-list reveal">
+            {[
+              { question: "How do I book a vehicle?", answer: "Message us on WhatsApp or call. Share where you are going, your travel date and how many people are travelling. We’ll discuss availability and next steps with you." },
+              { question: "Which places do you travel to?", answer: "Please message us with your pickup point and destination so we can confirm whether your requested route is available." },
+              { question: "How is the fare decided?", answer: "Fare can depend on the vehicle, route and trip details. Ask us for a confirmed quote before booking; any rates shown on this page are reference-only until confirmed by Sriram Travels." },
+              { question: "Can I confirm the vehicle before booking?", answer: "Yes—please ask us to confirm the vehicle, seating and availability for your dates before you finalise the trip." },
+              { question: "What if my plans change?", answer: "Contact us as soon as possible. We’ll explain what changes can be accommodated for your booking." }
+            ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button>{openFaq === index && <div className="faq-answer"><p>{item.answer}</p></div>}</article>)}
+          </div>
         </section>
 
         <section className="manifesto" id="about"><div className="manifesto-image"><Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85" alt="Mountain road landscape" fill sizes="100vw" unoptimized /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
