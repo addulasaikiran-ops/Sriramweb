@@ -16,7 +16,7 @@ export function SkipButton({ buttonRef, onSkip, reducedMotion, disabled }: SkipB
     <button
       ref={buttonRef}
       type="button"
-      disabled={disabled}
+      disabled={disabled && !reducedMotion}
       className={`${styles.skip} ${reducedMotion ? styles.skipReduced : ""}`}
       onClick={onSkip}
       aria-label="Skip the Hanuman intro and open Sriram Travels"
