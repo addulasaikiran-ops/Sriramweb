@@ -1,4 +1,28 @@
-import { MessageCircle, Phone } from "lucide-react";
+import { CalendarDays, MessageCircle, Phone } from "lucide-react";
 import { site } from "@/data/site";
 import { buildWhatsAppUrl } from "./whatsapp";
-export function StickyContactBar(){return <div className="mobile-contact-bar" aria-label="Quick contact"><a href={`tel:+${site.phone}`}><Phone size={18}/> Call</a><a href={buildWhatsAppUrl("Hello Sriram Travels, I'd like to make an enquiry.")} target="_blank" rel="noreferrer"><MessageCircle size={18}/> WhatsApp</a></div>;}
+
+export function StickyContactBar() {
+  return (
+    <nav className="mobile-contact-bar" aria-label="Quick contact">
+      <a className="mobile-contact-action" href={`tel:+${site.phone}`} aria-label="Call Sriram Travels">
+        <Phone size={18} aria-hidden="true" />
+        <span>Call</span>
+      </a>
+      <a
+        className="mobile-contact-action mobile-whatsapp-action"
+        href={buildWhatsAppUrl("Hello Sriram Travels, I'd like to make an enquiry.")}
+        target="_blank"
+        rel="noreferrer"
+        aria-label="Send a WhatsApp enquiry"
+      >
+        <MessageCircle size={18} aria-hidden="true" />
+        <span>WhatsApp</span>
+      </a>
+      <a className="mobile-contact-action mobile-book-action" href="#enquiry" aria-label="Plan a trip">
+        <CalendarDays size={18} aria-hidden="true" />
+        <span>Book trip</span>
+      </a>
+    </nav>
+  );
+}
