@@ -305,7 +305,7 @@ export function HanumanIntro() {
         style={{ animationDelay: `${timings.shockwaveStartMs}ms` }}
       />
 
-      <div className={styles.flightStage} aria-hidden="true">
+      <div className={styles.flightStage}>
         <div className={styles.flightOrigin}>
           <div className={styles.flightPath}>
             <div className={styles.flightHover}>
@@ -330,8 +330,7 @@ export function HanumanIntro() {
               ))}
               <Image
                 src="/images/hanuman-flying-silhouette.svg"
-                alt=""
-                aria-hidden="true"
+                alt="Flying Hanuman carrying the Sanjeevani mountain"
                 width={850}
                 height={480}
                 priority
