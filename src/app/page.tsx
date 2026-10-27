@@ -29,6 +29,7 @@ function WhatsAppLink({ label = "Book your journey", className = "", message = "
 export default function HomePage() {
   const pageRef = useRef<HTMLDivElement>(null);
   const [activeVehicle, setActiveVehicle] = useState(0);
+  const [hasChosenVehicle, setHasChosenVehicle] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
   const menuToggleRef = useRef<HTMLButtonElement>(null);
@@ -129,6 +130,7 @@ export default function HomePage() {
   }, [menuOpen]);
 
   const chooseVehicle = (index: number) => {
+    setHasChosenVehicle(true);
     setActiveVehicle((index + fleet.length) % fleet.length);
     document.getElementById("fleet")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   };
@@ -155,13 +157,13 @@ export default function HomePage() {
               <h1>Go further.<br /><em>Feel at home.</em></h1>
               <p className="hero-subtitle">The road is yours. We make the journey better.</p>
               <p className="hero-description">Reliable car rentals for the moments that matter, backed by towing support when the unexpected happens.</p>
-              <div className="hero-buttons"><a href="#fleet" className="button button-gold">Explore our fleet <ArrowUpRight size={17} /></a><a href="#services" className="button button-outline"><span className="play-icon"><ArrowRight size={13} /></span> Discover our services</a></div>
+              <div className="hero-buttons"><a href="#enquiry" className="button button-gold">Plan your trip <ArrowUpRight size={17} /></a><a href="#fleet" className="button button-outline"><span className="play-icon"><ArrowRight size={13} /></span> Explore our fleet</a></div>
               <div className="hero-proof"><div className="proof-icon"><ShieldCheck size={19} /></div><div><strong>Travel with confidence</strong><span>Comfortable rides · Responsive support</span></div><span className="proof-check"><Check size={13} /></span></div>
             </div>
             <div className="hero-visual">
               <div className="visual-arc arc-one" /><div className="visual-arc arc-two" />
               <div className="hero-number">01<span> / JOURNEY</span></div>
-              <div className="image-frame hero-image-frame"><Image src="/images/hero-road.svg" alt="Illustrative reference photo of a car journey; assigned rental vehicle may vary" fill priority sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
+              <div className="image-frame hero-image-frame"><Image src="https://www.jaipurcarrentalwithdriver.com/img/urbania.webp" alt="Force Urbania passenger van on a scenic Indian road; shown as a reference vehicle" fill priority unoptimized sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
               <div className="image-caption"><span className="caption-line" /><span>THE JOURNEY IS PART OF THE DESTINATION</span></div>
               <div className="floating-note"><span className="note-star">✳</span><span>Made for the<br /><em>long way home.</em></span></div>
               
@@ -177,7 +179,7 @@ export default function HomePage() {
           <div className="fleet-layout">
             <aside className="fleet-sidebar">
               <div className="fleet-list-label"><span>OUR FLEET</span><span>0{fleet.length}</span></div>
-              {fleet.map((vehicle, index) => <button key={vehicle.number} className={`fleet-list-item ${index === activeVehicle ? "selected" : ""}`} onClick={() => setActiveVehicle(index)} aria-pressed={index === activeVehicle}><span className="fleet-list-no">{vehicle.number}</span><span className="fleet-list-name">{vehicle.name}<small>{vehicle.className}</small></span><ArrowUpRight className="fleet-list-arrow" size={15} /></button>)}
+              {fleet.map((vehicle, index) => <button key={vehicle.number} className={`fleet-list-item ${index === activeVehicle ? "selected" : ""}`} onClick={() => { setActiveVehicle(index); setHasChosenVehicle(true); }} aria-pressed={index === activeVehicle}><span className="fleet-list-no">{vehicle.number}</span><span className="fleet-list-name">{vehicle.name}<small>{vehicle.className}</small></span><ArrowUpRight className="fleet-list-arrow" size={15} /></button>)}
               <div className="fleet-sidebar-foot"><span className="sidebar-foot-line" /> <span>YOUR NEXT MEMORY<br />IS JUST A RIDE AWAY.</span></div>
             </aside>
             <div className="fleet-feature" key={active.number}>
@@ -267,7 +269,7 @@ export default function HomePage() {
 
         <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {site.location}</span><span><Clock3 size={14} /> Towing availability to be confirmed</span></div></div></section>
         <TowingEmergency />
-        <EnquiryForm selectedVehicle={active.name} />
+        <EnquiryForm selectedVehicle={hasChosenVehicle ? active.name : ""} />
       </main>
 
       <Footer />
