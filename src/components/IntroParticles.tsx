@@ -16,10 +16,10 @@ const PARTICLE_SEEDS = Array.from({ length: HANUMAN_INTRO.particles.standardCoun
   drift: ((index * 19) % 84) - 42,
   size: 2 + (index % 3),
   alpha: 0.35 + (index % 5) * 0.12,
-  colorIndex: index % 3,
+  colorIndex: 0,
 }));
 
-const EMBER_COLORS = ["#FF9933", "#FFD166", "#D7E47A"] as const;
+const EMBER_COLORS = [HANUMAN_INTRO.colors.saffron] as const;
 
 /** Deterministic CSS particles avoid canvas startup and keep the layer inexpensive. */
 export function IntroParticles({ lightMode, reducedMotion }: IntroParticlesProps) {
