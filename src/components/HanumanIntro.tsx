@@ -5,19 +5,20 @@ import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 
 export function HanumanIntro() {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setVisible(false); return; }
 
     try {
-      if (window.sessionStorage.getItem("sriram-hanuman-intro-seen") === "1") return;
+      if (window.sessionStorage.getItem("sriram-hanuman-intro-seen") === "1") { setVisible(false); return; }
     } catch {
       // If session storage is blocked, the intro can still run for this page view.
     }
 
+    setIsExiting(false);
     setVisible(true);
     timers.current.push(window.setTimeout(() => setIsExiting(true), 2450));
     timers.current.push(window.setTimeout(() => {
