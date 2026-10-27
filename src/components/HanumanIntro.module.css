@@ -1,85 +1,217 @@
-/* Self-contained styles for the Hanuman entrance; no external assets. */
+@property --reveal-radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 .root {
-  --flight-duration: 1700ms;
-  --exit-duration: 650ms;
+  --reveal-radius: 0px;
+  --exit-duration: 820ms;
+  --scene-night: #070915;
+  --scene-indigo: #11142b;
+  --scene-maroon: #2a0b19;
+  --accent-saffron: #ff9933;
+  --accent-orange: #e8590c;
+  --accent-gold: #ffd166;
   position: fixed;
   inset: 0;
   z-index: 10000;
   overflow: hidden;
   isolation: isolate;
-  background: #050810;
+  background: #05060b;
   color: #fff1d5;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  --exit-duration: 650ms;
-  transition: opacity var(--exit-duration) ease, visibility 0s linear var(--exit-duration);
+  -webkit-mask-image: radial-gradient(circle at 50% 48%, transparent 0, transparent var(--reveal-radius), #000 calc(var(--reveal-radius) + 1px));
+  mask-image: radial-gradient(circle at 50% 48%, transparent 0, transparent var(--reveal-radius), #000 calc(var(--reveal-radius) + 1px));
+  transition: --reveal-radius var(--exit-duration) cubic-bezier(.22, 1, .36, 1), opacity var(--exit-duration) ease, visibility 0s linear var(--exit-duration);
 }
-.root.exiting {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-}
+
 :global(html[data-hanuman-intro-seen="true"]) .root {
   display: none !important;
 }
-.backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: -5;
-  background:
-    radial-gradient(ellipse at 50% 40%, rgba(110, 24, 31, .45), transparent 49%),
-    linear-gradient(128deg, #050812 0%, #170912 44%, #240b13 61%, #05060b 100%);
+
+.root.exiting {
+  --reveal-radius: 150vmax;
+  opacity: 1;
+  pointer-events: none;
 }
-.backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse at 50% 40%, rgba(103, 18, 29, .55), transparent 58%);
+
+.root.reduced {
+  --reveal-radius: 0px;
+  -webkit-mask-image: none;
+  mask-image: none;
+  transition: opacity var(--exit-duration) ease, visibility 0s linear var(--exit-duration);
+}
+
+.root.reduced.exiting {
   opacity: 0;
-  animation: background-bloom var(--background-reveal, 400ms) ease-out forwards;
+  --reveal-radius: 0px;
 }
+
+.scene {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  animation: scene-reveal var(--scene-fade-duration, 500ms) cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.sky {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 52%, rgba(118, 29, 38, .25) 0%, transparent 52%),
+    linear-gradient(155deg, var(--scene-night) 0%, var(--scene-indigo) 31%, var(--scene-maroon) 64%, #05060b 100%);
+}
+
+.horizonGlow {
+  position: absolute;
+  left: 50%;
+  bottom: -13%;
+  width: 145%;
+  height: 68%;
+  border-radius: 50%;
+  transform: translate3d(-50%, 0, 0);
+  background:
+    radial-gradient(ellipse at 50% 38%, rgba(255, 153, 51, .25) 0%, rgba(232, 89, 12, .14) 25%, rgba(115, 27, 34, .08) 50%, transparent 73%);
+  opacity: .8;
+}
+
+.sunHalo {
+  position: absolute;
+  left: 50%;
+  top: 16%;
+  width: min(75vw, 980px);
+  height: min(60vh, 570px);
+  border-radius: 50%;
+  transform: translate3d(-50%, 0, 0);
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(255, 209, 102, .12) 0%, rgba(255, 153, 51, .08) 22%, rgba(232, 89, 12, .035) 43%, transparent 70%);
+  opacity: .92;
+  animation: sun-bloom var(--sun-bloom-duration, 1100ms)  cubic-bezier(.22, 1, .36, 1) var(--sun-bloom-start, 1550ms) both;
+}
+
 .rays {
   position: absolute;
-  z-index: -4;
-  inset: -55%;
+  z-index: 1;
+  left: 50%;
+  top: 40%;
+  width: 150vmax;
+  height: 150vmax;
+  border-radius: 50%;
   pointer-events: none;
-  opacity: .3;
+  transform: translate3d(-50%, -50%, 0) rotate(-12deg);
+  transform-origin: center;
   background: conic-gradient(
-    from 14deg at 50% 46%,
-    transparent 0deg 18deg,
-    rgba(255, 153, 51, .11) 26deg,
-    transparent 38deg 74deg,
-    rgba(255, 193, 7, .07) 83deg,
-    transparent 98deg 143deg,
-    rgba(230, 81, 0, .09) 153deg,
-    transparent 172deg 239deg,
-    rgba(255, 153, 51, .08) 251deg,
-    transparent 266deg 360deg
+    from 0deg at 50% 50%,
+    transparent 0deg 17deg,
+    rgba(255, 153, 51, .052) 26deg,
+    transparent 39deg 69deg,
+    rgba(255, 209, 102, .045) 79deg,
+    transparent 94deg 137deg,
+    rgba(232, 89, 12, .06) 150deg,
+    transparent 166deg 226deg,
+    rgba(255, 153, 51, .045) 242deg,
+    transparent 259deg 316deg,
+    rgba(255, 209, 102, .04) 328deg,
+    transparent 342deg 360deg
   );
-  animation: rays-rotate 32s linear infinite;
-  will-change: transform;
+  opacity: .64;
+  animation: rays-sway 24s cubic-bezier(.65, 0, .35, 1) infinite alternate;
 }
+
+.mist {
+  position: absolute;
+  z-index: 2;
+  left: -24%;
+  width: 148%;
+  border-radius: 50%;
+  filter: blur(16px);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 55%, rgba(241, 146, 88, .12), transparent 36%),
+    radial-gradient(ellipse at 48% 30%, rgba(234, 178, 149, .1), transparent 34%),
+    radial-gradient(ellipse at 80% 62%, rgba(237, 121, 76, .085), transparent 38%);
+}
+.mistFar {
+  bottom: 24%;
+  height: 16%;
+  opacity: .45;
+  animation: mist-drift-far 24s cubic-bezier(.42, 0, .58, 1) infinite alternate;
+}
+.mistMid {
+  bottom: 13%;
+  height: 20%;
+  opacity: .48;
+  transform: translate3d(2%, 0, 0);
+  background:
+    radial-gradient(ellipse at 24% 50%, rgba(255, 170, 117, .16), transparent 35%),
+    radial-gradient(ellipse at 61% 45%, rgba(255, 191, 143, .11), transparent 39%),
+    radial-gradient(ellipse at 92% 60%, rgba(218, 91, 67, .12), transparent 31%);
+  animation: mist-drift-mid 19s cubic-bezier(.42, 0, .58, 1) infinite alternate;
+}
+.mistNear {
+  bottom: 3%;
+  height: 23%;
+  opacity: .24;
+  filter: blur(24px);
+  background:
+    radial-gradient(ellipse at 12% 60%, rgba(255, 154, 79, .22), transparent 30%),
+    radial-gradient(ellipse at 54% 28%, rgba(255, 204, 135, .1), transparent 34%),
+    radial-gradient(ellipse at 86% 57%, rgba(219, 85, 49, .16), transparent 35%);
+  animation: mist-drift-near 15s cubic-bezier(.42, 0, .58, 1) infinite alternate;
+}
+
+.horizon {
+  position: absolute;
+  z-index: 3;
+  inset-inline: 0;
+  bottom: -1px;
+  width: 100%;
+  height: min(47vh, 500px);
+  min-height: 195px;
+  overflow: visible;
+  transform: translate3d(var(--parallax-horizon-x, 0px), var(--parallax-horizon-y, 0px), 0);
+}
+.ridgeFar { fill: #211126; opacity: .8; }
+.ridgeMid { fill: #140d1b; opacity: .94; }
+.ridgeNear { fill: #08080f; }
+.temple { fill: #09080f; stroke: #341420; stroke-width: 2; stroke-linejoin: round; }
+.foregroundSilhouette {
+  position: absolute;
+  z-index: 4;
+  inset-inline: 0;
+  bottom: -1px;
+  height: 14%;
+  background: linear-gradient(0deg, #05060b 0%, #08070e 67%, transparent 100%);
+  clip-path: polygon(0 50%, 5% 36%, 9% 54%, 15% 28%, 20% 46%, 27% 32%, 34% 54%, 41% 38%, 48% 59%, 56% 36%, 63% 52%, 70% 31%, 77% 51%, 84% 32%, 90% 48%, 96% 29%, 100% 44%, 100% 100%, 0 100%);
+}
+
 .vignette {
   position: absolute;
-  z-index: -3;
+  z-index: 5;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 50% 42%, transparent 27%, rgba(2, 3, 8, .26) 68%, rgba(1, 2, 6, .85) 120%),
-    linear-gradient(0deg, rgba(0, 0, 0, .48), transparent 25%, transparent 78%, rgba(0, 0, 0, .3));
+    radial-gradient(ellipse at 50% 43%, transparent 19%, rgba(3, 3, 8, .2) 53%, rgba(1, 2, 6, .86) 115%),
+    linear-gradient(0deg, rgba(0, 0, 0, .4), transparent 25%, transparent 79%, rgba(0, 0, 0, .24));
 }
 .noise {
   position: absolute;
-  z-index: -2;
+  z-index: 6;
   inset: 0;
   pointer-events: none;
   opacity: .052;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.83' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
+
 .emberField {
   position: absolute;
-  z-index: -1;
+  z-index: 7;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
@@ -90,39 +222,71 @@
   width: var(--ember-size);
   height: var(--ember-size);
   border-radius: 50%;
-  background: #ffbd57;
-  box-shadow: 0 0 7px rgba(255, 153, 51, .75);
-  animation-name: ember-float;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
+  background: var(--ember-color, #ffbd57);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--ember-color, #ffbd57), transparent 28%);
+  animation: ember-float var(--ember-duration, 5s) cubic-bezier(.42, 0, .58, 1) var(--ember-delay, 0s) infinite both;
+  transform: translate3d(0, 0, 0);
 }
+
 .lightBurst {
   position: absolute;
-  z-index: -1;
+  z-index: 4;
   left: 50%;
-  top: 39%;
-  width: min(105vw, 1100px);
-  aspect-ratio: 1.8;
+  top: 40%;
+  width: min(130vw, 1400px);
+  aspect-ratio: 1.85;
   border-radius: 50%;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(ellipse, rgba(255, 193, 7, .2) 0%, rgba(255, 120, 25, .105) 31%, transparent 72%);
-  transform: translate3d(-50%, -50%, 0) scale(.25);
-  animation: light-pulse 900ms var(--burst-delay, 1800ms) ease-out both;
-  will-change: transform, opacity;
+  background: radial-gradient(ellipse, rgba(255, 209, 102, .24) 0%, rgba(255, 153, 51, .15) 24%, rgba(232, 89, 12, .055) 48%, transparent 72%);
+  transform: translate3d(-50%, -50%, 0) scale(.22);
+  animation: light-pulse var(--shockwave-duration, 720ms) cubic-bezier(.16, 1, .3, 1) var(--shockwave-delay, 2050ms) both;
 }
+
+.shockwave {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  top: 40%;
+  width: min(45vw, 480px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 209, 102, .65);
+  border-radius: 50%;
+  box-shadow: 0 0 16px rgba(255, 153, 51, .2), inset 0 0 18px rgba(255, 209, 102, .08);
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) scale(.2);
+  animation: shockwave-expand var(--shockwave-duration, 720ms) cubic-bezier(.16, 1, .3, 1) var(--shockwave-delay, 2050ms) both;
+  pointer-events: none;
+}
+
 .flightStage {
   position: absolute;
+  z-index: 8;
   inset: 0;
   pointer-events: none;
 }
-.flight {
+.flightOrigin {
   position: absolute;
   left: 50%;
   top: 39%;
-  width: min(76vw, 1050px, 80vh);
-  aspect-ratio: 1200 / 520;
+  width: min(82vw, 80vh, 1100px);
+  aspect-ratio: 850 / 480;
   transform: translate3d(-50%, -50%, 0);
+}
+.flightPath {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translate3d(-118vw, 14vh, 0) scale(.5) rotate(-10deg);
+  transform-origin: 50% 50%;
+  animation: hanuman-flight var(--flight-duration, 1800ms) cubic-bezier(.22, 1, .36, 1) var(--flight-delay, 400ms) both;
+  will-change: transform, opacity;
+}
+.flightHover {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, 0, 0);
+  animation: heroic-hover var(--hover-duration, 2200ms) cubic-bezier(.42, 0, .58, 1) var(--hover-start, 2150ms) infinite alternate;
 }
 .hanumanImage {
   position: absolute;
@@ -131,34 +295,24 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0;
   user-select: none;
   pointer-events: none;
-  animation: hanuman-flight-in var(--flight-duration, 1700ms) cubic-bezier(.22, 1, .36, 1) var(--flight-delay, 300ms) both;
-  will-change: transform, opacity;
+  -webkit-user-drag: none;
 }
 .trailCopy {
   z-index: 1;
+  opacity: var(--trail-opacity, .16);
   filter: blur(var(--trail-blur, 2px));
-  --flight-duration: 1700ms;
-  --trail-opacity: .18;
-  will-change: auto;
+  transform: translate3d(var(--trail-x, -12%), var(--trail-y, 4px), 0) scale(var(--trail-scale, .97));
 }
-.hanumanImage:not(.trailCopy) {
-  z-index: 2;
-  animation-name: hanuman-flight-in, hanuman-hover;
-  animation-duration: var(--flight-duration, 1700ms), 2.1s;
-  animation-timing-function: cubic-bezier(.22, 1, .36, 1), ease-in-out;
-  animation-delay: var(--flight-delay, 300ms), 2s;
-  animation-iteration-count: 1, infinite;
-  animation-direction: normal, alternate;
-  animation-fill-mode: both, both;
-}
+.mainImage { z-index: 2; }
+
 .copy {
   position: absolute;
-  top: 68%;
+  z-index: 10;
+  top: 62%;
   left: 50%;
-  width: min(92vw, 740px);
+  width: min(92vw, 780px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,72 +321,112 @@
   pointer-events: none;
 }
 .teluguBlessing {
-  margin: 0 0 5px;
-  color: #ffdf91;
-  font-family: "Noto Serif Telugu", "Nirmala UI", var(--font-cormorant), serif;
-  font-size: clamp(24px, 3.3vw, 36px);
+  max-width: 100%;
+  margin: 0 0 4px;
+  color: #ffe29a;
+  background: linear-gradient(105deg, #ffe9a8 0%, #ffbf42 38%, #fff0bf 60%, #e89420 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: "Noto Serif Telugu", "Nirmala UI", "Gautami", var(--font-cormorant), Georgia, serif;
+  font-size: clamp(31px, 5.1vw, 58px);
   font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: .045em;
-  text-shadow: 0 0 22px rgba(255, 153, 51, .3);
+  line-height: 1.3;
+  letter-spacing: .025em;
+  text-shadow: none;
+  filter: drop-shadow(0 0 12px rgba(255, 153, 51, .12));
   opacity: 0;
-  animation: text-rise 520ms 2120ms cubic-bezier(.2, .8, .2, 1) both;
+  transform: translate3d(0, 12px, 0);
+  animation: telugu-reveal var(--telugu-duration, 720ms) cubic-bezier(.22, 1, .36, 1) var(--telugu-start, 2380ms) both;
 }
 .englishTitle {
   display: flex;
   justify-content: center;
-  gap: 0;
+  gap: .025em;
+  max-width: 100%;
   margin: 0;
   color: #ffd889;
-  background: linear-gradient(105deg, #fff0ba 0%, #ffb93f 38%, #fff1c1 59%, #e77a17 100%);
+  background: linear-gradient(100deg, #ffe9a8 0%, #ffb703 43%, #fff0bf 58%, #c77800 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: var(--font-cormorant), "Noto Serif Telugu", "Nirmala UI", Georgia, serif;
-  font-size: clamp(38px, 5.8vw, 70px);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(27px, 4vw, 44px);
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: .035em;
+  line-height: 1.14;
+  letter-spacing: .23em;
   text-shadow: none;
+  white-space: nowrap;
 }
 .englishTitle span {
   display: inline-block;
   opacity: 0;
-  transform: translate3d(0, 14px, 0);
-  animation: letter-rise 360ms cubic-bezier(.2, .8, .2, 1) both;
+  transform: translate3d(0, 11px, 0);
+  animation: letter-rise var(--english-letter-duration, 420ms) cubic-bezier(.22, 1, .36, 1) both;
   filter: drop-shadow(0 0 10px rgba(255, 166, 45, .2));
 }
 .divider {
   display: block;
-  width: min(66vw, 250px);
+  width: min(64vw, 280px);
   height: 1px;
-  margin: 18px auto 12px;
+  margin: 15px auto 12px;
   overflow: hidden;
-  background: rgba(255, 193, 7, .16);
+  background: rgba(255, 193, 7, .15);
   transform: scaleX(0);
   transform-origin: center;
-  animation: divider-draw 700ms 2700ms cubic-bezier(.22, 1, .36, 1) forwards;
+  animation: divider-draw var(--divider-duration, 780ms) cubic-bezier(.22, 1, .36, 1) 3100ms forwards;
 }
 .divider span {
   display: block;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, #ffc857, #fff0b0, #ffc857, transparent);
+  background: linear-gradient(90deg, transparent, #ffb703 22%, #fff0ba 50%, #ffb703 78%, transparent);
 }
 .welcome {
   margin: 0;
-  color: rgba(255, 239, 209, .82);
+  color: rgba(255, 239, 209, .88);
   font-family: var(--font-dm-sans), "Nirmala UI", sans-serif;
-  font-size: clamp(10px, 1.2vw, 13px);
+  font-size: clamp(10px, 1.16vw, 13px);
   font-weight: 500;
-  letter-spacing: .22em;
+  letter-spacing: .18em;
   text-transform: uppercase;
   opacity: 0;
   transform: translate3d(0, 12px, 0);
-  animation: text-rise 600ms 2820ms cubic-bezier(.22, 1, .36, 1) both;
+  animation: text-rise var(--welcome-duration, 580ms) cubic-bezier(.22, 1, .36, 1) 3280ms both;
 }
+.tagline {
+  margin: 9px 0 0;
+  color: rgba(255, 218, 159, .73);
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(15px, 1.75vw, 19px);
+  font-style: italic;
+  letter-spacing: .035em;
+  opacity: 0;
+  transform: translate3d(0, 10px, 0);
+  animation: text-rise var(--tagline-duration, 360ms) cubic-bezier(.22, 1, .36, 1) 3570ms both;
+}
+.shimmer {
+  position: relative;
+  isolation: isolate;
+}
+.shimmerSweep {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: transparent;
+  background: linear-gradient(105deg, transparent 42%, rgba(255, 249, 218, .98) 50%, transparent 58%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transform: translate3d(-120%, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  animation: shimmer-pass var(--shimmer-duration, 760ms) cubic-bezier(.22, 1, .36, 1) var(--shimmer-start, 2920ms) both;
+}
+
 .windLines {
   position: absolute;
+  z-index: 7;
   left: 50%;
   top: 39%;
   width: 0;
@@ -244,33 +438,35 @@
   right: 18px;
   width: clamp(90px, 19vw, 300px);
   height: 1px;
+  border-radius: 999px;
   background: linear-gradient(90deg, transparent, rgba(255, 174, 72, .48), transparent);
   transform: translate3d(25vw, 0, 0);
   opacity: 0;
-  animation: wind-streak 1.05s ease-out 480ms both;
+  animation: wind-streak 900ms cubic-bezier(.22, 1, .36, 1) 480ms both;
 }
 .windLines span:nth-child(1) { top: -55px; width: clamp(70px, 16vw, 220px); animation-delay: 560ms; }
 .windLines span:nth-child(2) { top: -20px; width: clamp(100px, 23vw, 340px); animation-delay: 680ms; }
 .windLines span:nth-child(3) { top: 27px; width: clamp(80px, 20vw, 270px); animation-delay: 520ms; }
 .windLines span:nth-child(4) { top: 55px; width: clamp(65px, 13vw, 190px); animation-delay: 760ms; }
 .windLines span:nth-child(5) { top: -86px; width: clamp(60px, 10vw, 145px); animation-delay: 820ms; }
+
 .skip {
   position: absolute;
   top: max(22px, env(safe-area-inset-top));
   right: max(22px, env(safe-area-inset-right));
-  z-index: 5;
+  z-index: 20;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-width: 116px;
-  min-height: 46px;
-  padding: 0 17px;
-  border: 1px solid rgba(255, 225, 174, .3);
+  min-width: 124px;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 225, 174, .32);
   border-radius: 999px;
   color: #fff1d7;
   background: rgba(255, 242, 216, .075);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 8px 28px rgba(0, 0, 0, .12);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   font: 600 12px/1 var(--font-dm-sans), sans-serif;
@@ -278,114 +474,239 @@
   cursor: pointer;
   opacity: 0;
   transform: translate3d(0, -7px, 0);
-  animation: skip-appear 320ms 500ms ease-out forwards;
+  animation: skip-appear var(--skip-appear-duration, 350ms) cubic-bezier(.22, 1, .36, 1) 500ms forwards;
   transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
 }
+.skip:disabled { pointer-events: none; cursor: default; }
 .skip:hover {
   color: #fff;
-  border-color: rgba(255, 205, 109, .75);
+  border-color: rgba(255, 205, 109, .78);
   background: rgba(255, 174, 72, .16);
 }
 .skip:focus-visible {
   outline: 2px solid #ffd889;
   outline-offset: 4px;
 }
-.root.exiting .flight { opacity: 0; transform: translate3d(-50%, -52%, 0) scale(.96); transition: opacity 420ms ease, transform 650ms cubic-bezier(.2, .8, .2, 1); }
-.root.exiting .copy { opacity: 0; transform: translate3d(-50%, 8px, 0); transition: opacity 300ms ease, transform 350ms ease; }
-.root.exiting .skip { opacity: 0; transition: opacity 160ms ease; }
-.root.exiting .rays { opacity: 0; transition: opacity 420ms ease; }
+.progressRing {
+  width: 19px;
+  height: 19px;
+  overflow: visible;
+  transform: rotate(-90deg);
+  flex: none;
+}
+.progressTrack,
+.progressValue {
+  fill: none;
+  stroke-width: 4;
+}
+.progressTrack { stroke: rgba(255, 225, 174, .15); }
+.progressValue {
+  stroke: #ffd166;
+  stroke-linecap: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: progress-fill var(--progress-duration, 4300ms) cubic-bezier(.22, 1, .36, 1) var(--progress-delay, 500ms) forwards;
+}
+.skipReduced { opacity: 1; animation: none; transform: none; }
+
+.root.exiting .flightPath {
+  animation-play-state: paused;
+}
+.root.exiting .flightHover {
+  animation: hanuman-exit-light 700ms cubic-bezier(.22, 1, .36, 1) both;
+}
+.root.exiting .copy {
+  opacity: 0;
+  transform: translate3d(-50%, -8px, 0);
+  transition: opacity 280ms ease, transform 380ms cubic-bezier(.22, 1, .36, 1);
+}
+.root.exiting .skip { opacity: 0; transition: opacity 120ms ease; }
+.root.exiting .rays { opacity: 0; transition: opacity 500ms ease; }
+.root.exiting .lightBurst {
+  animation: none;
+  opacity: .35;
+  transform: translate3d(-50%, -50%, 0) scale(1.5);
+  transition: opacity 600ms ease, transform 700ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.lightMode .noise { display: none; }
+.lightMode .rays { opacity: .38; }
+.lightMode .mist { filter: none; opacity: .2; }
+.lightMode .trailCopy { display: none; }
+.lightMode .ember { box-shadow: none; }
+
 .reduced .rays,
-.reduced .emberField,
+.reduced .mist,
 .reduced .noise,
 .reduced .lightBurst,
+.reduced .shockwave,
 .reduced .windLines,
-.reduced .trailCopy { display: none; }
-.reduced .flightStage { top: -3%; }
-.reduced .flight { top: 39%; }
-.reduced .hanumanImage { opacity: 1; animation: none !important; filter: none; transform: none !important; }
+.reduced .trailCopy {
+  display: none;
+}
+.reduced .scene { animation: none; }
+.reduced .flightPath,
+.reduced .flightHover,
+.reduced .hanumanImage {
+  opacity: 1;
+  animation: none !important;
+  transform: none !important;
+  filter: none;
+}
+.reduced .flightOrigin { top: 38%; }
 .reduced .teluguBlessing,
 .reduced .englishTitle span,
 .reduced .divider,
-.reduced .welcome {
+.reduced .welcome,
+.reduced .tagline {
+  opacity: 0;
+  animation: reduced-text-fade 280ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
+  animation-delay: 0ms !important;
+  transform: none !important;
+}
+.reduced .skip {
   opacity: 1;
   animation: none !important;
   transform: none !important;
 }
 .reduced .divider { transform: scaleX(1); }
-.reduced .skip { opacity: 1; animation: none; transform: none; }
+.reduced .copy { opacity: 1; }
+.reduced .skip { opacity: 1; }
 .reduced.exiting { transition-duration: 280ms; }
-@keyframes hanuman-flight-in {
-  0% { opacity: 0; transform: translate3d(-128vw, 8vh, 0) scale(.6) rotate(-6deg); }
-  48% { opacity: var(--trail-opacity, 1); transform: translate3d(-22vw, -1vh, 0) scale(.92) rotate(-2deg); }
-  75% { opacity: var(--trail-opacity, 1); transform: translate3d(2vw, -8px, 0) scale(1.02) rotate(.8deg); }
-  88% { opacity: var(--trail-opacity, 1); transform: translate3d(-.8vw, 3px, 0) scale(.99) rotate(-.3deg); }
-  100% { opacity: var(--trail-opacity, 1); transform: translate3d(0, 0, 0) scale(1) rotate(0); }
+.reduced.exiting .copy { opacity: 0; transform: translate3d(-50%, 0, 0); }
+
+@keyframes scene-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
-@keyframes hanuman-hover {
-  from { transform: translate3d(0, 0, 0) scale(1) rotate(0); }
-  to { transform: translate3d(0, -8px, 0) scale(1) rotate(.35deg); }
+@keyframes sun-bloom {
+  0% { opacity: 0; transform: translate3d(-50%, 10px, 0) scale(.88); }
+  100% { opacity: .92; transform: translate3d(-50%, 0, 0) scale(1); }
 }
-@keyframes background-bloom { to { opacity: 1; } }
-@keyframes rays-rotate { to { transform: rotate(360deg); } }
-@keyframes light-pulse {
-  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(.25); }
-  38% { opacity: .92; }
-  100% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(1.2); }
+@keyframes rays-sway {
+  from { transform: translate3d(-50%, -50%, 0) rotate(-12deg) scale(.98); }
+  to { transform: translate3d(calc(-50% + var(--parallax-ray-x, 0px)), calc(-50% + var(--parallax-ray-y, 0px)), 0) rotate(14deg) scale(1.035); }
+}
+@keyframes mist-drift-far {
+  from { transform: translate3d(-2%, 0, 0); opacity: .34; }
+  to { transform: translate3d(3%, -5px, 0); opacity: .5; }
+}
+@keyframes mist-drift-mid {
+  from { transform: translate3d(1%, 0, 0); }
+  to { transform: translate3d(-4%, -7px, 0); }
+}
+@keyframes mist-drift-near {
+  from { transform: translate3d(-3%, 0, 0); }
+  to { transform: translate3d(4%, -9px, 0); }
 }
 @keyframes ember-float {
-  0% { opacity: 0; transform: translate3d(0, 8vh, 0) scale(.5); }
-  12% { opacity: var(--ember-alpha, .75); }
+  0% { opacity: 0; transform: translate3d(0, 8vh, 0) scale(.65); }
+  14% { opacity: var(--ember-alpha, .75); }
   82% { opacity: var(--ember-alpha, .75); }
-  100% { opacity: 0; transform: translate3d(var(--ember-drift), -100vh, 0) scale(.2); }
+  100% { opacity: 0; transform: translate3d(var(--ember-drift), -100vh, 0) scale(.35); }
+}
+@keyframes light-pulse {
+  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(.22); }
+  36% { opacity: .9; }
+  100% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(1.24); }
+}
+@keyframes shockwave-expand {
+  0% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(.2); }
+  20% { opacity: .8; }
+  100% { opacity: 0; transform: translate3d(-50%, -50%, 0) scale(2.6); }
+}
+@keyframes hanuman-flight {
+  0% { opacity: 0; transform: translate3d(-118vw, 14vh, 0) scale(.5) rotate(-10deg); }
+  34% { opacity: 1; transform: translate3d(-64vw, 9vh, 0) scale(.7) rotate(-7deg); }
+  63% { opacity: 1; transform: translate3d(-17vw, -3vh, 0) scale(.93) rotate(-2.5deg); }
+  80% { opacity: 1; transform: translate3d(1.4vw, -8px, 0) scale(1.025) rotate(.8deg); }
+  91% { opacity: 1; transform: translate3d(-.7vw, 3px, 0) scale(.995) rotate(-.25deg); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotate(0); }
+}
+@keyframes heroic-hover {
+  from { transform: translate3d(0, 1px, 0) rotate(-.18deg); }
+  to { transform: translate3d(0, -8px, 0) rotate(.25deg); }
+}
+@keyframes telugu-reveal {
+  from { opacity: 0; transform: translate3d(0, 12px, 0); clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); clip-path: inset(0 0 0 0); }
+}
+@keyframes letter-rise {
+  from { opacity: 0; transform: translate3d(0, 11px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes divider-draw { to { transform: scaleX(1); } }
+@keyframes reduced-text-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 @keyframes text-rise {
   from { opacity: 0; transform: translate3d(0, 12px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
-@keyframes letter-rise {
-  from { opacity: 0; transform: translate3d(0, 14px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+@keyframes shimmer-pass {
+  0% { opacity: 0; transform: translate3d(-120%, 0, 0); }
+  20% { opacity: .85; }
+  100% { opacity: 0; transform: translate3d(120%, 0, 0); }
 }
-@keyframes divider-draw { to { transform: scaleX(1); } }
 @keyframes skip-appear {
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
+@keyframes progress-fill { to { stroke-dashoffset: 0; } }
 @keyframes wind-streak {
   0% { opacity: 0; transform: translate3d(25vw, 0, 0); }
-  25% { opacity: .8; }
+  24% { opacity: .78; }
   100% { opacity: 0; transform: translate3d(-45vw, 0, 0); }
 }
+
 @media (max-width: 600px) {
-  .flight { top: 37%; width: min(91vw, 560px); }
-  .copy { top: 59%; width: 92vw; }
-  .teluguBlessing { font-size: clamp(23px, 7vw, 29px); margin-bottom: 4px; }
-  .englishTitle { font-size: clamp(39px, 11vw, 53px); letter-spacing: .01em; }
-  .divider { margin: 13px auto 10px; }
-  .welcome { font-size: 9px; letter-spacing: .15em; }
-  .windLines { top: 37%; }
-  .skip { min-height: 46px; min-width: 110px; }
+  .sunHalo { top: 16%; width: 120vw; height: 40vh; }
+  .rays { top: 36%; }
+  .horizon { height: 30vh; min-height: 195px; }
+  .flightOrigin { top: 36%; width: min(92vw, 560px); }
+  .copy { top: 61%; width: 92vw; }
+  .teluguBlessing { font-size: clamp(29px, 8vw, 35px); margin-bottom: 4px; letter-spacing: 0; }
+  .englishTitle { font-size: clamp(23px, 7vw, 31px); letter-spacing: .16em; }
+  .divider { width: 58vw; margin: 12px auto 10px; }
+  .welcome { font-size: 9px; letter-spacing: .12em; }
+  .tagline { max-width: 88vw; font-size: 15px; line-height: 1.35; margin-top: 8px; }
+  .windLines { top: 36%; }
+  .skip { top: max(15px, env(safe-area-inset-top)); right: max(15px, env(safe-area-inset-right)); min-width: 116px; min-height: 46px; }
+  .progressRing { width: 17px; height: 17px; }
 }
 @media (min-width: 601px) and (max-width: 900px) {
-  .flight { width: min(91vw, 80vh); }
-  .copy { top: 68%; }
-  .englishTitle { font-size: clamp(48px, 7vw, 62px); }
+  .flightOrigin { top: 38%; width: min(92vw, 80vh); }
+  .copy { top: 64%; }
+  .englishTitle { font-size: clamp(38px, 5.5vw, 48px); }
 }
 @media (max-height: 680px) and (min-width: 601px) {
-  .flight { width: min(67vw, 80vh); top: 36%; }
-  .copy { top: 64%; }
-  .englishTitle { font-size: clamp(38px, 5vw, 56px); }
-  .teluguBlessing { font-size: 22px; }
-  .divider { margin: 9px auto 7px; }
+  .flightOrigin { top: 35%; width: min(73vw, 82vh); }
+  .copy { top: 60%; }
+  .teluguBlessing { font-size: clamp(28px, 4vw, 38px); }
+  .englishTitle { font-size: clamp(28px, 4vw, 36px); }
+  .divider { margin: 8px auto 6px; }
   .welcome { font-size: 9px; }
+  .tagline { margin-top: 5px; font-size: 15px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .backdrop::after, .rays, .emberField, .noise, .lightBurst, .windLines, .trailCopy { display: none !important; }
-  .hanumanImage { opacity: 1 !important; animation: none !important; transform: none !important; filter: none !important; }
-  .teluguBlessing, .englishTitle span, .divider, .welcome, .skip {
+  .rays, .mist, .noise, .lightBurst, .shockwave, .windLines, .trailCopy { display: none !important; }
+  .scene { animation: none; }
+  .sunHalo { animation: none; opacity: .4; }
+  .ember { animation: none; opacity: .5; }
+  .flightPath, .flightHover, .hanumanImage {
     opacity: 1 !important;
     animation: none !important;
     transform: none !important;
+    filter: none !important;
   }
+  .teluguBlessing, .englishTitle span, .divider, .welcome, .tagline {
+    opacity: 0 !important;
+    animation: reduced-text-fade 280ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
+    animation-delay: 0ms !important;
+    transform: none !important;
+  }
+  .skip { opacity: 1 !important; animation: none !important; transform: none !important; }
+  .shimmerSweep { display: none !important; }
   .divider { transform: scaleX(1) !important; }
   .root.exiting { transition: opacity 280ms ease, visibility 0s linear 280ms; }
 }
