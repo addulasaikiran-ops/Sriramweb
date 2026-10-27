@@ -1035,3 +1035,8 @@ body{background:var(--paper);color:var(--ink)}
 @media(prefers-reduced-motion:reduce){
   .fleet-list-options{scroll-behavior:auto;scroll-snap-type:none}
 }
+
+.fleet-list-hint{display:none}
+@media(max-width:760px){
+  .fleet-list-hint{display:inline;color:#82725e;font-size:8px;letter-spacing:.06em;white-space:nowrap}
+}
