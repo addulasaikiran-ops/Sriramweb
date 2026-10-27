@@ -351,7 +351,7 @@ export function HanumanIntro() {
           scale: 1,
           rotation: 0,
           autoAlpha: 1,
-          duration: timings.flightDurationMs / 1000,
+          duration: (timings.flightEndMs - timings.flightStartMs) / 1000,
           ease: easing.expoInOut,
         },
         timings.flightStartMs / 1000,
@@ -369,7 +369,7 @@ export function HanumanIntro() {
         counterValue,
         {
           value: 80,
-          duration: timings.counterFlightDurationMs / 1000,
+          duration: timings.flightEndMs / 1000,
           ease: easing.expoOut,
           onUpdate: updateCounter,
         },
@@ -383,7 +383,7 @@ export function HanumanIntro() {
           ease: easing.expoOut,
           onUpdate: updateCounter,
         },
-        timings.counterLandStartMs / 1000,
+        timings.landStartMs / 1000,
       );
 
       // 1.90–2.42s — hard landing, 80ms glitch slice (disabled on low-end hardware), shockwave.
@@ -484,23 +484,24 @@ export function HanumanIntro() {
         { yPercent: 0, duration: timings.curtainCloseDurationMs / 1000, ease: easing.expoInOut },
         (timings.exitStartMs + timings.exitBarDurationMs) / 1000,
       );
-      const curtainOpenStart = (
-        timings.exitStartMs + timings.exitBarDurationMs + timings.curtainCloseDurationMs
-      ) / 1000;
+      const curtainOpenStartMs = timings.exitStartMs + timings.exitBarDurationMs + timings.curtainCloseDurationMs;
+      const curtainOpenStart = curtainOpenStartMs / 1000;
+      const curtainOpenDuration = Math.max(0, timings.totalDurationMs - curtainOpenStartMs) / 1000;
       timeline.set(root, { backgroundColor: "transparent" }, curtainOpenStart);
       // Begin the homepage hero stagger behind the moving curtains.
       timeline.call(() => {
         html.classList.remove("hanuman-intro-active");
         html.classList.add("hanuman-home-reveal");
       }, [], curtainOpenStart);
+      timeline.call(() => undefined, [], timings.totalDurationMs / 1000);
       timeline.to(
         exitTop,
-        { yPercent: -105, duration: timings.curtainOpenDurationMs / 1000, ease: easing.expoInOut },
+        { yPercent: -105, duration: curtainOpenDuration, ease: easing.expoInOut },
         curtainOpenStart,
       );
       timeline.to(
         exitBottom,
-        { yPercent: 105, duration: timings.curtainOpenDurationMs / 1000, ease: easing.expoInOut },
+        { yPercent: 105, duration: curtainOpenDuration, ease: easing.expoInOut },
         curtainOpenStart,
       );
     }
