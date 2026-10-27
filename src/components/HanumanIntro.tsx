@@ -292,7 +292,7 @@ export function HanumanIntro() {
         },
         0.02,
       );
-      timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], 0.42);
+      timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], (timings.frameDurationMs + 120) / 1000);
       timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
       timeline.fromTo(
         skipButton!,
@@ -302,7 +302,7 @@ export function HanumanIntro() {
       );
       timeline.call(() => skipButton?.focus({ preventScroll: true }), [], timings.focusSkipMs / 1000);
 
-      // 0.30–1.90s — the artwork rides a curved sequence of x/y keyframes, with sharper ghosts.
+      // 0.30–1.90s — the artwork rides a curved MotionPath with three sharp ghost trails.
       timeline.fromTo(
         artMarks,
         { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 },
@@ -310,12 +310,12 @@ export function HanumanIntro() {
           clipPath: "inset(0% 0% 0% 0%)",
           autoAlpha: 0.72,
           duration: timings.artFrameDurationMs / 1000,
-          stagger: 0.025,
+          stagger: timings.gridStaggerMs / 1600,
           ease: easing.quartOut,
         },
         timings.artFrameStartMs / 1000,
       );
-      timeline.call(() => artFrame?.classList.add(styles.frameLive), [], 0.75);
+      timeline.call(() => artFrame?.classList.add(styles.frameLive), [], (timings.artFrameStartMs + timings.artFrameDurationMs + 30) / 1000);
       timeline.fromTo(
         orbit,
         { scale: 0.84, rotation: -24, autoAlpha: 0 },
@@ -359,10 +359,10 @@ export function HanumanIntro() {
       timeline.fromTo(
         speedLines,
         { scaleX: 0, autoAlpha: 0 },
-        { scaleX: 1, autoAlpha: 0.48, duration: 0.26, stagger: 0.035, ease: easing.expoOut },
-        0.28,
+        { scaleX: 1, autoAlpha: 0.48, duration: timings.speedLineDurationMs / 1000, stagger: timings.gridStaggerMs / 1000, ease: easing.expoOut },
+        timings.speedLinesStartMs / 1000,
       );
-      timeline.to(speedLines, { autoAlpha: 0, duration: 0.2, ease: easing.expoIn }, 1.64);
+      timeline.to(speedLines, { autoAlpha: 0, duration: timings.speedLineFadeDurationMs / 1000, ease: easing.expoIn }, (timings.landStartMs - 260) / 1000);
 
       // Counter is tied to the precise arrival/landing beats, not a separate interval.
       timeline.to(
@@ -390,9 +390,11 @@ export function HanumanIntro() {
       timeline.call(() => {
         if (!isLowPower) root.classList.add(styles.landingImpact);
       }, [], timings.landStartMs / 1000);
-      timeline.to(artStage, { x: 5, y: 2, scale: 1.018, duration: 0.03, ease: easing.expoOut }, 1.9);
-      timeline.to(artStage, { x: -3, y: -1, scale: 0.995, duration: 0.025, ease: easing.expoInOut }, 1.93);
-      timeline.to(artStage, { x: 0, y: 0, scale: 1, duration: 0.025, ease: easing.expoOut }, 1.955);
+      const landingAt = timings.landStartMs / 1000;
+      const impactWindow = timings.landSliceDurationMs / 1000;
+      timeline.to(artStage, { x: 5, y: 2, scale: 1.018, duration: impactWindow * 0.375, ease: easing.expoOut }, landingAt);
+      timeline.to(artStage, { x: -3, y: -1, scale: 0.995, duration: impactWindow * 0.3125, ease: easing.expoInOut }, landingAt + impactWindow * 0.375);
+      timeline.to(artStage, { x: 0, y: 0, scale: 1, duration: impactWindow * 0.3125, ease: easing.expoOut }, landingAt + impactWindow * 0.6875);
       timeline.call(() => root.classList.remove(styles.landingImpact), [], (timings.landStartMs + timings.landSliceDurationMs) / 1000);
       timeline.fromTo(
         shockwave,
@@ -486,6 +488,11 @@ export function HanumanIntro() {
         timings.exitStartMs + timings.exitBarDurationMs + timings.curtainCloseDurationMs
       ) / 1000;
       timeline.set(root, { backgroundColor: "transparent" }, curtainOpenStart);
+      // Begin the homepage hero stagger behind the moving curtains.
+      timeline.call(() => {
+        html.classList.remove("hanuman-intro-active");
+        html.classList.add("hanuman-home-reveal");
+      }, [], curtainOpenStart);
       timeline.to(
         exitTop,
         { yPercent: -105, duration: timings.curtainOpenDurationMs / 1000, ease: easing.expoInOut },
