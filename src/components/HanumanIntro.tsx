@@ -215,8 +215,8 @@ export function HanumanIntro() {
               src="/images/hanuman-flying-silhouette.svg"
               alt=""
               aria-hidden="true"
-              width={1200}
-              height={520}
+              width={900}
+              height={500}
               className={`${styles.hanumanImage} ${styles.trailCopy}`}
               style={{
                 "--flight-delay": `${delay}ms`,
@@ -230,8 +230,8 @@ export function HanumanIntro() {
             src="/images/hanuman-flying-silhouette.svg"
             alt=""
             aria-hidden="true"
-            width={1200}
-            height={520}
+            width={900}
+            height={500}
             priority
             className={styles.hanumanImage}
             style={{
