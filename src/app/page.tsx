@@ -179,7 +179,9 @@ export default function HomePage() {
           <div className="fleet-layout">
             <aside className="fleet-sidebar">
               <div className="fleet-list-label"><span>OUR FLEET</span><span>0{fleet.length}</span></div>
-              {fleet.map((vehicle, index) => <button key={vehicle.number} className={`fleet-list-item ${index === activeVehicle ? "selected" : ""}`} onClick={() => { setActiveVehicle(index); setHasChosenVehicle(true); }} aria-pressed={index === activeVehicle}><span className="fleet-list-no">{vehicle.number}</span><span className="fleet-list-name">{vehicle.name}<small>{vehicle.className}</small></span><ArrowUpRight className="fleet-list-arrow" size={15} /></button>)}
+              <div className="fleet-list-options" role="group" aria-label="Choose a vehicle">
+                {fleet.map((vehicle, index) => <button key={vehicle.number} className={`fleet-list-item ${index === activeVehicle ? "selected" : ""}`} onClick={() => { setActiveVehicle(index); setHasChosenVehicle(true); }} aria-pressed={index === activeVehicle}><span className="fleet-list-no">{vehicle.number}</span><span className="fleet-list-name">{vehicle.name}<small>{vehicle.className}</small></span><ArrowUpRight className="fleet-list-arrow" size={15} /></button>)}
+              </div>
               <div className="fleet-sidebar-foot"><span className="sidebar-foot-line" /> <span>YOUR NEXT MEMORY<br />IS JUST A RIDE AWAY.</span></div>
             </aside>
             <div className="fleet-feature" key={active.number}>
