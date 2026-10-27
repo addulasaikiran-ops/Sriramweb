@@ -10,6 +10,11 @@ import { TowingEmergency } from "@/components/TowingEmergency";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { StickyContactBar } from "@/components/StickyContactBar";
 import { buildWhatsAppUrl } from "@/components/whatsapp";
+import { Brand } from "@/components/Brand";
+import { TrustStrip } from "@/components/TrustStrip";
+import { BookingSteps } from "@/components/BookingSteps";
+import { Footer } from "@/components/Footer";
+import { FleetControls } from "@/components/FleetControls";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -168,12 +173,7 @@ export default function HomePage() {
           <div className="hero-bottom"><a href="#fleet" className="scroll-hint"><span className="scroll-icon"><ArrowDown size={14} /></span> SCROLL TO EXPLORE</a><div className="hero-bottom-rule" /><span className="hero-location"><MapPin size={13} /> {site.location}</span></div>
         </section>
 
-        <section className="trust-strip" aria-label="Service highlights">
-          <div className="trust-item"><span className="trust-symbol"><ShieldCheck /></span><div><strong>Safety comes first</strong><small>Carefully looked-after vehicles</small></div></div>
-          <div className="trust-item"><span className="trust-symbol"><Users /></span><div><strong>People-first service</strong><small>Help when you need it</small></div></div>
-          <div className="trust-item"><span className="trust-symbol"><Clock3 /></span><div><strong>Here for the journey</strong><small>Travel and towing enquiries</small></div></div>
-          <div className="trust-item"><span className="trust-symbol"><MapPin /></span><div><strong>Rooted in Gooty</strong><small>And ready to go further</small></div></div>
-        </section>
+        <TrustStrip />
 
         <section className="fleet-section section-pad" id="fleet">
           <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FIND YOUR RIDE</div><h2>A good journey<br />starts with <em>the right one.</em></h2></div><p>From quick city rides to open-road escapes, discover a vehicle for the way you want to travel.</p></div>
@@ -184,7 +184,7 @@ export default function HomePage() {
               <div className="fleet-sidebar-foot"><span className="sidebar-foot-line" /> <span>YOUR NEXT MEMORY<br />IS JUST A RIDE AWAY.</span></div>
             </aside>
             <div className="fleet-feature" key={active.number}>
-              <div className="fleet-feature-image"><Image src={active.image} alt={`${active.name} illustrative vehicle image`} fill sizes="(max-width: 900px) 100vw, 65vw" className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><div className="fleet-controls"><button aria-label="Previous vehicle" onClick={() => chooseVehicle(activeVehicle - 1)}><ChevronLeft size={18} /></button><span>0{activeVehicle + 1} <i>/</i> 0{fleet.length}</span><button aria-label="Next vehicle" onClick={() => chooseVehicle(activeVehicle + 1)}><ChevronRight size={18} /></button></div></div>
+              <div className="fleet-feature-image"><Image src={active.image} alt={`${active.name} illustrative vehicle image`} fill sizes="(max-width: 900px) 100vw, 65vw" className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><FleetControls index={activeVehicle} total={fleet.length} onChange={chooseVehicle} /></div>
               <div className="fleet-feature-detail"><div className="fleet-detail-copy">{site.showRates && <div className="fleet-rate"><strong>₹{active.ratePerKm}</strong><span>per km · indicative, confirm on call</span></div>}<h4>{active.description}</h4><div className="spec-list"><span><Users size={15} /> {active.seats}</span>{active.features.length > 0 && <span><ShieldCheck size={15} /> {active.features.join(" · ")}</span>}<span><MapPin size={15} /> {active.use}</span></div></div><WhatsAppLink label="Enquire about this vehicle" className="text-link" message={`Hello Sriram Travels, I'd like to enquire about the ${active.name} at the listed reference rate of ₹${active.ratePerKm}/km. Please confirm current pricing, availability and vehicle details.`} /></div>
             </div>
           </div>
@@ -247,14 +247,7 @@ export default function HomePage() {
           <div className="destination-cta reveal"><div><span className="destination-kicker">YOUR ROUTE, YOUR PLANS</span><h3>Let’s talk about<br /><em>where you’re going.</em></h3><p>Share the pickup point, destination, travel date and number of passengers. We’ll discuss availability and pricing with you.</p></div><WhatsAppLink label="Enquire about a trip" className="button button-gold" message="Hello Sriram Travels, I'd like to enquire about a trip. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
         </section>
 
-        <section className="booking-section section-pad">
-          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> SIMPLE NEXT STEPS</div><h2>Booking, in <em>three steps.</em></h2></div><p>Start a conversation first. Confirm the details directly before finalising your journey.</p></div>
-          <div className="booking-steps">
-            <article className="booking-step reveal"><span className="booking-step-number">01</span><h3>Message or call</h3><p>Choose WhatsApp or phone to reach Sriram Travels.</p></article>
-            <article className="booking-step reveal"><span className="booking-step-number">02</span><h3>Share your trip</h3><p>Tell us the route, date, passenger count and any special requirements.</p></article>
-            <article className="booking-step reveal"><span className="booking-step-number">03</span><h3>Confirm the details</h3><p>Check the vehicle, availability, fare and trip terms with us before booking.</p></article>
-          </div>
-        </section>
+        <BookingSteps />
 
         <section className="faq-section section-pad" id="faq">
           <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p>Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
@@ -280,7 +273,7 @@ export default function HomePage() {
         <EnquiryForm selectedVehicle={active.name} />
       </main>
 
-      <footer className="site-footer"><a href="#home" className="brand footer-brand"><span className="brand-mark"><span className="brand-mark-line" /><span className="brand-mark-line short" /></span><span><strong>SRIRAM<span>.</span></strong><small>TRAVELS & TOWING SERVICES</small></span></a><span className="footer-tagline">TAKE THE SCENIC ROUTE.</span><span className="footer-copy">© {new Date().getFullYear()} Sriram Travels. Made for the road ahead.</span><a className="back-top" href="#home">BACK TO TOP ↑</a></footer>
+      <Footer />
       <StickyContactBar />
     </div>
   );
