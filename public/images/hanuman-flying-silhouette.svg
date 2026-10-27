@@ -1,118 +1,177 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="280 0 900 500" role="img" aria-label="Flying Hanuman carrying the Sanjeevani mountain">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="330 35 850 480" role="img" aria-label="Flying Hanuman carrying the Sanjeevani mountain" aria-labelledby="hanuman-title hanuman-desc">
+  <title id="hanuman-title">Hanuman carrying the Sanjeevani mountain</title>
+  <desc id="hanuman-desc">A graceful saffron and gold illustration of flying Hanuman, holding the glowing Sanjeevani mountain in one raised hand and a gada in the other, with a flowing tail and dhoti.</desc>
   <defs>
-    <linearGradient id="saffron" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFC107"/>
+    <linearGradient id="hanuman-saffron" x1=".06" y1=".06" x2=".88" y2=".94">
+      <stop offset="0" stop-color="#FFD166"/>
+      <stop offset=".2" stop-color="#FF9933"/>
+      <stop offset=".55" stop-color="#E8590C"/>
+      <stop offset="1" stop-color="#B3360B"/>
+    </linearGradient>
+    <linearGradient id="hanuman-rim" x1=".05" y1=".1" x2=".94" y2=".72">
+      <stop offset="0" stop-color="#FFE9A8"/>
+      <stop offset=".32" stop-color="#FFD166"/>
+      <stop offset=".7" stop-color="#FF9933"/>
+      <stop offset="1" stop-color="#E8590C"/>
+    </linearGradient>
+    <linearGradient id="hanuman-shade" x1="0" y1="0" x2=".8" y2="1">
+      <stop stop-color="#B3360B" stop-opacity=".04"/>
+      <stop offset=".58" stop-color="#B3360B" stop-opacity=".04"/>
+      <stop offset="1" stop-color="#56150A" stop-opacity=".5"/>
+    </linearGradient>
+    <linearGradient id="sanjeevani-rock" x1=".16" y1="0" x2=".84" y2="1">
+      <stop stop-color="#FFD166"/>
       <stop offset=".28" stop-color="#FF9933"/>
-      <stop offset=".72" stop-color="#F46A0B"/>
-      <stop offset="1" stop-color="#E65100"/>
+      <stop offset=".61" stop-color="#E8590C"/>
+      <stop offset="1" stop-color="#B3360B"/>
     </linearGradient>
-    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
-      <stop stop-color="#FFC107"/>
-      <stop offset=".45" stop-color="#FFB13B"/>
-      <stop offset="1" stop-color="#FF6D00"/>
-    </linearGradient>
-    <linearGradient id="mountain" x1=".15" y1="0" x2=".8" y2="1">
-      <stop stop-color="#FFC107"/>
-      <stop offset=".37" stop-color="#FF9933"/>
-      <stop offset="1" stop-color="#E65100"/>
-    </linearGradient>
-    <radialGradient id="aura">
-      <stop stop-color="#FF9933" stop-opacity=".3"/>
-      <stop offset=".46" stop-color="#E65100" stop-opacity=".12"/>
-      <stop offset="1" stop-color="#E65100" stop-opacity="0"/>
+    <radialGradient id="hanuman-aura">
+      <stop stop-color="#FF9933" stop-opacity=".34"/>
+      <stop offset=".36" stop-color="#E8590C" stop-opacity=".16"/>
+      <stop offset=".74" stop-color="#B3360B" stop-opacity=".04"/>
+      <stop offset="1" stop-color="#B3360B" stop-opacity="0"/>
     </radialGradient>
-    <filter id="soft-glow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="16"/>
+    <filter id="aura-blur" x="-35%" y="-45%" width="170%" height="190%">
+      <feGaussianBlur stdDeviation="17"/>
     </filter>
-    <filter id="herb-glow" x="-200%" y="-200%" width="400%" height="400%">
-      <feGaussianBlur stdDeviation="2.3"/>
+    <filter id="herb-halo" x="-250%" y="-250%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="2.5"/>
     </filter>
     <style>
-      .herb-light{transform-box:fill-box;transform-origin:center;animation:herb-twinkle 1.65s ease-in-out infinite alternate}
-      .herb-light:nth-of-type(2n){animation-delay:-.7s}
-      .herb-light:nth-of-type(3n){animation-delay:-1.1s}
-      @keyframes herb-twinkle{from{opacity:.38;transform:scale(.72)}to{opacity:1;transform:scale(1.35)}}
-      @media(prefers-reduced-motion:reduce){.herb-light{animation:none;opacity:.85}}
+      #tail-layer{transform-box:fill-box;transform-origin:76% 18%;animation:tail-follow 2.6s cubic-bezier(.42,0,.58,1) infinite alternate}
+      #cloth-layer{transform-box:fill-box;transform-origin:65% 12%;animation:cloth-follow 2.2s cubic-bezier(.42,0,.58,1) infinite alternate}
+      #hero-body{transform-box:fill-box;transform-origin:58% 55%;animation:body-hover 2.8s cubic-bezier(.42,0,.58,1) infinite alternate}
+      #head-mukut{transform-box:fill-box;transform-origin:55% 90%;animation:head-follow 2.8s cubic-bezier(.42,0,.58,1) infinite alternate}
+      .herb-light{transform-box:fill-box;transform-origin:center;animation:herb-twinkle 1.9s cubic-bezier(.42,0,.58,1) infinite alternate}
+      .herb-light:nth-of-type(3n){animation-delay:-.58s}
+      .herb-light:nth-of-type(4n){animation-delay:-1.12s}
+      .herb-light:nth-of-type(5n){animation-delay:-.82s}
+      @keyframes tail-follow{from{transform:rotate(-1.5deg) translateY(1px)}to{transform:rotate(1.8deg) translateY(-2px)}}
+      @keyframes cloth-follow{from{transform:rotate(-1deg) skewX(-.4deg)}to{transform:rotate(1.1deg) skewX(.5deg)}}
+      @keyframes body-hover{from{transform:translateY(1px) rotate(-.2deg)}to{transform:translateY(-2px) rotate(.25deg)}}
+      @keyframes head-follow{from{transform:rotate(-.25deg)}to{transform:rotate(.4deg)}}
+      @keyframes herb-twinkle{from{opacity:.45;transform:scale(.78)}to{opacity:1;transform:scale(1.32)}}
+      @media(prefers-reduced-motion:reduce){#tail-layer,#cloth-layer,#hero-body,#head-mukut,.herb-light{animation:none!important}}
     </style>
   </defs>
 
-  <!-- A restrained aura remains transparent outside the glow. -->
-  <ellipse cx="747" cy="247" rx="390" ry="245" fill="url(#aura)" filter="url(#soft-glow)"/>
+  <!-- Transparent aura: no rectangular backdrop, only a soft radial bloom. -->
+  <g id="glow-layer" aria-hidden="true">
+    <ellipse cx="758" cy="253" rx="405" ry="250" fill="url(#hanuman-aura)" filter="url(#aura-blur)"/>
+    <ellipse cx="944" cy="170" rx="180" ry="145" fill="url(#hanuman-aura)" opacity=".7"/>
+  </g>
 
-  <!-- Sanjeevani mountain: crisp outer silhouette with warm, luminous edges. -->
-  <g id="sanjeevani-mountain">
-    <path d="M767 219 793 194 807 194 827 171 849 165 864 140 879 133 898 91 918 112 938 73 958 98 977 55 995 82 1014 71 1034 101 1055 111 1065 132 1090 140 1106 162 1128 171 1147 193 1162 203 1152 219 1004 227 848 225 777 229Z" fill="url(#mountain)" stroke="url(#rim)" stroke-width="3" stroke-linejoin="round"/>
-    <path d="m873 151 22-35 15 29 17-39 18 42 18-56 18 38 18-13 12 34 25 9 11 19-59-2-28-12-23 17-28-6-22 17-40-4Z" fill="#E65100" opacity=".34"/>
-    <path d="M807 194 828 183 840 188 857 169 879 167 891 151 907 153 923 131 939 143 957 126 973 145 992 132 1007 154 1028 155 1042 176 1065 177 1077 191 1101 193 1122 209" fill="none" stroke="#FFC107" stroke-opacity=".72" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    <!-- Herb-covered trees along the ridge and ledges. -->
-    <path d="M803 202 812 181 821 195 829 174 841 192 852 186 863 203ZM850 215 863 194 873 206 885 180 898 207 908 194 919 213ZM1016 213 1028 192 1039 211 1050 184 1064 209 1076 192 1091 214Z" fill="#FFB13B" opacity=".78"/>
-    <path d="M841 193 856 185M879 204 889 194M1040 205 1051 196M1082 213 1094 205" stroke="#FFC107" stroke-width="2" stroke-linecap="round" opacity=".9"/>
-    <g fill="#FFF0A6">
-      <circle class="herb-light" cx="842" cy="201" r="2.7"/><circle cx="842" cy="201" r="6" opacity=".35" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="876" cy="188" r="2.4"/><circle cx="876" cy="188" r="6" opacity=".3" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="906" cy="207" r="2.8"/><circle cx="906" cy="207" r="7" opacity=".32" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="939" cy="174" r="2.5"/><circle cx="939" cy="174" r="6" opacity=".34" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="974" cy="193" r="2.8"/><circle cx="974" cy="193" r="7" opacity=".32" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="1016" cy="185" r="2.4"/><circle cx="1016" cy="185" r="6" opacity=".34" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="1052" cy="205" r="2.6"/><circle cx="1052" cy="205" r="6" opacity=".3" filter="url(#herb-glow)"/>
-      <circle class="herb-light" cx="1090" cy="199" r="2.5"/><circle cx="1090" cy="199" r="6" opacity=".32" filter="url(#herb-glow)"/>
+  <!-- Long S-curve tail, composed as a clean filled path with a luminous edge. -->
+  <g id="tail-layer">
+    <path d="M632 345C562 322 500 293 488 247C479 216 507 200 529 214C545 224 541 244 527 248C538 236 524 223 515 231C503 242 516 264 535 279C562 300 606 310 658 321L676 342Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.7" stroke-linejoin="round"/>
+    <path d="M527 217C537 226 534 238 526 244" fill="none" stroke="#FFD166" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Cloth and dhoti stream behind the hips with separate overlap and follow-through. -->
+  <g id="cloth-layer" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-linejoin="round">
+    <path d="M645 327C577 313 523 283 474 261C442 246 414 239 380 239C409 252 425 275 453 291C508 323 570 349 621 358L655 351Z" stroke-width="2.3"/>
+    <path d="M630 349C568 364 511 358 467 337C427 318 397 316 363 328C404 327 425 355 469 369C520 385 584 380 637 363Z" stroke-width="2.3"/>
+    <path d="M630 365C574 391 522 410 473 401C440 394 414 400 391 418C431 413 446 434 482 431C538 426 590 398 646 378Z" stroke-width="2.3"/>
+    <path d="M617 382C570 418 535 449 487 463C463 470 449 481 443 498C470 478 491 488 521 474C564 455 607 421 636 398Z" stroke-width="2.3"/>
+    <path d="M469 273C512 300 556 320 594 329M458 339C501 357 549 368 589 366M477 405C520 410 560 393 594 378" fill="none" stroke="#FFD166" stroke-width="2.3" stroke-linecap="round" opacity=".88"/>
+  </g>
+
+  <!-- Main body: silhouette first, inner shading second for sculpted depth. -->
+  <g id="hero-body">
+    <g id="body">
+      <!-- Extended trailing leg and foot. -->
+      <path d="M625 349C587 368 546 394 501 410L443 427C421 432 407 446 398 463L395 478C402 485 414 482 424 472L446 458L500 445L554 424L605 397L646 375Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M407 461 397 474 405 482 416 477M416 474 423 469" fill="none" stroke="#FFD166" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- Bent forward leg, still swept back by momentum. -->
+      <path d="M643 348C614 361 587 375 559 378L526 369L509 353L518 342L537 345L561 349L594 328L624 324Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M526 356 542 361 562 361" fill="none" stroke="#FFD166" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Chest, shoulder, torso and waist. -->
+      <path d="M601 285C622 263 653 249 689 247C714 242 740 252 758 271L780 298L773 326L750 350L720 363L697 390L663 400L635 385L604 375L619 348L600 326Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.8" stroke-linejoin="round"/>
+      <path d="M603 286C633 266 658 258 686 258L714 267L737 286L753 309L735 332L714 344L689 367L661 379L641 367L654 348L633 331L613 325Z" fill="url(#hanuman-shade)" opacity=".72"/>
+      <!-- Waist sash and bead chain. -->
+      <path d="M617 349C639 358 669 370 703 363L722 355L709 376C678 392 648 383 621 369Z" fill="#B3360B" stroke="#FFD166" stroke-width="2.3"/>
+      <path d="M642 273C650 294 671 312 700 321C711 324 719 323 729 318" fill="none" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+      <g fill="#FFD166">
+        <circle cx="655" cy="291" r="3"/><circle cx="665" cy="301" r="3"/><circle cx="676" cy="309" r="3"/><circle cx="688" cy="315" r="3"/><circle cx="701" cy="319" r="3"/>
+      </g>
+      <!-- Arm band and wrist ornaments on the visible side. -->
+      <path d="M664 260 677 265 687 276 672 281 659 270Z" fill="#FF9933" stroke="#FFD166" stroke-width="2.4"/>
+      <path d="M645 376 656 383 666 379" fill="none" stroke="#FFD166" stroke-width="3.2" stroke-linecap="round"/>
+    </g>
+
+    <!-- Head + mukut (crown), with a clear, calm devotional profile. -->
+    <g id="head-mukut">
+      <path d="M726 255 735 230 749 215 772 214 791 226 802 242 794 258 778 268 755 263Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.6" stroke-linejoin="round"/>
+      <path d="M747 231C759 227 774 229 788 236L797 245 788 254 772 258 757 250Z" fill="url(#hanuman-shade)" opacity=".8"/>
+      <!-- Monkey muzzle and nose are carved as small, readable cuts. -->
+      <path d="M762 242C774 238 791 241 796 249L787 258 773 259 762 251Z" fill="#B3360B" stroke="#FFD166" stroke-width="1.6"/>
+      <path d="M779 239 789 242" fill="none" stroke="#FFF0BA" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M755 237 764 239" fill="none" stroke="#4E170C" stroke-width="2.7" stroke-linecap="round"/>
+      <!-- Mukut silhouette with layered bands and a central crest. -->
+      <path d="M733 226 729 206 738 192 748 199 756 178 769 194 779 184 789 202 800 205 801 223 788 228 775 217 757 224 745 220Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M738 207 753 211 768 207 785 213 799 211" fill="none" stroke="#FFD166" stroke-width="3" stroke-linecap="round"/>
+      <path d="M755 192 768 202 781 192" fill="none" stroke="#FFE9A8" stroke-width="2.3" stroke-linecap="round"/>
+      <!-- Ear, earring and tilak. -->
+      <path d="M735 234C722 224 715 236 723 246L735 251" fill="url(#hanuman-saffron)" stroke="#FFD166" stroke-width="2.2"/>
+      <circle cx="729" cy="250" r="5.5" fill="none" stroke="#FFD166" stroke-width="2.3"/>
+      <path d="M768 226 773 238 778 226" fill="none" stroke="#FFF0BA" stroke-width="2.3" stroke-linecap="round"/>
+      <path d="M742 263C752 273 774 277 790 266" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round"/>
     </g>
   </g>
 
-  <!-- Long S-curve tail and wind-swept cloth trail behind the flying figure. -->
-  <g id="tail-and-fabric" fill="url(#saffron)" stroke="url(#rim)" stroke-linejoin="round">
-    <path d="M572 318C518 308 473 280 486 245 497 217 468 196 435 208 412 216 408 238 423 251 434 261 450 257 453 246 446 251 437 246 440 236 446 219 469 230 461 249 449 278 477 307 520 332L554 350Z" stroke-width="3"/>
-    <path d="M579 314C512 285 455 269 406 257 383 251 354 239 342 219L319 194 296 201 311 229C332 262 367 282 401 291L548 349Z" stroke-width="2.6"/>
-    <path d="M596 343C533 359 481 353 432 331 393 314 368 311 346 323 379 322 393 347 430 359 473 376 534 377 578 365Z" stroke-width="2.5"/>
-    <path d="M575 360C520 390 466 401 411 383 388 376 370 375 347 385 380 386 394 410 436 414 489 420 545 399 591 376Z" stroke-width="2.5"/>
-    <path d="M594 385C538 415 489 443 438 441 418 440 401 448 392 462 416 450 432 465 463 458 511 448 565 423 612 398Z" stroke-width="2.5"/>
+  <!-- Gada arm and mace: the second arm reaches back, counterbalancing the mountain. -->
+  <g id="gada-arm">
+    <path d="M680 273C648 263 619 246 589 236L552 227L524 230L506 239L516 247L540 245L565 251L595 267L630 290L658 304Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.7" stroke-linejoin="round"/>
+    <path d="M517 238 500 230 482 226 468 229 472 236 489 241 506 244Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.3" stroke-linejoin="round"/>
+    <path d="M478 231 495 235 506 241" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round"/>
+    <path d="M492 237 413 185" fill="none" stroke="url(#hanuman-rim)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M381 149 400 142 422 154 433 172 425 192 407 202 388 190 376 172Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M384 159 423 182M392 150 429 174" fill="none" stroke="#FFD166" stroke-width="2.3" stroke-linecap="round"/>
+    <path d="M394 185 402 192 411 190" fill="none" stroke="#B3360B" stroke-width="2" stroke-linecap="round"/>
   </g>
 
-  <!-- Flying Hanuman: the silhouette is one connected visual language, edged with warm gold. -->
-  <g id="hanuman" fill="url(#saffron)" stroke="url(#rim)" stroke-width="2.8" stroke-linejoin="round" stroke-linecap="round">
-    <!-- Rear leg, extended into flight. -->
-    <path d="M601 349C570 365 533 383 501 396L442 413C423 420 407 430 398 445L392 463 403 472 419 465 434 451 483 437 532 422 585 390Z"/>
-    <!-- Front leg, bent and swept behind. -->
-    <path d="M624 352C602 365 578 378 556 378L523 368 510 355 520 344 540 346 562 348 591 330Z"/>
-    <!-- Dhoti folds trailing left. -->
-    <path d="M626 339C590 349 564 368 540 390L572 393 604 376 637 364Z" stroke-width="2.1"/>
-    <path d="M609 357 577 381M626 364 598 386" fill="none" stroke="#FFC107" stroke-width="2.4" opacity=".9"/>
-    <!-- Main torso, chest and waist. -->
-    <path d="M601 296C626 272 662 256 702 253L746 264 779 286 795 312 778 339 745 358 714 367 695 391 662 399 633 385 602 376 620 348 600 326Z"/>
-    <!-- Neck, jaw, monkey muzzle and crown. -->
-    <path d="M728 255 737 229 756 216 782 218 800 230 803 246 791 263 771 268 754 262Z"/>
-    <path d="M741 226 738 211 746 193 761 197 769 185 783 198 797 199 804 216 793 228 777 215 761 222Z"/>
-    <path d="M748 198 758 180 770 193 780 174 789 194 799 192 806 209 795 211 783 202 770 207 759 203Z"/>
-    <!-- Eye/nose relief is deliberately minimal in silhouette style. -->
-    <path d="M775 237 785 240 779 246" fill="none" stroke="#FFC107" stroke-width="2.8"/>
-    <path d="M783 252 799 249 791 260 779 261Z" fill="#E65100" stroke-width="1.4"/>
-    <!-- Raised arm supporting the mountain on the palm. -->
-    <path d="M705 272C740 265 766 250 787 236L819 218 846 211 872 213 884 222 873 231 850 229 831 236 808 253 779 283 755 299 735 307Z"/>
-    <!-- Palm, open fingers under the mountain. -->
-    <path d="M860 220 874 214 891 215 908 220 919 227 916 233 906 231 897 228 885 230 872 231 862 227Z" stroke-width="2.2"/>
-    <path d="M892 218 903 218M900 222 912 224M890 225 904 228" fill="none" stroke="#FFC107" stroke-width="2"/>
-    <!-- Other arm extended behind, gripping the gada shaft. -->
-    <path d="M679 276C647 263 618 246 589 236L552 227 525 229 510 237 519 246 543 245 566 250 595 266 630 289 657 304Z"/>
-    <path d="M512 234 497 228 482 225 469 228 473 235 489 239 505 242Z" stroke-width="2.1"/>
-    <!-- Gada/mace shaft and head, behind the hand. -->
-    <path d="M489 235 412 184" fill="none" stroke="url(#rim)" stroke-width="8"/>
-    <path d="M374 150 402 143 430 159 433 184 415 200 389 191 374 173Z"/>
-    <path d="M379 160 422 185M385 151 429 176" fill="none" stroke="#FFC107" stroke-width="2.3"/>
-    <!-- Armlets, waistband and sacred ornaments as simple silhouette cut-lines. -->
-    <path d="M650 269 665 276M658 260 671 267M611 369 650 382 682 379" fill="none" stroke="#FFC107" stroke-width="5" opacity=".95"/>
-    <path d="M639 281C661 295 681 306 708 313L733 322" fill="none" stroke="#FFC107" stroke-width="2.4" opacity=".86"/>
-    <path d="M686 324 701 339 689 353 676 337Z" fill="#E65100" stroke="#FFC107" stroke-width="2.4"/>
-    <!-- Feet and toes. -->
-    <path d="M407 443 390 457 382 470 389 479 401 477 418 464" stroke-width="2.4"/>
-    <path d="M399 472 389 470M402 476 395 477" fill="none" stroke="#FFC107" stroke-width="1.8"/>
+  <!-- Raised supporting arm, palm, and mountain are separate named groups for art direction. -->
+  <g id="raised-arm-sanjeevani">
+    <path d="M704 273C740 265 767 250 790 235L820 216 847 210 869 213 884 222 875 231 852 230 831 237 808 254 780 283 755 299 735 307Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.7" stroke-linejoin="round"/>
+    <path d="M856 220 870 214 889 215 908 221 920 228 916 234 906 232 896 228 884 230 869 231 858 227Z" fill="url(#hanuman-saffron)" stroke="url(#hanuman-rim)" stroke-width="2.4" stroke-linejoin="round"/>
+    <path d="M889 219 904 220M900 224 913 226M887 227 903 230" fill="none" stroke="#FFE9A8" stroke-width="2" stroke-linecap="round"/>
+
+    <g id="sanjeevani-mountain">
+      <path d="M786 213 805 192 819 191 840 168 860 161 875 137 891 129 910 87 928 108 949 70 969 96 988 53 1007 80 1026 69 1047 99 1068 108 1079 131 1102 138 1119 159 1140 168 1157 190 1171 201 1163 218 1015 229 864 226 797 231Z" fill="url(#sanjeevani-rock)" stroke="url(#hanuman-rim)" stroke-width="3" stroke-linejoin="round"/>
+      <path d="M840 169 860 161 875 137 891 129 910 87 928 108 949 70 969 96 988 53 1007 80 1026 69 1047 99 1068 108 1079 131 1102 138 1119 159 1140 168 1157 190 1130 185 1107 170 1085 173 1063 155 1041 162 1018 142 996 151 975 128 951 144 932 131 913 158 894 151 876 177 860 173Z" fill="#FFD166" opacity=".48"/>
+      <path d="M796 213 825 202 841 207 857 184 880 179 893 158 910 162 930 139 947 148 966 130 984 148 1003 135 1021 157 1043 158 1058 177 1078 178 1091 193 1116 195" fill="none" stroke="#FFE9A8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+      <!-- Mountain foliage in silhouette clusters, not tiny noisy detail. -->
+      <path d="M807 204 816 184 826 197 836 176 848 196 858 188 870 205ZM860 218 873 195 884 208 896 183 908 209 920 194 932 216ZM1015 216 1028 194 1040 213 1052 187 1065 211 1078 194 1093 216Z" fill="#E8590C" stroke="#FFD166" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M817 197 824 190M873 207 882 198M1037 205 1046 197M1078 213 1088 204" fill="none" stroke="#FFE9A8" stroke-width="2.1" stroke-linecap="round"/>
+      <!-- Herb-light glow layer is intentionally sparse and tiny for performance. -->
+      <g id="herb-lights" fill="#EAF59A">
+        <circle cx="839" cy="201" r="2.4" class="herb-light" style="animation-delay:-.12s"/><circle cx="839" cy="201" r="6" opacity=".35" filter="url(#herb-halo)"/>
+        <circle cx="873" cy="188" r="2.5" class="herb-light" style="animation-delay:-.8s"/><circle cx="873" cy="188" r="6" opacity=".28" filter="url(#herb-halo)"/>
+        <circle cx="903" cy="207" r="2.6" class="herb-light" style="animation-delay:-1.4s"/><circle cx="903" cy="207" r="6.5" opacity=".32" filter="url(#herb-halo)"/>
+        <circle cx="936" cy="174" r="2.5" class="herb-light" style="animation-delay:-.47s"/><circle cx="936" cy="174" r="6" opacity=".3" filter="url(#herb-halo)"/>
+        <circle cx="971" cy="193" r="2.6" class="herb-light" style="animation-delay:-1.05s"/><circle cx="971" cy="193" r="6.5" opacity=".33" filter="url(#herb-halo)"/>
+        <circle cx="1013" cy="185" r="2.5" class="herb-light" style="animation-delay:-.27s"/><circle cx="1013" cy="185" r="6" opacity=".28" filter="url(#herb-halo)"/>
+        <circle cx="1049" cy="205" r="2.5" class="herb-light" style="animation-delay:-1.23s"/><circle cx="1049" cy="205" r="6" opacity=".3" filter="url(#herb-halo)"/>
+        <circle cx="1087" cy="199" r="2.4" class="herb-light" style="animation-delay:-.68s"/><circle cx="1087" cy="199" r="6" opacity=".28" filter="url(#herb-halo)"/>
+        <circle cx="889" cy="213" r="2" class="herb-light" style="animation-delay:-.95s"/>
+        <circle cx="925" cy="211" r="2.2" class="herb-light" style="animation-delay:-.31s"/>
+        <circle cx="958" cy="205" r="2" class="herb-light" style="animation-delay:-1.56s"/>
+        <circle cx="990" cy="184" r="2.1" class="herb-light" style="animation-delay:-.58s"/>
+        <circle cx="1032" cy="208" r="2" class="herb-light" style="animation-delay:-1.72s"/>
+        <circle cx="1069" cy="194" r="2.2" class="herb-light" style="animation-delay:-.4s"/>
+        <circle cx="1113" cy="202" r="2" class="herb-light" style="animation-delay:-1.31s"/>
+        <circle cx="856" cy="206" r="1.9" class="herb-light" style="animation-delay:-.21s"/>
+      </g>
+    </g>
   </g>
 
-  <!-- Soft rim glints: gold only, no background plate or box. -->
-  <g fill="none" stroke="#FFC107" stroke-linecap="round" opacity=".86">
-    <path d="M736 229 754 216 781 218 794 229" stroke-width="2.6"/>
-    <path d="M712 258 746 267 772 286" stroke-width="2.8"/>
-    <path d="M779 282 807 253 832 235 850 229" stroke-width="2.6"/>
-    <path d="M608 299 634 278 666 266" stroke-width="2.2"/>
-    <path d="M599 379 631 390 658 400" stroke-width="2.4"/>
+  <!-- Fine gold edge accents facing the rising light; no hard outline box. -->
+  <g id="rim-light" fill="none" stroke="#FFD166" stroke-linecap="round" stroke-linejoin="round" opacity=".9">
+    <path d="M736 229 749 216 773 215 790 226" stroke-width="2.5"/>
+    <path d="M710 258 746 267 770 286" stroke-width="2.5"/>
+    <path d="M779 282 807 254 832 236 851 230" stroke-width="2.5"/>
+    <path d="M604 298 632 278 663 266" stroke-width="2.1"/>
+    <path d="M597 379 629 390 657 399" stroke-width="2.2"/>
+    <path d="M619 350 646 360 674 369" stroke-width="2.2"/>
   </g>
 </svg>
