@@ -9,10 +9,10 @@ import { fleet, services, site } from "@/data/site";
 
 gsap.registerPlugin(ScrollTrigger);
 
-function WhatsAppLink({ label = "Book your journey", className = "" }: { label?: string; className?: string }) {
-  const message = encodeURIComponent("Hello Sriram Travels, I'd like to enquire about car rental / towing service.");
+function WhatsAppLink({ label = "Book your journey", className = "", message = "Hello Sriram Travels, I'd like to enquire about car rental / towing service." }: { label?: string; className?: string; message?: string }) {
+  const encodedMessage = encodeURIComponent(message);
   return (
-    <a className={className} href={`https://wa.me/${site.whatsapp}?text=${message}`} target="_blank" rel="noreferrer">
+    <a className={className} href={`https://wa.me/${site.whatsapp}?text=${encodedMessage}`} target="_blank" rel="noreferrer">
       {label}<ArrowUpRight size={16} strokeWidth={1.7} />
     </a>
   );
@@ -107,10 +107,10 @@ export default function HomePage() {
             </aside>
             <div className="fleet-feature" key={active.number}>
               <div className="fleet-feature-image"><Image src={active.image} alt={active.name} fill sizes="(max-width: 900px) 100vw, 65vw" unoptimized className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><div className="fleet-controls"><button aria-label="Previous vehicle" onClick={() => chooseVehicle(activeVehicle - 1)}><ChevronLeft size={18} /></button><span>0{activeVehicle + 1} <i>/</i> 0{fleet.length}</span><button aria-label="Next vehicle" onClick={() => chooseVehicle(activeVehicle + 1)}><ChevronRight size={18} /></button></div></div>
-              <div className="fleet-feature-detail"><div><h4>{active.description}</h4><div className="spec-list"><span><Users size={15} /> {active.seats}</span><span><ShieldCheck size={15} /> {active.comfort}</span><span><MapPin size={15} /> {active.use}</span></div></div><WhatsAppLink label="Enquire about this vehicle" className="text-link" /></div>
+              <div className="fleet-feature-detail"><div className="fleet-detail-copy"><div className="fleet-rate"><strong>₹{active.ratePerKm}</strong><span>per km</span></div><h4>{active.description}</h4><div className="spec-list"><span><Users size={15} /> {active.seats}</span><span><ShieldCheck size={15} /> {active.features.join(" · ")}</span><span><MapPin size={15} /> {active.use}</span></div></div><WhatsAppLink label="Enquire about this vehicle" className="text-link" message={`Hello Sriram Travels, I'd like to enquire about the ${active.name} at the listed reference rate of ₹${active.ratePerKm}/km. Please confirm current pricing, availability and vehicle details.`} /></div>
             </div>
           </div>
-          <div className="fleet-disclaimer">Vehicle images are illustrative. Please confirm vehicle availability, seating and specifications when enquiring.</div>
+          <div className="fleet-disclaimer">Reference rates shown for design setup only. Confirm Sriram Travels pricing, vehicle availability, seating and features before booking.</div>
         </section>
 
         <section className="manifesto" id="about"><div className="manifesto-image"><Image src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85" alt="Mountain road landscape" fill sizes="100vw" unoptimized /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
