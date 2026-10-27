@@ -58,7 +58,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-IN">
+    <html lang="en-IN" suppressHydrationWarning>
       <body className={`${dmSans.variable} ${manrope.variable} ${cormorant.variable}`}>
         <script
           dangerouslySetInnerHTML={{
