@@ -1,85 +1,261 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
+import { ArrowUpRight } from "lucide-react";
+import styles from "./HanumanIntro.module.css";
+
+/** Configurable choreography; full-motion entrance completes within 4.3 seconds. */
+const INTRO_TIMING = {
+  skipButtonDelayMs: 500,
+  skipFocusMs: 560,
+  flightStartMs: 300,
+  flightDurationMs: 1700,
+  titleStartMs: 2200,
+  welcomeStartMs: 2820,
+  exitStartMs: 3600,
+  exitFadeMs: 650,
+  reducedMotionExitStartMs: 520,
+  reducedMotionTotalMs: 800,
+  reducedMotionFadeMs: 280,
+  skipFadeMs: 320,
+} as const;
+
+const SESSION_KEY = "sriram-hanuman-intro-seen";
+const TRAIL_DELAYS_MS = [455, 585, 715] as const;
+const TITLE = "Jai Shri Ram";
+
+const EMBERS = Array.from({ length: 24 }, (_, index) => ({
+  id: index,
+  left: (index * 37 + 11) % 97,
+  bottom: (index * 23 + 7) % 42,
+  delay: -((index * 0.37) % 4.8),
+  duration: 3.8 + (index % 6) * 0.52,
+  drift: ((index * 19) % 84) - 42,
+  size: 2 + (index % 3),
+  alpha: 0.35 + (index % 5) * 0.12,
+}));
 
 export function HanumanIntro() {
+  // The opaque intro renders on the server too, preventing an initial homepage flash.
   const [visible, setVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const timers = useRef<number[]>([]);
+  const skipButtonRef = useRef<HTMLButtonElement>(null);
+  const reducedMotionRef = useRef(false);
+  const originalBodyOverflow = useRef<string | null>(null);
+  const originalHtmlOverflow = useRef<string | null>(null);
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setVisible(false); return; }
-
-    try {
-      if (window.sessionStorage.getItem("sriram-hanuman-intro-seen") === "1") { setVisible(false); return; }
-    } catch {
-      // If session storage is blocked, the intro can still run for this page view.
-    }
-
-    setIsExiting(false);
-    setVisible(true);
-    timers.current.push(window.setTimeout(() => setIsExiting(true), 2450));
-    timers.current.push(window.setTimeout(() => {
-      try {
-        window.sessionStorage.setItem("sriram-hanuman-intro-seen", "1");
-      } catch {
-        // The intro still closes normally when session storage is blocked.
-      }
-      setVisible(false);
-    }, 3050));
-
-    return () => timers.current.forEach((timer) => window.clearTimeout(timer));
+  const clearTimers = useCallback(() => {
+    timers.current.forEach((timer) => window.clearTimeout(timer));
+    timers.current = [];
   }, []);
 
-  const skipIntro = () => {
-    timers.current.forEach((timer) => window.clearTimeout(timer));
-    try {
-      window.sessionStorage.setItem("sriram-hanuman-intro-seen", "1");
-    } catch {
-      // Skipping still works when session storage is blocked.
+  const restoreScroll = useCallback(() => {
+    if (originalBodyOverflow.current !== null) {
+      document.body.style.overflow = originalBodyOverflow.current;
+      originalBodyOverflow.current = null;
     }
+    if (originalHtmlOverflow.current !== null) {
+      document.documentElement.style.overflow = originalHtmlOverflow.current;
+      originalHtmlOverflow.current = null;
+    }
+  }, []);
+
+  const finishIntro = useCallback((fadeMs?: number) => {
+    clearTimers();
     setIsExiting(true);
-    timers.current.push(window.setTimeout(() => setVisible(false), 420));
-  };
+    const duration = fadeMs ?? (reducedMotionRef.current
+      ? INTRO_TIMING.reducedMotionFadeMs
+      : INTRO_TIMING.exitFadeMs);
+
+    timers.current.push(window.setTimeout(() => {
+      const root = document.documentElement;
+      root.classList.remove("hanuman-intro-active");
+      root.classList.add("hanuman-home-reveal");
+      root.dataset.hanumanIntroSeen = "true";
+      setVisible(false);
+      restoreScroll();
+    }, duration));
+  }, [clearTimers, restoreScroll]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    let seenThisSession = root.dataset.hanumanIntroSeen === "true";
+
+    try {
+      seenThisSession ||= window.sessionStorage.getItem(SESSION_KEY) === "1";
+    } catch {
+      // Gracefully continue if sessionStorage is blocked.
+    }
+
+    if (seenThisSession) {
+      root.dataset.hanumanIntroSeen = "true";
+      setVisible(false);
+      return;
+    }
+
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    reducedMotionRef.current = reduce;
+    setReducedMotion(reduce);
+
+    try {
+      // Mark at start so refreshing mid-intro does not replay it.
+      window.sessionStorage.setItem(SESSION_KEY, "1");
+    } catch {
+      // The intro still completes normally when storage is unavailable.
+    }
+
+    root.classList.add("hanuman-intro-active");
+    originalBodyOverflow.current = document.body.style.overflow;
+    originalHtmlOverflow.current = root.style.overflow;
+    document.body.style.overflow = "hidden";
+    root.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishIntro();
+      } else if (event.key === "Tab") {
+        // The skip button is the only interactive control in this modal.
+        event.preventDefault();
+        skipButtonRef.current?.focus({ preventScroll: true });
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    timers.current.push(window.setTimeout(
+      () => skipButtonRef.current?.focus({ preventScroll: true }),
+      INTRO_TIMING.skipFocusMs,
+    ));
+
+    if (reduce) {
+      timers.current.push(window.setTimeout(
+        () => setIsExiting(true),
+        INTRO_TIMING.reducedMotionExitStartMs,
+      ));
+      timers.current.push(window.setTimeout(
+        () => finishIntro(INTRO_TIMING.reducedMotionFadeMs),
+        INTRO_TIMING.reducedMotionTotalMs - INTRO_TIMING.reducedMotionFadeMs,
+      ));
+    } else {
+      timers.current.push(window.setTimeout(
+        () => finishIntro(INTRO_TIMING.exitFadeMs),
+        INTRO_TIMING.exitStartMs,
+      ));
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      clearTimers();
+      restoreScroll();
+      root.classList.remove("hanuman-intro-active");
+    };
+  }, [clearTimers, finishIntro, restoreScroll]);
 
   if (!visible) return null;
 
   return (
     <div
-      className={`hanuman-intro ${isExiting ? "hanuman-intro--exiting" : ""}`}
+      className={`${styles.root} ${isExiting ? styles.exiting : ""} ${reducedMotion ? styles.reduced : ""}`}
       role="dialog"
       aria-modal="true"
-      aria-label="Sriram Travels welcome intro"
+      aria-labelledby="hanuman-intro-title"
+      aria-describedby="hanuman-intro-welcome"
     >
-      <div className="hanuman-intro-grain" aria-hidden="true" />
-      <div className="hanuman-intro-aura hanuman-intro-aura--one" aria-hidden="true" />
-      <div className="hanuman-intro-aura hanuman-intro-aura--two" aria-hidden="true" />
+      <div className={styles.backdrop} aria-hidden="true" />
+      <div className={styles.rays} aria-hidden="true" />
+      <div className={styles.vignette} aria-hidden="true" />
+      {!reducedMotion && <div className={styles.noise} aria-hidden="true" />}
+      {!reducedMotion && (
+        <div className={styles.emberField} aria-hidden="true">
+          {EMBERS.map((ember) => (
+            <span
+              className={styles.ember}
+              key={ember.id}
+              style={{
+                left: `${ember.left}%`,
+                bottom: `${ember.bottom}%`,
+                animationDelay: `${ember.delay}s`,
+                animationDuration: `${ember.duration}s`,
+                opacity: ember.alpha,
+                "--ember-drift": `${ember.drift}px`,
+                "--ember-size": `${ember.size}px`,
+              } as CSSProperties}
+            />
+          ))}
+        </div>
+      )}
+      <div className={styles.lightBurst} aria-hidden="true" />
 
-      <div className="hanuman-intro-content">
-        <span className="hanuman-intro-blessing">॥ श्री राम ॥</span>
-        <div className="hanuman-emblem" aria-hidden="true">
+      <div className={styles.flightStage}>
+        <div className={styles.flight} role="img" aria-label="Flying Hanuman carrying the Sanjeevani mountain">
+          {TRAIL_DELAYS_MS.map((delay, index) => (
+            <Image
+              key={delay}
+              src="/images/hanuman-flying-silhouette.svg"
+              alt=""
+              aria-hidden="true"
+              width={1200}
+              height={520}
+              className={`${styles.hanumanImage} ${styles.trailCopy}`}
+              style={{
+                "--flight-delay": `${delay}ms`,
+                "--trail-opacity": [0.24, 0.15, 0.08][index],
+                "--trail-blur": `${(index + 1) * 1.4}px`,
+              } as CSSProperties}
+              draggable={false}
+            />
+          ))}
           <Image
             src="/images/hanuman-flying-silhouette.svg"
             alt=""
-            width={1628}
-            height={846}
+            aria-hidden="true"
+            width={1200}
+            height={520}
             priority
-            className="hanuman-silhouette-image"
+            className={styles.hanumanImage}
+            style={{
+              "--flight-delay": `${INTRO_TIMING.flightStartMs}ms`,
+              "--flight-duration": `${INTRO_TIMING.flightDurationMs}ms`,
+            } as CSSProperties}
+            draggable={false}
           />
-        </div>
-
-        <div className="hanuman-intro-copy">
-          <span className="hanuman-intro-kicker">STRENGTH · COURAGE · EVERY JOURNEY</span>
-          <h1>Jai Shri Ram</h1>
-          <p>Welcome to Sriram Travels</p>
-          <span className="hanuman-intro-rule" aria-hidden="true"><span /></span>
         </div>
       </div>
 
-      <button type="button" className="hanuman-intro-skip" onClick={skipIntro}>
-        Skip intro <ArrowUpRight size={14} />
+      <div className={styles.copy}>
+        <p className={styles.teluguBlessing} aria-label="Jai Shri Ram in Telugu">జై శ్రీ రామ్</p>
+        <h1 id="hanuman-intro-title" className={styles.englishTitle} aria-label={TITLE}>
+          {Array.from(TITLE).map((letter, index) => (
+            <span
+              aria-hidden="true"
+              key={`${letter}-${index}`}
+              style={{ animationDelay: `${INTRO_TIMING.titleStartMs + index * 32}ms` }}
+            >
+              {letter === " " ? "\u00a0" : letter}
+            </span>
+          ))}
+        </h1>
+        <span className={styles.divider} aria-hidden="true"><span /></span>
+        <p id="hanuman-intro-welcome" className={styles.welcome}>Welcome to Sriram Travels</p>
+      </div>
+
+      {!reducedMotion && (
+        <div className={styles.windLines} aria-hidden="true">
+          <span /><span /><span /><span /><span />
+        </div>
+      )}
+
+      <button
+        ref={skipButtonRef}
+        type="button"
+        className={styles.skip}
+        onClick={() => finishIntro(INTRO_TIMING.skipFadeMs)}
+        aria-label="Skip Hanuman intro and open the website"
+      >
+        Skip intro <ArrowUpRight size={14} aria-hidden="true" />
       </button>
     </div>
   );
