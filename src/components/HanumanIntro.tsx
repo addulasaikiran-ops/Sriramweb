@@ -90,7 +90,6 @@ export function HanumanIntro() {
     }
 
     const isEffectReplay = effectStartedRef.current;
-    effectStartedRef.current = true;
 
     if (!isEffectReplay) {
       let seenThisSession = html.dataset.hanumanIntroSeen === "true";
@@ -105,6 +104,9 @@ export function HanumanIntro() {
         setVisible(false);
         return;
       }
+
+      // Only mark initialized after deciding to play; Strict Mode must not replay a skipped intro.
+      effectStartedRef.current = true;
     }
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
