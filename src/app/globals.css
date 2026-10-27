@@ -667,3 +667,9 @@ body{background:var(--paper);color:var(--ink)}
   .hero-car-image,.fleet-car-image{transform:none!important;transition:none!important}
   .hero-image-frame,.hero-visual:before,.floating-note{animation:none!important}
 }
+
+/* Keep the mobile navigation directly attached to the sticky header. */
+@media(max-width:760px){
+  .site-header{position:sticky}
+  .main-nav{position:absolute;top:100%;right:0;bottom:auto;left:0;inset:auto 0 auto;max-height:calc(100dvh - 70px)}
+}
