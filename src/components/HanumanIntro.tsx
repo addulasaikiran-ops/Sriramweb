@@ -126,7 +126,7 @@ export function HanumanIntro() {
       masterTimelineRef.current?.kill();
       masterTimelineRef.current = null;
       if (onKeyDown) {
-        document.removeEventListener("keydown", onKeyDown);
+        if (onKeyDown) document.removeEventListener("keydown", onKeyDown);
         onKeyDown = null;
       }
       finishRef.current = () => undefined;
@@ -204,7 +204,7 @@ export function HanumanIntro() {
         else skipButton?.focus({ preventScroll: true });
       }
     };
-    document.addEventListener("keydown", onKeyDown);
+    if (onKeyDown) document.addEventListener("keydown", onKeyDown);
 
     const counterValue = { value: 0 };
     const updateCounter = () => {
@@ -222,7 +222,7 @@ export function HanumanIntro() {
         scale: 1,
       });
       gsap.set(gridLines, { scaleY: 1, opacity: 0.08 });
-      gsap.set(artRef.current, { x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1 });
+      gsap.set(artStage, { x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1 });
       gsap.set(copyBlock, { autoAlpha: 1, y: 0 });
       gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" });
       gsap.set(withoutNulls([statusDock, skipButton]), { autoAlpha: 1 });
@@ -240,21 +240,21 @@ export function HanumanIntro() {
       gsap.set(screenMarks, { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 });
       gsap.set([...artMarks, ...welcomeMarks], { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 });
       gsap.set(gridLines, { scaleY: 0, opacity: 0, transformOrigin: "top center" });
-      gsap.set(artRef.current, {
+      gsap.set(artStage, {
         x: -window.innerWidth * 0.88,
         y: window.innerHeight * 0.11,
         scale: 0.62,
         rotation: -8,
         autoAlpha: 0,
       });
-      gsap.set(orbitRef.current, { scale: 0.84, rotation: -24, autoAlpha: 0 });
-      gsap.set([upperLabel, ...headlineLines, telugu, lowerLabel, welcomeBlock].filter(Boolean), {
+      gsap.set(orbit, { scale: 0.84, rotation: -24, autoAlpha: 0 });
+      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), {
         autoAlpha: 0,
         y: 12,
       });
       gsap.set(headlineLines, { yPercent: 112, autoAlpha: 0 });
       gsap.set(marquee, { yPercent: 110, autoAlpha: 0 });
-      gsap.set(skipButton, { y: -8, autoAlpha: 0 });
+      gsap.set(skipButton!, { y: -8, autoAlpha: 0 });
       gsap.set(shockwave, { scale: 0.18, autoAlpha: 0 });
       gsap.set(speedLines, { scaleX: 0, autoAlpha: 0, transformOrigin: "right center" });
       gsap.set(exitBar, { scaleX: 0, transformOrigin: "left center" });
@@ -272,7 +272,7 @@ export function HanumanIntro() {
       timeline.fromTo(
         screenMarks,
         { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 },
-        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 0.76, duration: timings.frameDurationMs / 1000, stagger: 0.035, ease: easing.quartOut },
+        { clipPath: "inset(0% 0% 0% 0%)", autoAlpha: 0.76, duration: timings.frameDurationMs / 1000, stagger: 0.02, ease: easing.quartOut },
         timings.frameStartMs / 1000,
       );
       timeline.fromTo(
@@ -289,8 +289,9 @@ export function HanumanIntro() {
       );
       timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], 0.42);
       timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
+      timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
       timeline.fromTo(
-        skipButton,
+        skipButton!,
         { autoAlpha: 0, y: -8 },
         { autoAlpha: 1, y: 0, duration: timings.skipDurationMs / 1000, ease: easing.expoOut },
         timings.skipStartMs / 1000,
@@ -312,7 +313,7 @@ export function HanumanIntro() {
       );
       timeline.call(() => artFrame?.classList.add(styles.frameLive), [], 0.75);
       timeline.fromTo(
-        orbitRef.current,
+        orbit,
         { scale: 0.84, rotation: -24, autoAlpha: 0 },
         {
           scale: 1,
@@ -324,7 +325,7 @@ export function HanumanIntro() {
         timings.orbitStartMs / 1000,
       );
       timeline.to(
-        artRef.current,
+        artStage,
         {
           keyframes: [
             {
@@ -392,9 +393,9 @@ export function HanumanIntro() {
       timeline.call(() => {
         if (!isLowPower) root.classList.add(styles.landingImpact);
       }, [], timings.landStartMs / 1000);
-      timeline.to(artRef.current, { x: 5, y: 2, scale: 1.018, duration: 0.03, ease: easing.expoOut }, 1.9);
-      timeline.to(artRef.current, { x: -3, y: -1, scale: 0.995, duration: 0.025, ease: easing.expoInOut }, 1.93);
-      timeline.to(artRef.current, { x: 0, y: 0, scale: 1, duration: 0.025, ease: easing.expoOut }, 1.955);
+      timeline.to(artStage, { x: 5, y: 2, scale: 1.018, duration: 0.03, ease: easing.expoOut }, 1.9);
+      timeline.to(artStage, { x: -3, y: -1, scale: 0.995, duration: 0.025, ease: easing.expoInOut }, 1.93);
+      timeline.to(artStage, { x: 0, y: 0, scale: 1, duration: 0.025, ease: easing.expoOut }, 1.955);
       timeline.call(() => root.classList.remove(styles.landingImpact), [], (timings.landStartMs + timings.landSliceDurationMs) / 1000);
       timeline.fromTo(
         shockwave,
@@ -467,19 +468,19 @@ export function HanumanIntro() {
         timings.exitStartMs / 1000,
       );
       timeline.fromTo(
-        exitBar,
+        exitBar!,
         { scaleX: 0, transformOrigin: "left center" },
         { scaleX: 1, duration: timings.exitBarDurationMs / 1000, ease: easing.expoInOut },
         timings.exitStartMs / 1000,
       );
       timeline.fromTo(
-        exitTop,
+        exitTop!,
         { yPercent: -105 },
         { yPercent: 0, duration: timings.curtainCloseDurationMs / 1000, ease: easing.expoInOut },
         (timings.exitStartMs + timings.exitBarDurationMs) / 1000,
       );
       timeline.fromTo(
-        exitBottom,
+        exitBottom!,
         { yPercent: 105 },
         { yPercent: 0, duration: timings.curtainCloseDurationMs / 1000, ease: easing.expoInOut },
         (timings.exitStartMs + timings.exitBarDurationMs) / 1000,
