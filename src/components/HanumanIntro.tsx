@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import styles from "./HanumanIntro.module.css";
 import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import { IntroScene } from "./IntroScene";
@@ -55,6 +56,7 @@ export function HanumanIntro() {
     }
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce) gsap.registerPlugin(MotionPathPlugin);
     const nav = window.navigator as Navigator & { deviceMemory?: number };
     const isLowPower = (
       (nav.hardwareConcurrency > 0 && nav.hardwareConcurrency <= 4) ||
@@ -212,7 +214,6 @@ export function HanumanIntro() {
     };
 
     if (reduce) {
-      setSkipReady(true);
       // Keep the geometry still: reduced-motion mode uses one short fade, then reveals the page.
       gsap.set(withoutNulls([screenFrame, artFrame, welcomeFrame]), {
         clipPath: "inset(0% 0% 0% 0%)",
@@ -321,38 +322,31 @@ export function HanumanIntro() {
         },
         timings.orbitStartMs / 1000,
       );
-      timeline.to(
+      timeline.fromTo(
         artStage,
         {
-          keyframes: [
-            {
-              x: -window.innerWidth * 0.52,
-              y: window.innerHeight * 0.07,
-              scale: 0.74,
-              rotation: -5,
-              autoAlpha: 1,
-              duration: 0.53,
-              ease: easing.quartOut,
-            },
-            {
-              x: -window.innerWidth * 0.15,
-              y: -window.innerHeight * 0.05,
-              scale: 0.91,
-              rotation: -1.4,
-              autoAlpha: 1,
-              duration: 0.58,
-              ease: easing.expoOut,
-            },
-            {
-              x: 0,
-              y: 0,
-              scale: 1,
-              rotation: 0,
-              autoAlpha: 1,
-              duration: 0.49,
-              ease: easing.expoOut,
-            },
-          ],
+          x: -window.innerWidth * 0.88,
+          y: window.innerHeight * 0.11,
+          scale: 0.62,
+          rotation: -8,
+          autoAlpha: 0,
+        },
+        {
+          motionPath: {
+            path: [
+              { x: -window.innerWidth * 0.88, y: window.innerHeight * 0.11 },
+              { x: -window.innerWidth * 0.55, y: window.innerHeight * 0.03 },
+              { x: -window.innerWidth * 0.2, y: -window.innerHeight * 0.07 },
+              { x: 0, y: 0 },
+            ],
+            curviness: 1.25,
+            autoRotate: false,
+          },
+          scale: 1,
+          rotation: 0,
+          autoAlpha: 1,
+          duration: timings.flightDurationMs / 1000,
+          ease: easing.expoInOut,
         },
         timings.flightStartMs / 1000,
       );
