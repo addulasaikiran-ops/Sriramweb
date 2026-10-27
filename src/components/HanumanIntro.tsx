@@ -163,14 +163,19 @@ export function HanumanIntro() {
       if (!element) return;
       element.style.setProperty("--parallax-x", `${lastPointerX}px`);
       element.style.setProperty("--parallax-y", `${lastPointerY}px`);
+      element.style.setProperty("--parallax-horizon-x", `${lastPointerX * 0.35}px`);
+      element.style.setProperty("--parallax-horizon-y", `${lastPointerY * 0.3}px`);
+      element.style.setProperty("--parallax-ray-x", `${lastPointerX * 0.55}px`);
+      element.style.setProperty("--parallax-ray-y", `${lastPointerY * 0.55}px`);
     };
 
     const handlePointerMove = (event: PointerEvent) => {
       if (!canUseParallax || event.pointerType === "touch") return;
       const xRatio = (event.clientX / Math.max(1, window.innerWidth)) * 2 - 1;
       const yRatio = (event.clientY / Math.max(1, window.innerHeight)) * 2 - 1;
-      lastPointerX = Math.max(-10, Math.min(10, xRatio * 10));
-      lastPointerY = Math.max(-10, Math.min(10, yRatio * 10));
+      const parallaxLimit = HANUMAN_INTRO.particles.maxParallaxPx;
+      lastPointerX = Math.max(-parallaxLimit, Math.min(parallaxLimit, xRatio * parallaxLimit));
+      lastPointerY = Math.max(-parallaxLimit, Math.min(parallaxLimit, yRatio * parallaxLimit));
       if (pointerFrameRef.current === null) {
         pointerFrameRef.current = window.requestAnimationFrame(updateParallax);
       }
@@ -227,8 +232,28 @@ export function HanumanIntro() {
     "--accent-saffron": HANUMAN_INTRO.colors.saffron,
     "--accent-orange": HANUMAN_INTRO.colors.orange,
     "--accent-gold": HANUMAN_INTRO.colors.gold,
+    "--scene-fade-duration": `${timings.sceneFadeMs}ms`,
+    "--skip-appear-duration": `${timings.skipAppearDurationMs}ms`,
     "--flight-delay": `${timings.flightStartMs}ms`,
     "--flight-duration": `${timings.flightDurationMs}ms`,
+    "--hover-duration": `${timings.hoverDurationMs}ms`,
+    "--shockwave-delay": `${timings.shockwaveStartMs}ms`,
+    "--shockwave-duration": `${timings.shockwaveDurationMs}ms`,
+    "--sun-bloom-start": `${timings.sunBloomStartMs}ms`,
+    "--sun-bloom-duration": `${timings.sunBloomDurationMs}ms`,
+    "--telugu-duration": `${timings.teluguDurationMs}ms`,
+    "--english-letter-duration": `${timings.englishLetterDurationMs}ms`,
+    "--shimmer-start": `${timings.shimmerStartMs}ms`,
+    "--shimmer-duration": `${timings.shimmerDurationMs}ms`,
+    "--divider-duration": `${timings.dividerDurationMs}ms`,
+    "--welcome-duration": `${timings.welcomeDurationMs}ms`,
+    "--tagline-duration": `${timings.taglineDurationMs}ms`,
+    "--progress-duration": `${timings.progressDurationMs}ms`,
+    "--progress-delay": `${timings.skipAppearMs}ms`,
+    "--parallax-horizon-x": "0px",
+    "--parallax-horizon-y": "0px",
+    "--parallax-ray-x": "0px",
+    "--parallax-ray-y": "0px",
   } as CSSProperties;
 
   return (
@@ -306,7 +331,8 @@ export function HanumanIntro() {
           aria-label={HANUMAN_INTRO.text.telugu}
           style={{ animationDelay: `${timings.teluguStartMs}ms` }}
         >
-          {HANUMAN_INTRO.text.telugu}
+          <span>{HANUMAN_INTRO.text.telugu}</span>
+          <span className={styles.shimmerSweep} aria-hidden="true">{HANUMAN_INTRO.text.telugu}</span>
         </p>
         <h1 id="hanuman-intro-title" className={styles.englishTitle} aria-label={HANUMAN_INTRO.text.english}>
           {Array.from(HANUMAN_INTRO.text.english).map((letter, index) => (
