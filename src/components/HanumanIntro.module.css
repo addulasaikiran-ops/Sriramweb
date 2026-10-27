@@ -269,8 +269,8 @@
   position: absolute;
   left: 50%;
   top: 39%;
-  width: min(82vw, 88vh, 1100px);
-  aspect-ratio: 1100 / 560;
+  width: min(82vw, 80vh, 1100px);
+  aspect-ratio: 850 / 480;
   transform: translate3d(-50%, -50%, 0);
 }
 .flightPath {
@@ -403,7 +403,7 @@
   letter-spacing: .035em;
   opacity: 0;
   transform: translate3d(0, 10px, 0);
-  animation: text-rise 640ms cubic-bezier(.22, 1, .36, 1) 3650ms both;
+  animation: text-rise 360ms cubic-bezier(.22, 1, .36, 1) 3650ms both;
 }
 .shimmer {
   position: relative;
@@ -658,7 +658,7 @@
   .progressRing { width: 17px; height: 17px; }
 }
 @media (min-width: 601px) and (max-width: 900px) {
-  .flightOrigin { top: 38%; width: min(92vw, 88vh); }
+  .flightOrigin { top: 38%; width: min(92vw, 80vh); }
   .copy { top: 64%; }
   .englishTitle { font-size: clamp(38px, 5.5vw, 48px); }
 }
