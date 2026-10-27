@@ -15,6 +15,7 @@ export const HANUMAN_INTRO = {
     shockwaveDurationMs: 720,
     sunBloomStartMs: 1550,
     sunBloomDurationMs: 1100,
+    kickerStartMs: 2110,
     teluguStartMs: 2380,
     teluguDurationMs: 720,
     englishStartMs: 2580,
@@ -53,6 +54,10 @@ export const HANUMAN_INTRO = {
     english: "JAI SHRI RAM",
     welcome: "Welcome to Sriram Travels",
     tagline: "Safe journeys. Blessed by Hanuman Ji.",
+    kicker: "A BLESSING FOR THE ROAD",
+    header: "DIVINE PROTECTION · EVERY MILE",
+    location: "ANDHRA PRADESH / INDIA",
+    ticker: "FAITH GUIDES THE WAY · SAFE JOURNEYS · BLESSED BY HANUMAN JI ·",
   },
   particles: {
     standardCount: 32,
