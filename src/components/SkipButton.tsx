@@ -1,35 +1,24 @@
 import type { RefObject } from "react";
-import { ArrowUpRight } from "lucide-react";
 import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import styles from "./HanumanIntro.module.css";
 
 type SkipButtonProps = {
   buttonRef: RefObject<HTMLButtonElement | null>;
   onSkip: () => void;
-  reducedMotion: boolean;
-  disabled: boolean;
 };
 
-/** Native button semantics provide Tab/Enter support; Esc is handled by the parent dialog. */
-export function SkipButton({ buttonRef, onSkip, reducedMotion, disabled }: SkipButtonProps) {
+/** A native 44px+ button: Enter/Space activate it; the parent owns Escape and focus wrap. */
+export function SkipButton({ buttonRef, onSkip }: SkipButtonProps) {
   return (
     <button
       ref={buttonRef}
       type="button"
-      disabled={disabled && !reducedMotion}
-      className={`${styles.skip} ${reducedMotion ? styles.skipReduced : ""}`}
+      className={styles.skip}
       onClick={onSkip}
-      aria-label="Skip the Hanuman intro and open Sriram Travels"
-      style={{ animationDelay: `${HANUMAN_INTRO.timings.skipAppearMs}ms` }}
+      aria-label="Skip the Hanuman intro and reveal Sriram Travels"
     >
-      <span>Skip intro</span>
-      {!reducedMotion && (
-        <svg className={styles.progressRing} viewBox="0 0 36 36" aria-hidden="true">
-          <circle className={styles.progressTrack} cx="18" cy="18" r="15.5" pathLength="100" />
-          <circle className={styles.progressValue} cx="18" cy="18" r="15.5" pathLength="100" />
-        </svg>
-      )}
-      <ArrowUpRight size={14} aria-hidden="true" />
+      <span>{HANUMAN_INTRO.text.skipLabel}</span>
+      <span className={styles.skipArrow} aria-hidden="true">↗</span>
     </button>
   );
 }
