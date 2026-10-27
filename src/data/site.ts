@@ -22,7 +22,7 @@ export type Vehicle = {
   image: string;
 };
 
-export const fleet: Vehicle[] = [
+// Editorial reference photography is used until owner-supplied fleet photos are available.\nexport const fleet: Vehicle[] = [
   {
     number: "01",
     name: "Toyota Etios",
@@ -32,7 +32,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Local & outstation",
-    image: "/images/vehicle-etios.svg",
+    image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=88",
   },
   {
     number: "02",
@@ -43,7 +43,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Family & outstation",
-    image: "/images/vehicle-innova.svg",
+    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1600&q=88",
   },
   {
     number: "03",
@@ -54,7 +54,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Group journeys",
-    image: "/images/vehicle-urbania.svg",
+    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1600&q=88",
   },
   {
     number: "04",
@@ -65,7 +65,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "/images/vehicle-traveller12.svg",
+    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=88",
   },
   {
     number: "05",
@@ -76,7 +76,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Family & local",
-    image: "/images/vehicle-ertiga.svg",
+    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=88",
   },
   {
     number: "06",
@@ -87,7 +87,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "/images/vehicle-traveller17.svg",
+    image: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1600&q=88",
   },
 ];
 
