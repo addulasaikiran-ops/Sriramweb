@@ -178,7 +178,7 @@ export default function HomePage() {
           <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FIND YOUR RIDE</div><h2>A good journey<br />starts with <em>the right one.</em></h2></div><p>From quick city rides to open-road escapes, discover a vehicle for the way you want to travel.</p></div>
           <div className="fleet-layout">
             <aside className="fleet-sidebar">
-              <div className="fleet-list-label"><span>OUR FLEET</span><span>0{fleet.length}</span></div>
+              <div className="fleet-list-label"><span>OUR FLEET</span><span className="fleet-list-hint">Swipe to choose</span><span>0{fleet.length}</span></div>
               <div className="fleet-list-options" role="group" aria-label="Choose a vehicle">
                 {fleet.map((vehicle, index) => <button key={vehicle.number} className={`fleet-list-item ${index === activeVehicle ? "selected" : ""}`} onClick={() => { setActiveVehicle(index); setHasChosenVehicle(true); }} aria-pressed={index === activeVehicle}><span className="fleet-list-no">{vehicle.number}</span><span className="fleet-list-name">{vehicle.name}<small>{vehicle.className}</small></span><ArrowUpRight className="fleet-list-arrow" size={15} /></button>)}
               </div>
