@@ -112,7 +112,7 @@ export default function HomePage() {
 
   const chooseVehicle = (index: number) => {
     setActiveVehicle((index + fleet.length) % fleet.length);
-    document.getElementById("fleet")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("fleet")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   };
 
   return (
@@ -123,11 +123,11 @@ export default function HomePage() {
           <span className="brand-mark"><span className="brand-mark-line" /><span className="brand-mark-line short" /></span>
           <span><strong>SRIRAM<span>.</span></strong><small>TRAVELS & TOWING SERVICES</small></span>
         </a>
-        <nav className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">
+        <nav id="primary-navigation" className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">
           <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#destinations">Destinations</a><a onClick={() => setMenuOpen(false)} href="#faq">FAQ</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
         </nav>
         <div className="header-actions"><a className="header-phone" href={`tel:+${site.phone}`}><Phone size={14} /> <span>{site.phoneDisplay}</span></a><WhatsAppLink label="Enquire now" className="button button-dark header-cta" /></div>
-        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X /> : <Menu />}</button>
+        <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
       <main>
@@ -251,7 +251,7 @@ export default function HomePage() {
               { question: "How is the fare decided?", answer: "Fare can depend on the vehicle, route and trip details. Ask us for a confirmed quote before booking; any rates shown on this page are reference-only until confirmed by Sriram Travels." },
               { question: "Can I confirm the vehicle before booking?", answer: "Yes—please ask us to confirm the vehicle, seating and availability for your dates before you finalise the trip." },
               { question: "What if my plans change?", answer: "Contact us as soon as possible. We’ll explain what changes can be accommodated for your booking." }
-            ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button>{openFaq === index && <div className="faq-answer"><p>{item.answer}</p></div>}</article>)}
+            ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button id={`faq-question-${index}`} className="faq-question" type="button" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div id={`faq-answer-${index}`} className="faq-answer" role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
           </div>
         </section>
 
