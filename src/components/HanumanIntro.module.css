@@ -477,6 +477,7 @@
   animation: skip-appear var(--skip-appear-duration, 350ms) cubic-bezier(.22, 1, .36, 1) 500ms forwards;
   transition: color 180ms ease, border-color 180ms ease, background 180ms ease;
 }
+.skip:disabled { pointer-events: none; cursor: default; }
 .skip:hover {
   color: #fff;
   border-color: rgba(255, 205, 109, .78);
