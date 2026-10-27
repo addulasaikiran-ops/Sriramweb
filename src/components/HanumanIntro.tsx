@@ -7,7 +7,9 @@ import styles from "./HanumanIntro.module.css";
 
 /** Configurable choreography; full-motion entrance completes within 4.3 seconds. */
 const INTRO_TIMING = {
+  backgroundRevealMs: 400,
   skipButtonDelayMs: 500,
+  lightBurstStartMs: 1800,
   skipFocusMs: 560,
   flightStartMs: 300,
   flightDurationMs: 1700,
@@ -42,6 +44,7 @@ export function HanumanIntro() {
   const [isExiting, setIsExiting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const timers = useRef<number[]>([]);
+  const effectStartedRef = useRef(false);
   const skipButtonRef = useRef<HTMLButtonElement>(null);
   const reducedMotionRef = useRef(false);
   const originalBodyOverflow = useRef<string | null>(null);
@@ -82,18 +85,22 @@ export function HanumanIntro() {
 
   useEffect(() => {
     const root = document.documentElement;
-    let seenThisSession = root.dataset.hanumanIntroSeen === "true";
+    const isEffectReplay = effectStartedRef.current;
+    effectStartedRef.current = true;
 
-    try {
-      seenThisSession ||= window.sessionStorage.getItem(SESSION_KEY) === "1";
-    } catch {
-      // Gracefully continue if sessionStorage is blocked.
-    }
+    if (!isEffectReplay) {
+      let seenThisSession = root.dataset.hanumanIntroSeen === "true";
+      try {
+        seenThisSession ||= window.sessionStorage.getItem(SESSION_KEY) === "1";
+      } catch {
+        // Gracefully continue if sessionStorage is blocked.
+      }
 
-    if (seenThisSession) {
-      root.dataset.hanumanIntroSeen = "true";
-      setVisible(false);
-      return;
+      if (seenThisSession) {
+        root.dataset.hanumanIntroSeen = "true";
+        setVisible(false);
+        return;
+      }
     }
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -159,6 +166,10 @@ export function HanumanIntro() {
   return (
     <div
       className={`${styles.root} ${isExiting ? styles.exiting : ""} ${reducedMotion ? styles.reduced : ""}`}
+      style={{
+        "--background-reveal": `${INTRO_TIMING.backgroundRevealMs}ms`,
+        "--burst-delay": `${INTRO_TIMING.lightBurstStartMs}ms`,
+      } as CSSProperties}
       role="dialog"
       aria-modal="true"
       aria-labelledby="hanuman-intro-title"
@@ -238,8 +249,18 @@ export function HanumanIntro() {
             </span>
           ))}
         </h1>
-        <span className={styles.divider} aria-hidden="true"><span /></span>
-        <p id="hanuman-intro-welcome" className={styles.welcome}>Welcome to Sriram Travels</p>
+        <span
+          className={styles.divider}
+          aria-hidden="true"
+          style={{ animationDelay: `${INTRO_TIMING.welcomeStartMs - 120}ms` }}
+        ><span /></span>
+        <p
+          id="hanuman-intro-welcome"
+          className={styles.welcome}
+          style={{ animationDelay: `${INTRO_TIMING.welcomeStartMs}ms` }}
+        >
+          Welcome to Sriram Travels
+        </p>
       </div>
 
       {!reducedMotion && (
@@ -254,6 +275,7 @@ export function HanumanIntro() {
         className={styles.skip}
         onClick={() => finishIntro(INTRO_TIMING.skipFadeMs)}
         aria-label="Skip Hanuman intro and open the website"
+        style={{ animationDelay: `${INTRO_TIMING.skipButtonDelayMs}ms` }}
       >
         Skip intro <ArrowUpRight size={14} aria-hidden="true" />
       </button>
