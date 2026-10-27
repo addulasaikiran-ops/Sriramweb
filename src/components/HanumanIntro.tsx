@@ -90,6 +90,10 @@ export function HanumanIntro() {
 
   useEffect(() => {
     const root = document.documentElement;
+    if (seenMarkerTimer.current !== null) {
+      window.clearTimeout(seenMarkerTimer.current);
+      seenMarkerTimer.current = null;
+    }
     const isEffectReplay = effectStartedRef.current;
     effectStartedRef.current = true;
 
@@ -164,7 +168,18 @@ export function HanumanIntro() {
       keydownHandlerRef.current = null;
       clearTimers();
       restoreScroll();
+      const wasIntroActive = root.classList.contains("hanuman-intro-active");
       root.classList.remove("hanuman-intro-active");
+      // If a client-side route change interrupts the entrance, do not replay on return.
+      // The zero-delay marker is cancelled by Strict Mode's immediate effect replay.
+      if (wasIntroActive) {
+        seenMarkerTimer.current = window.setTimeout(() => {
+          if (!root.classList.contains("hanuman-intro-active")) {
+            root.dataset.hanumanIntroSeen = "true";
+          }
+          seenMarkerTimer.current = null;
+        }, 0);
+      }
     };
   }, [clearTimers, finishIntro, restoreScroll]);
 
