@@ -710,3 +710,246 @@
   .divider { transform: scaleX(1) !important; }
   .root.exiting { transition: opacity 280ms ease, visibility 0s linear 280ms; }
 }
+
+
+/* Editorial direction inspired by the reference: high-contrast framing, tiny indices,
+   cinematic grain and a slow marquee — recolored for Sriram Travels' saffron/gold identity. */
+.editorialChrome {
+  position: absolute;
+  z-index: 14;
+  inset: 0;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 260ms cubic-bezier(.22, 1, .36, 1);
+}
+.chromeFrame {
+  position: absolute;
+  inset: clamp(16px, 2.35vw, 34px);
+  opacity: .62;
+  background:
+    linear-gradient(var(--accent-gold), var(--accent-gold)) left top / 24px 1px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) left top / 1px 24px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) right top / 24px 1px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) right top / 1px 24px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) left bottom / 24px 1px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) left bottom / 1px 24px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) right bottom / 24px 1px no-repeat,
+    linear-gradient(var(--accent-gold), var(--accent-gold)) right bottom / 1px 24px no-repeat;
+}
+.chromeTop {
+  position: absolute;
+  top: max(25px, env(safe-area-inset-top));
+  left: max(28px, 4vw);
+  right: max(158px, 17vw);
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 22px);
+  min-height: 34px;
+  color: rgba(255, 244, 222, .85);
+}
+.brandIndex {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 32px;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 1px solid rgba(255, 209, 102, .62);
+  color: #ffe6a2;
+  font: 700 10px/1 var(--font-dm-sans), sans-serif;
+  letter-spacing: -.07em;
+}
+.brandIndex::after {
+  content: "";
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid #ffd166;
+  border-bottom: 1px solid #ffd166;
+}
+.brandIndex i {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  left: 5px;
+  top: 5px;
+  background: #ff9933;
+  box-shadow: 0 0 7px rgba(255, 153, 51, .8);
+}
+.chromeHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.chromeHeader strong {
+  color: #fff2d6;
+  font: 700 10px/1 var(--font-dm-sans), sans-serif;
+  letter-spacing: .22em;
+}
+.chromeHeader span,
+.chromeCounter {
+  color: rgba(255, 228, 177, .63);
+  font: 600 8px/1.4 var(--font-dm-sans), sans-serif;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.chromeCounter {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+.chromeCounter b {
+  color: #ffd166;
+  font-size: 9px;
+  letter-spacing: .2em;
+}
+.sideStamp {
+  position: absolute;
+  left: max(15px, 2vw);
+  top: 52%;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  color: rgba(255, 224, 168, .44);
+  font: 600 8px/1 var(--font-dm-sans), sans-serif;
+  letter-spacing: .28em;
+}
+.editorialTicker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7.3%;
+  overflow: hidden;
+  padding: 9px 0 8px;
+  border-top: 1px solid rgba(255, 209, 102, .19);
+  border-bottom: 1px solid rgba(255, 209, 102, .13);
+  background: linear-gradient(90deg, transparent, rgba(6, 5, 10, .26) 12%, rgba(6, 5, 10, .4) 50%, rgba(6, 5, 10, .26) 88%, transparent);
+}
+.tickerTrack {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 36px;
+  transform: translate3d(-2%, 0, 0);
+  animation: editorial-marquee 24s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+  will-change: transform;
+}
+.tickerTrack span {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  color: rgba(255, 218, 154, .72);
+  font: 700 8px/1 var(--font-dm-sans), sans-serif;
+  letter-spacing: .24em;
+  white-space: nowrap;
+}
+.tickerTrack span::before,
+.tickerTrack span::after {
+  content: "✦";
+  color: #ff9933;
+  font-size: 7px;
+}
+.chromeBottom {
+  position: absolute;
+  left: max(28px, 4vw);
+  right: max(28px, 4vw);
+  bottom: max(20px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  color: rgba(255, 237, 204, .52);
+  font: 600 8px/1 var(--font-dm-sans), sans-serif;
+  letter-spacing: .2em;
+}
+.scrollCue {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: rgba(255, 232, 191, .83);
+  white-space: nowrap;
+}
+.scrollCue i {
+  display: block;
+  width: 26px;
+  height: 1px;
+  background: #ffd166;
+  transform-origin: left center;
+  animation: cue-line 1600ms cubic-bezier(.22, 1, .36, 1) infinite alternate;
+}
+.scrollCue b {
+  color: #ffd166;
+  font-size: 14px;
+  font-weight: 400;
+  animation: cue-arrow 1100ms cubic-bezier(.22, 1, .36, 1) infinite alternate;
+}
+.kicker {
+  margin: 0 0 12px;
+  color: rgba(255, 215, 143, .86);
+  font: 700 8px/1.3 var(--font-dm-sans), sans-serif;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translate3d(0, 9px, 0);
+  animation: text-rise 480ms cubic-bezier(.22, 1, .36, 1) var(--kicker-start, 2110ms) both;
+}
+.root.exiting .editorialChrome {
+  opacity: 0;
+}
+@keyframes editorial-marquee {
+  from { transform: translate3d(-2%, 0, 0); }
+  to { transform: translate3d(-24%, 0, 0); }
+}
+@keyframes cue-line {
+  from { transform: scaleX(.55); opacity: .6; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+@keyframes cue-arrow {
+  from { transform: translate3d(0, -2px, 0); opacity: .65; }
+  to { transform: translate3d(0, 2px, 0); opacity: 1; }
+}
+@media (min-width: 901px) {
+  .copy { top: 60%; }
+}
+@media (max-width: 900px) {
+  .sideStamp { display: none; }
+  .chromeHeader span { letter-spacing: .12em; }
+  .editorialTicker { bottom: 7.8%; }
+}
+@media (max-width: 600px) {
+  .chromeFrame {
+    inset: 11px;
+    background-size: 17px 1px, 1px 17px, 17px 1px, 1px 17px, 17px 1px, 1px 17px, 17px 1px, 1px 17px;
+  }
+  .chromeTop {
+    top: max(19px, env(safe-area-inset-top));
+    left: 23px;
+    right: 140px;
+    gap: 9px;
+  }
+  .brandIndex { width: 27px; height: 27px; flex-basis: 27px; font-size: 9px; }
+  .chromeHeader strong { font-size: 8px; letter-spacing: .14em; }
+  .chromeHeader span { max-width: 185px; overflow: hidden; font-size: 6px; letter-spacing: .09em; white-space: nowrap; }
+  .chromeCounter { display: none; }
+  .copy { top: 58.5%; }
+  .kicker { margin-bottom: 9px; font-size: 7px; letter-spacing: .22em; }
+  .editorialTicker { bottom: 7.4%; padding: 7px 0 6px; }
+  .tickerTrack { gap: 22px; }
+  .tickerTrack span { gap: 10px; font-size: 7px; letter-spacing: .17em; }
+  .chromeBottom { left: 22px; right: 22px; bottom: max(17px, env(safe-area-inset-bottom)); font-size: 7px; letter-spacing: .13em; }
+  .chromeBottom > span:first-child { display: none; }
+  .scrollCue { margin-left: auto; margin-right: auto; }
+  .scrollCue i { width: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tickerTrack,
+  .scrollCue i,
+  .scrollCue b { animation: none !important; transform: none !important; }
+  .kicker { opacity: 1; animation: none !important; transform: none !important; }
+}
