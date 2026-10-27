@@ -54,7 +54,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Group journeys",
-    image: "/images/vehicle-traveller17.svg",
+    image: "/images/vehicle-urbania.svg",
   },
   {
     number: "04",
@@ -87,7 +87,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "/images/vehicle-urbania.svg",
+    image: "/images/vehicle-traveller17.svg",
   },
 ];
 
