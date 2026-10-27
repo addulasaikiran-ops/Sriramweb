@@ -340,6 +340,8 @@
   animation: telugu-reveal var(--telugu-duration, 720ms) cubic-bezier(.22, 1, .36, 1) var(--telugu-start, 2380ms) both;
 }
 .englishTitle {
+  position: relative;
+  isolation: isolate;
   display: flex;
   justify-content: center;
   gap: .025em;
@@ -723,9 +725,12 @@
   transition: opacity 260ms cubic-bezier(.22, 1, .36, 1);
 }
 .chromeFrame {
+  --corner-size: 24px;
   position: absolute;
   inset: clamp(16px, 2.35vw, 34px);
-  opacity: .62;
+  opacity: 0;
+  background-size: 0 1px, 1px 0, 0 1px, 1px 0, 0 1px, 1px 0, 0 1px, 1px 0;
+  animation: corner-frame-draw var(--frame-duration, 880ms) cubic-bezier(.22, 1, .36, 1) var(--frame-start, 180ms) both;
   background:
     linear-gradient(var(--accent-gold), var(--accent-gold)) left top / 24px 1px no-repeat,
     linear-gradient(var(--accent-gold), var(--accent-gold)) left top / 1px 24px no-repeat,
@@ -835,10 +840,17 @@
   display: flex;
   width: max-content;
   align-items: center;
-  gap: 36px;
-  transform: translate3d(-2%, 0, 0);
-  animation: editorial-marquee 24s cubic-bezier(.45, 0, .55, 1) infinite alternate;
+  gap: 0;
+  transform: translate3d(0, 0, 0);
+  animation: editorial-marquee 36s linear infinite;
   will-change: transform;
+}
+.tickerGroup {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 36px;
+  padding-right: 36px;
 }
 .tickerTrack span {
   display: inline-flex;
@@ -903,9 +915,48 @@
   opacity: 0;
 }
 @keyframes editorial-marquee {
-  from { transform: translate3d(-2%, 0, 0); }
-  to { transform: translate3d(-24%, 0, 0); }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
 }
+@keyframes corner-frame-draw {
+  from {
+    opacity: 0;
+    background-size: 0 1px, 1px 0, 0 1px, 1px 0, 0 1px, 1px 0, 0 1px, 1px 0;
+  }
+  to {
+    opacity: .62;
+    background-size: var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size);
+  }
+}
+.englishTitle::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  color: #ff9933;
+  -webkit-text-fill-color: #ff9933;
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 2px 0 rgba(255, 153, 51, .55), -2px 0 rgba(255, 248, 223, .3);
+  opacity: 0;
+  pointer-events: none;
+  clip-path: inset(48% 0 51% 0);
+  transform: translate3d(0, 0, 0);
+  animation: devotional-signal var(--signal-duration, 520ms) steps(2, end) var(--signal-start, 3450ms) both;
+}
+@keyframes devotional-signal {
+  0%, 100% { opacity: 0; transform: translate3d(0, 0, 0); clip-path: inset(48% 0 51% 0); }
+  9% { opacity: .74; transform: translate3d(-3px, 0, 0); clip-path: inset(34% 0 48% 0); }
+  19% { opacity: .32; transform: translate3d(3px, 0, 0); clip-path: inset(61% 0 27% 0); }
+  30% { opacity: .58; transform: translate3d(-1px, 0, 0); clip-path: inset(44% 0 41% 0); }
+  43% { opacity: 0; transform: translate3d(0, 0, 0); clip-path: inset(100% 0 0 0); }
+}
+
 @keyframes cue-line {
   from { transform: scaleX(.55); opacity: .6; }
   to { transform: scaleX(1); opacity: 1; }
@@ -924,6 +975,7 @@
 }
 @media (max-width: 600px) {
   .chromeFrame {
+    --corner-size: 17px;
     inset: 11px;
     background-size: 17px 1px, 1px 17px, 17px 1px, 1px 17px, 17px 1px, 1px 17px, 17px 1px, 1px 17px;
   }
@@ -940,7 +992,7 @@
   .copy { top: 58.5%; }
   .kicker { margin-bottom: 9px; font-size: 7px; letter-spacing: .22em; }
   .editorialTicker { bottom: 7.4%; padding: 7px 0 6px; }
-  .tickerTrack { gap: 22px; }
+  .tickerTrack { gap: 0; }
   .tickerTrack span { gap: 10px; font-size: 7px; letter-spacing: .17em; }
   .chromeBottom { left: 22px; right: 22px; bottom: max(17px, env(safe-area-inset-bottom)); font-size: 7px; letter-spacing: .13em; }
   .chromeBottom > span:first-child { display: none; }
@@ -952,4 +1004,22 @@
   .scrollCue i,
   .scrollCue b { animation: none !important; transform: none !important; }
   .kicker { opacity: 1; animation: none !important; transform: none !important; }
+}
+
+/* Keep the motion inspiration subtle and honor reduced-motion preferences in JS and CSS. */
+.reduced .chromeFrame {
+  animation: none !important;
+  opacity: .62 !important;
+  background-size: var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size) !important;
+}
+.reduced .englishTitle::before { display: none !important; }
+.reduced .tickerTrack { animation: none !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .chromeFrame {
+    animation: none !important;
+    opacity: .62 !important;
+    background-size: var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size), var(--corner-size) 1px, 1px var(--corner-size) !important;
+  }
+  .englishTitle::before { display: none !important; }
+  .tickerTrack { animation: none !important; transform: none !important; }
 }
