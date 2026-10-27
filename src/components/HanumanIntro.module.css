@@ -992,7 +992,7 @@
   .copy { top: 58.5%; }
   .kicker { margin-bottom: 9px; font-size: 7px; letter-spacing: .22em; }
   .editorialTicker { bottom: 7.4%; padding: 7px 0 6px; }
-  .tickerTrack { gap: 22px; }
+  .tickerTrack { gap: 0; }
   .tickerTrack span { gap: 10px; font-size: 7px; letter-spacing: .17em; }
   .chromeBottom { left: 22px; right: 22px; bottom: max(17px, env(safe-area-inset-bottom)); font-size: 7px; letter-spacing: .13em; }
   .chromeBottom > span:first-child { display: none; }
