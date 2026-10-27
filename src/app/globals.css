@@ -236,3 +236,14 @@ em{font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.
 @media(max-width:900px){.story-grid{grid-template-columns:1fr 1fr}.story-card-wide{grid-column:span 2}.destination-cta{align-items:flex-start;flex-direction:column}.faq-section{grid-template-columns:1fr;gap:28px}.faq-intro p{max-width:560px}}
 @media(max-width:600px){.story-grid{grid-template-columns:1fr;gap:14px}.story-card-wide{grid-column:auto}.story-photo{height:220px}.story-card-copy{padding:20px}.booking-steps{grid-template-columns:1fr;border-top:0;border-left:1px solid #d4ccc1;margin-left:22px}.booking-step,.booking-step+.booking-step{padding:0 0 28px 26px;border-left:0}.booking-step-number{margin:0 0 16px -49px;outline:6px solid #f4f0e9;width:40px;height:40px}.destination-cta{padding:28px 22px}.destination-cta .button{width:100%;justify-content:center}.faq-question{font-size:15px;padding:19px 0}}
 @media(prefers-reduced-motion:reduce){.faq-question svg{transition:none}.story-photo{scroll-behavior:auto}}
+
+
+/* Cinematic scroll treatment */
+.fleet-feature-image{isolation:isolate}
+.fleet-car-image{transform-origin:center center;will-change:transform}
+.story-photo{background-size:cover;will-change:background-position}
+.manifesto-image{overflow:hidden}
+.manifesto-image img{will-change:transform}
+@media(prefers-reduced-motion:reduce){
+  .fleet-car-image,.story-photo,.manifesto-image img{will-change:auto}
+}
