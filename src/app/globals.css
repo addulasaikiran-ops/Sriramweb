@@ -301,3 +301,56 @@ em{font-family:Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.
  .cinematic-visual-image{will-change:auto}
  .cinematic-chapter{opacity:1!important;transform:none!important}
 }
+
+
+/* Accessibility: skip navigation, robust focus, and reduced-motion fallbacks */
+.skip-link{
+  position:fixed;top:8px;left:8px;z-index:1000;
+  padding:12px 16px;background:var(--paper);color:var(--ink);
+  border:2px solid var(--gold);transform:translateY(-160%);
+}
+.skip-link:focus{transform:translateY(0)}
+:where(a,button,[tabindex]):focus-visible{
+  outline:3px solid #b47723;
+  outline-offset:4px;
+}
+.faq-answer[hidden]{display:none}
+.menu-toggle[aria-expanded="true"]{background:#e8e2d6}
+.mobile-call{padding-bottom:max(12px,env(safe-area-inset-bottom))}
+
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    scroll-behavior:auto!important;
+    transition-duration:.01ms!important;
+    transition-delay:0ms!important;
+  }
+  .fleet-feature{animation:none!important}
+  .button:hover{transform:none!important}
+  .fleet-car-image,.manifesto-image img{transform:none!important;will-change:auto!important}
+  .story-photo{background-position:center!important;will-change:auto!important}
+  .cinematic-stage{
+    height:auto!important;display:block!important;
+  }
+  .cinematic-sticky-visual{
+    position:relative!important;top:auto!important;height:42vh!important;min-height:250px!important;
+  }
+  .cinematic-visual-image{display:none!important;transform:none!important;will-change:auto!important}
+  .cinematic-image-departure{display:block!important;opacity:1!important;visibility:visible!important}
+  .cinematic-chapters{display:grid;grid-template-columns:1fr 1fr;gap:1px}
+  .cinematic-chapter{
+    position:relative!important;top:auto!important;height:auto!important;min-height:0!important;
+    padding:32px 8%!important;margin:0!important;opacity:1!important;visibility:visible!important;
+    transform:none!important;background:#111a25;border-bottom:1px solid #ffffff24;
+  }
+  .cinematic-chapter p{color:#d0d5db}
+  .cinematic-progress-fill{transform:scaleX(1)!important}
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){
+  .cinematic-stage{padding:0 5% 35px!important}
+  .cinematic-sticky-visual{margin:0 -5%!important}
+  .cinematic-chapters{grid-template-columns:1fr;margin-top:0!important}
+  .cinematic-chapter{min-height:0!important;padding:28px 22px!important;margin:0 0 12px!important}
+}
