@@ -144,12 +144,53 @@ export default function HomePage() {
         </section>
 
 
-        <section className="journey-story section-pad" aria-labelledby="journey-title">
-          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> THE JOURNEY</div><h2 id="journey-title">From the first mile<br />to <em>the moment that matters.</em></h2></div><p>A little planning makes the road feel easier. Tell us what your trip needs and we can discuss the details directly.</p></div>
-          <div className="story-grid">
-            <article className="story-card story-card-wide reveal"><div className="story-photo story-photo-road" role="img" aria-label="Scenic road stretching toward the horizon" /><div className="story-card-copy"><span>01 / THE DEPARTURE</span><h3>Every journey starts somewhere.</h3><p>Share your starting point, travel date and destination when you enquire.</p></div></article>
-            <article className="story-card reveal"><div className="story-photo story-photo-cabin" role="img" aria-label="Vehicle ready for a road journey" /><div className="story-card-copy"><span>02 / THE RIDE</span><h3>Find the right fit for your trip.</h3><p>Tell us how many people are travelling so we can discuss suitable options.</p></div></article>
-            <article className="story-card reveal"><div className="story-photo story-photo-arrival" role="img" aria-label="Open road leading into a landscape" /><div className="story-card-copy"><span>03 / THE ARRIVAL</span><h3>Make the miles count.</h3><p>Confirm your route, fare and vehicle details with our team before you travel.</p><WhatsAppLink label="Plan your journey" className="text-link" message="Hello Sriram Travels, I'd like to discuss a trip. Please help me plan the journey." /></div></article>
+        <section className="cinematic-journey" id="journey-story" aria-labelledby="journey-title">
+          <div className="cinematic-intro">
+            <div className="cinematic-intro-copy">
+              <div className="eyebrow"><span className="eyebrow-line" /> THE ROAD AHEAD</div>
+              <h2 id="journey-title">Every mile has<br /><em>a moment.</em></h2>
+              <p>Four chapters. One journey. Scroll to travel from the first plan to the moment you arrive.</p>
+              <a href="#destinations" className="button button-gold">Plan your journey <ArrowDownRight size={16} /></a>
+            </div>
+            <span className="cinematic-intro-index">SRIRAM TRAVELS <i> / </i> THE JOURNEY</span>
+          </div>
+          <div className="cinematic-stage">
+            <div className="cinematic-sticky-visual" aria-hidden="true">
+              <div className="cinematic-visual-image cinematic-image-departure" />
+              <div className="cinematic-visual-image cinematic-image-ride" />
+              <div className="cinematic-visual-image cinematic-image-openroad" />
+              <div className="cinematic-visual-image cinematic-image-arrival" />
+              <div className="cinematic-visual-shade" />
+              <div className="cinematic-visual-label"><span className="status-dot" /> THE JOURNEY, FRAME BY FRAME</div>
+              <div className="cinematic-progress"><span className="cinematic-progress-fill" /></div>
+              <div className="cinematic-frame-count"><strong>01</strong><span> / 04</span></div>
+            </div>
+            <div className="cinematic-chapters">
+              <article className="cinematic-chapter is-active" data-chapter="0">
+                <span className="cinematic-chapter-number">01 <i> / THE DEPARTURE</i></span>
+                <h3>It starts with<br /><em>a destination.</em></h3>
+                <p>A place to be. A date to remember. Start by sharing your pickup point, route and travel plans with our team.</p>
+                <span className="cinematic-chapter-foot">SET YOUR COURSE <ArrowDownRight size={15} /></span>
+              </article>
+              <article className="cinematic-chapter" data-chapter="1">
+                <span className="cinematic-chapter-number">02 <i> / THE RIDE</i></span>
+                <h3>Find your<br /><em>kind of comfort.</em></h3>
+                <p>From a quick trip to a family journey, tell us how many people are travelling so we can discuss a suitable vehicle.</p>
+                <span className="cinematic-chapter-foot">CHOOSE YOUR RIDE <ArrowDownRight size={15} /></span>
+              </article>
+              <article className="cinematic-chapter" data-chapter="2">
+                <span className="cinematic-chapter-number">03 <i> / THE OPEN ROAD</i></span>
+                <h3>Let the miles<br /><em>become memories.</em></h3>
+                <p>Confirm the route, timing, fare and vehicle details with Sriram Travels before your journey begins.</p>
+                <span className="cinematic-chapter-foot">ENJOY THE JOURNEY <ArrowDownRight size={15} /></span>
+              </article>
+              <article className="cinematic-chapter" data-chapter="3">
+                <span className="cinematic-chapter-number">04 <i> / THE ARRIVAL</i></span>
+                <h3>Arrive at<br /><em>what matters.</em></h3>
+                <p>Whether it is a family visit or a place you have always wanted to see, let us help you plan the next step.</p>
+                <WhatsAppLink label="Discuss your trip" className="button button-gold" message="Hello Sriram Travels, I'd like to plan a journey. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." />
+              </article>
+            </div>
           </div>
         </section>
 
