@@ -117,6 +117,7 @@ export default function HomePage() {
 
   return (
     <div ref={pageRef} className="site-shell">
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <div className="announcement"><span className="status-dot" /> LOCAL JOURNEYS · OUTSTATION TRAVEL · TOWING SUPPORT <a href={`tel:+${site.phone}`}>Need help? Call us <ArrowUpRight size={12} /></a></div>
       <header className="site-header">
         <a href="#home" className="brand" aria-label="Sriram Travels home">
@@ -130,7 +131,7 @@ export default function HomePage() {
         <button className="menu-toggle" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-controls="primary-navigation" aria-label={menuOpen ? "Close navigation" : "Open navigation"}>{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
-      <main>
+      <main id="main-content">
         <section className="hero" id="home">
           <div className="hero-grain" /><div className="hero-orb" />
           <div className="hero-grid">
