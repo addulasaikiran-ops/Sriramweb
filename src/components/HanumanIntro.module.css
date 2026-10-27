@@ -560,7 +560,7 @@
 .reduced .welcome,
 .reduced .tagline {
   opacity: 0;
-  animation: reduced-text-fade 480ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
+  animation: reduced-text-fade 280ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
   animation-delay: 0ms !important;
   transform: none !important;
 }
@@ -701,7 +701,7 @@
   }
   .teluguBlessing, .englishTitle span, .divider, .welcome, .tagline {
     opacity: 0 !important;
-    animation: reduced-text-fade 480ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
+    animation: reduced-text-fade 280ms cubic-bezier(.22, 1, .36, 1) 0ms both !important;
     animation-delay: 0ms !important;
     transform: none !important;
   }
