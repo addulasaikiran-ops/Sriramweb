@@ -229,7 +229,7 @@ export function HanumanIntro() {
       gsap.set(gridLines, { scaleY: 1, opacity: 0.08 });
       gsap.set(artStage, { x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1 });
       gsap.set(copyBlock, { autoAlpha: 1, y: 0 });
-      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome, welcomeBlock]), { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" });
       gsap.set(withoutNulls([statusDock, skipButton]), { autoAlpha: 1 });
       setSkipReady(true);
       const reducedTimeline = gsap.timeline({ onComplete: revealHomepage });
@@ -254,7 +254,7 @@ export function HanumanIntro() {
         autoAlpha: 0,
       });
       gsap.set(orbit, { scale: 0.84, rotation: -24, autoAlpha: 0 });
-      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), {
+      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome, welcomeBlock]), {
         autoAlpha: 0,
         y: 12,
       });
@@ -418,6 +418,7 @@ export function HanumanIntro() {
         timings.copyFrameStartMs / 1000,
       );
       timeline.call(() => welcomeFrame?.classList.add(styles.frameLive), [], (timings.copyFrameStartMs + timings.copyFrameDurationMs) / 1000);
+      timeline.to(welcomeBlock, { autoAlpha: 1, y: 0, duration: 0.08, ease: easing.expoOut }, timings.copyFrameStartMs / 1000);
       timeline.fromTo(
         headlineLines,
         { yPercent: 112, autoAlpha: 0 },
