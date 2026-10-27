@@ -18,7 +18,9 @@ jobs:
           node-version: 20
       - name: Install dependencies
         run: npm install
-      - name: Lint\n        run: npm run lint\n      - name: Type check
+      - name: Lint
+        run: npm run lint
+      - name: Type check
         run: npx tsc --noEmit
       - name: Production build
         run: npm run build
