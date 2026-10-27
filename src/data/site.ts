@@ -22,7 +22,8 @@ export type Vehicle = {
   image: string;
 };
 
-// Editorial reference photography is used until owner-supplied fleet photos are available.\nexport const fleet: Vehicle[] = [
+// Editorial reference photography is used until owner-supplied fleet photos are available.
+export const fleet: Vehicle[] = [
   {
     number: "01",
     name: "Toyota Etios",
