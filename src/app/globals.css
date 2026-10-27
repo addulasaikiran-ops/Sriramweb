@@ -53,7 +53,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 .eyebrow-line{display:inline-block;width:24px;height:1px;background:var(--gold)}
 .hero h1,.section-heading h2,.manifesto h2,.contact-copy h2{font-family:var(--font-manrope),sans-serif;font-weight:500;letter-spacing:-.065em}
 .hero h1{font-size:clamp(54px,6.25vw,91px);line-height:1.02;margin:28px 0 21px}
-em{font-family:var(--font-cormorant),Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.06em;color:var(--gold)}
+.hero h1 em,.section-heading h2 em,.manifesto h2 em,.contact-copy h2 em,.destination-cta h3 em,.faq-intro h2 em,.cinematic-intro h2 em,.cinematic-chapter h3 em,.story-card-copy h3 em{font-family:var(--font-cormorant),Georgia,serif;font-weight:400;font-style:italic;letter-spacing:-.06em;color:var(--gold)}
 .hero-subtitle{font-family:var(--font-manrope),sans-serif;font-size:15px;font-weight:600;margin:0 0 9px;color:#fff}
 .hero-description{max-width:385px;color:#aab3bf;font-size:12px;line-height:1.9;margin:0}
 .hero-buttons{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin-top:26px}
