@@ -13,20 +13,31 @@ export function HanumanIntro() {
 
     try {
       if (window.sessionStorage.getItem("sriram-hanuman-intro-seen") === "1") return;
-      window.sessionStorage.setItem("sriram-hanuman-intro-seen", "1");
     } catch {
       // If session storage is blocked, the intro can still run for this page view.
     }
 
     setVisible(true);
     timers.current.push(window.setTimeout(() => setIsExiting(true), 2150));
-    timers.current.push(window.setTimeout(() => setVisible(false), 2750));
+    timers.current.push(window.setTimeout(() => {
+      try {
+        window.sessionStorage.setItem("sriram-hanuman-intro-seen", "1");
+      } catch {
+        // The intro still closes normally when session storage is blocked.
+      }
+      setVisible(false);
+    }, 2750));
 
     return () => timers.current.forEach((timer) => window.clearTimeout(timer));
   }, []);
 
   const skipIntro = () => {
     timers.current.forEach((timer) => window.clearTimeout(timer));
+    try {
+      window.sessionStorage.setItem("sriram-hanuman-intro-seen", "1");
+    } catch {
+      // Skipping still works when session storage is blocked.
+    }
     setIsExiting(true);
     timers.current.push(window.setTimeout(() => setVisible(false), 420));
   };
