@@ -47,7 +47,7 @@ export const fleet: Vehicle[] = [
   {
     number: "03",
     name: "Force Urbania",
-    className: "PREMIUM GROUP TRAVEL",
+    className: "GROUP TRAVEL",
     description: "A spacious group-travel option for shared journeys.",
     seats: "Seating to be confirmed",
     ratePerKm: 0,
@@ -58,7 +58,7 @@ export const fleet: Vehicle[] = [
   {
     number: "04",
     name: "Force Traveller",
-    className: "12+ SEATER",
+    className: "GROUP TRAVEL",
     description: "Practical space for larger families and group outings.",
     seats: "Seating to be confirmed",
     ratePerKm: 0,
@@ -71,7 +71,7 @@ export const fleet: Vehicle[] = [
     name: "Maruti Suzuki Ertiga",
     className: "FAMILY MUV",
     description: "A versatile option for family plans and everyday travel.",
-    seats: "Confirm seating",
+    seats: "Seating to be confirmed",
     ratePerKm: 0,
     features: [],
     use: "Family & local",
@@ -80,7 +80,7 @@ export const fleet: Vehicle[] = [
   {
     number: "06",
     name: "Force Traveller",
-    className: "17+ SEATER",
+    className: "LARGE GROUP TRAVEL",
     description: "More space for larger groups travelling together.",
     seats: "Seating to be confirmed",
     ratePerKm: 0,
