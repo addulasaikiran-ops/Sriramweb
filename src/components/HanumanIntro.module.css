@@ -120,7 +120,7 @@
   position: absolute;
   left: 50%;
   top: 39%;
-  width: min(76vw, 960px, 80vh);
+  width: min(76vw, 1050px, 80vh);
   aspect-ratio: 1200 / 520;
   transform: translate3d(-50%, -50%, 0);
 }
@@ -335,7 +335,7 @@
 @keyframes ember-float {
   0% { opacity: 0; transform: translate3d(0, 8vh, 0) scale(.5); }
   12% { opacity: var(--ember-alpha, .75); }
-  82% { opacity: calc(var(--ember-alpha, .75) * .7); }
+  82% { opacity: var(--ember-alpha, .75); }
   100% { opacity: 0; transform: translate3d(var(--ember-drift), -100vh, 0) scale(.2); }
 }
 @keyframes text-rise {
@@ -357,7 +357,7 @@
 }
 @media (max-width: 600px) {
   .flight { top: 37%; width: min(91vw, 560px); }
-  .copy { top: 63%; width: 92vw; }
+  .copy { top: 59%; width: 92vw; }
   .teluguBlessing { font-size: clamp(23px, 7vw, 29px); margin-bottom: 4px; }
   .englishTitle { font-size: clamp(39px, 11vw, 53px); letter-spacing: .01em; }
   .divider { margin: 13px auto 10px; }
@@ -366,7 +366,7 @@
   .skip { min-height: 46px; min-width: 110px; }
 }
 @media (min-width: 601px) and (max-width: 900px) {
-  .flight { width: min(84vw, 80vh); }
+  .flight { width: min(91vw, 80vh); }
   .copy { top: 68%; }
   .englishTitle { font-size: clamp(48px, 7vw, 62px); }
 }
