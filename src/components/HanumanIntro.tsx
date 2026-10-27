@@ -292,6 +292,28 @@ export function HanumanIntro() {
       aria-describedby="hanuman-intro-welcome"
     >
       <IntroScene lightMode={lightMode} />
+      <div className={styles.editorialChrome} aria-hidden="true">
+        <div className={styles.chromeFrame} />
+        <div className={styles.chromeTop}>
+          <span className={styles.brandIndex}><span>SR</span><i /></span>
+          <span className={styles.chromeHeader}>
+            <strong>SRIRAM TRAVELS</strong>
+            <span>{HANUMAN_INTRO.text.header}</span>
+          </span>
+          <span className={styles.chromeCounter}>DIVINE ARRIVAL <b>01 / 04</b></span>
+        </div>
+        <span className={styles.sideStamp}>FAITH GUIDES THE WAY</span>
+        <div className={styles.editorialTicker}>
+          <div className={styles.tickerTrack}>
+            <span>{HANUMAN_INTRO.text.ticker}</span>
+            <span>{HANUMAN_INTRO.text.ticker}</span>
+          </div>
+        </div>
+        <div className={styles.chromeBottom}>
+          <span>{HANUMAN_INTRO.text.location}</span>
+          <span className={styles.scrollCue}><i /> SCROLL TO EXPLORE <b>↓</b></span>
+        </div>
+      </div>
       <IntroParticles lightMode={lightMode} reducedMotion={reducedMotion} />
 
       <div
@@ -350,6 +372,12 @@ export function HanumanIntro() {
       )}
 
       <div className={styles.copy}>
+        <p
+          className={styles.kicker}
+          style={{ animationDelay: `${timings.kickerStartMs}ms` }}
+        >
+          {HANUMAN_INTRO.text.kicker}
+        </p>
         <p
           className={`${styles.teluguBlessing} ${styles.shimmer}`}
           aria-label={HANUMAN_INTRO.text.telugu}
