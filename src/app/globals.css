@@ -1040,3 +1040,50 @@ body{background:var(--paper);color:var(--ink)}
 @media(max-width:760px){
   .fleet-list-hint{display:inline;color:#82725e;font-size:8px;letter-spacing:.06em;white-space:nowrap}
 }
+
+
+/* Cinematic Hanuman opening intro */
+.hanuman-intro{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;overflow:hidden;isolation:isolate;background:#090c0f;color:#f6ead4;opacity:1;visibility:visible;transition:opacity .58s ease,visibility .58s ease}
+.hanuman-intro--exiting{opacity:0;visibility:hidden;pointer-events:none}
+.hanuman-intro-grain{position:absolute;inset:0;z-index:-1;opacity:.13;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.42'/%3E%3C/svg%3E")}
+.hanuman-intro:before,.hanuman-intro:after{content:"";position:absolute;inset:22px;border:1px solid #d7ad6622;pointer-events:none}
+.hanuman-intro:after{inset:31px;border-color:#d7ad6610}
+.hanuman-intro-aura{position:absolute;z-index:-1;width:min(64vw,690px);aspect-ratio:1;border:1px solid #d7ad6618;border-radius:50%;pointer-events:none}
+.hanuman-intro-aura--one{animation:hanuman-aura-breathe 3.8s ease-in-out infinite;box-shadow:0 0 90px #d7ad6608,inset 0 0 100px #d7ad6607}
+.hanuman-intro-aura--two{width:min(48vw,510px);border-style:dashed;border-color:#d7ad661b;animation:hanuman-aura-rotate 48s linear infinite}
+.hanuman-intro-content{width:min(92vw,650px);display:flex;flex-direction:column;align-items:center;text-align:center;padding:36px 24px 50px}
+.hanuman-intro-blessing{font-family:var(--font-cormorant),Georgia,serif;font-size:clamp(19px,2vw,24px);letter-spacing:.16em;color:#e2c38b;opacity:0;animation:hanuman-text-reveal .7s .08s ease forwards}
+.hanuman-emblem{width:clamp(170px,27vw,295px);aspect-ratio:1;margin:12px 0 1px;opacity:0;filter:drop-shadow(0 10px 36px #d7ad6612);animation:hanuman-mark-reveal 1.15s .18s cubic-bezier(.2,.75,.2,1) forwards}
+.hanuman-emblem svg{display:block;width:100%;height:100%;overflow:visible}
+.hanuman-emblem-ring{transform-box:fill-box;transform-origin:center;animation:hanuman-ring-turn 38s linear infinite}
+.hanuman-intro-copy{display:flex;flex-direction:column;align-items:center}
+.hanuman-intro-kicker{font-size:10px;font-weight:600;letter-spacing:.28em;color:#cdb27e;opacity:0;animation:hanuman-text-reveal .6s .55s ease forwards}
+.hanuman-intro-copy h1{font-family:var(--font-cormorant),Georgia,serif;font-size:clamp(46px,7vw,76px);font-weight:500;line-height:1;margin:13px 0 6px;letter-spacing:.015em;color:#f3e6cc;opacity:0;animation:hanuman-text-reveal .7s .68s ease forwards}
+.hanuman-intro-copy p{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#aeb2b0;margin:7px 0 18px;opacity:0;animation:hanuman-text-reveal .6s .82s ease forwards}
+.hanuman-intro-rule{display:block;width:170px;height:1px;background:#d7ad6633;overflow:hidden;opacity:0;animation:hanuman-text-reveal .5s .94s ease forwards}
+.hanuman-intro-rule span{display:block;width:100%;height:100%;background:linear-gradient(90deg,transparent,#e3bf7b,transparent);transform:translateX(-105%);animation:hanuman-rule-draw 1s 1.05s ease forwards}
+.hanuman-intro-skip{position:absolute;right:clamp(28px,5vw,72px);bottom:clamp(26px,4vw,52px);z-index:2;display:flex;align-items:center;gap:8px;min-height:44px;padding:0 4px;border:0;border-bottom:1px solid #d7ad6659;background:transparent;color:#d8d2c6;font-size:11px;letter-spacing:.08em;cursor:pointer;transition:color .2s,border-color .2s}
+.hanuman-intro-skip:hover{color:#f4dca5;border-color:#f4dca5}
+.hanuman-intro-skip:focus-visible{outline:2px solid #f4dca5;outline-offset:5px;box-shadow:none}
+@keyframes hanuman-mark-reveal{0%{opacity:0;transform:translateY(18px) scale(.78);filter:blur(8px)}65%{opacity:1;filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:blur(0)}}
+@keyframes hanuman-text-reveal{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes hanuman-aura-breathe{0%,100%{transform:scale(.96);opacity:.55}50%{transform:scale(1.035);opacity:1}}
+@keyframes hanuman-aura-rotate{to{transform:rotate(360deg)}}
+@keyframes hanuman-ring-turn{to{transform:rotate(360deg)}}
+@keyframes hanuman-rule-draw{to{transform:translateX(105%)}}
+@media(max-width:600px){
+  .hanuman-intro:before{inset:12px}
+  .hanuman-intro:after{inset:20px}
+  .hanuman-intro-content{padding:26px 18px 65px}
+  .hanuman-emblem{width:clamp(185px,58vw,260px);margin:20px 0 7px}
+  .hanuman-intro-kicker{font-size:8px;letter-spacing:.2em}
+  .hanuman-intro-copy h1{font-size:clamp(46px,12vw,61px)}
+  .hanuman-intro-copy p{font-size:9px;letter-spacing:.16em}
+  .hanuman-intro-aura{width:96vw}
+  .hanuman-intro-aura--two{width:76vw}
+  .hanuman-intro-skip{right:30px;bottom:26px}
+}
+@media(prefers-reduced-motion:reduce){
+  .hanuman-intro{display:none}
+  .hanuman-emblem,.hanuman-intro-blessing,.hanuman-intro-kicker,.hanuman-intro-copy h1,.hanuman-intro-copy p,.hanuman-intro-rule,.hanuman-intro-rule span,.hanuman-intro-aura,.hanuman-emblem-ring{animation:none!important;transition:none!important}
+}
