@@ -10,11 +10,16 @@ import { IntroParticles } from "./IntroParticles";
 import { SkipButton } from "./SkipButton";
 import { CornerBrackets, IntroGrid, LoadCounter, Marquee } from "./IntroEditorial";
 
+function withoutNulls<T>(values: Array<T | null | undefined>): T[] {
+  return values.filter((value): value is T => value !== null && value !== undefined);
+}
+
 export function HanumanIntro() {
   // The opaque shell is server-rendered, so the homepage never flashes before hydration.
   const [visible, setVisible] = useState(true);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [lowPower, setLowPower] = useState(false);
+  const [skipReady, setSkipReady] = useState(false);
 
   const rootRef = useRef<HTMLDivElement>(null);
   const artRef = useRef<HTMLDivElement>(null);
@@ -26,10 +31,13 @@ export function HanumanIntro() {
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root) return;
+    const artStage = artRef.current;
+    const orbit = orbitRef.current;
+    if (!root || !artStage || !orbit) return;
 
     const html = document.documentElement;
     let finished = false;
+    let onKeyDown: ((event: KeyboardEvent) => void) | null = null;
     let originalBodyOverflow: string | null = null;
     let originalHtmlOverflow: string | null = null;
 
@@ -80,9 +88,9 @@ export function HanumanIntro() {
     const scene = q<HTMLElement>(`.${styles.scene}`);
     const grid = q<HTMLElement>(`.${styles.gridLines}`);
     const gridLines = qa<HTMLElement>(`.${styles.gridLine}`);
-    const screenMarks = qa<SVGElement>('[data-frame="screen"] .cornerMark');
-    const artMarks = qa<SVGElement>('[data-frame="art"] .cornerMark');
-    const welcomeMarks = qa<SVGElement>('[data-frame="welcome"] .cornerMark');
+    const screenMarks = qa<SVGElement>('[data-frame="screen"] .' + styles.cornerMark);
+    const artMarks = qa<SVGElement>('[data-frame="art"] .' + styles.cornerMark);
+    const welcomeMarks = qa<SVGElement>('[data-frame="welcome"] .' + styles.cornerMark);
     const skipButton = skipButtonRef.current;
     const copyBlock = q<HTMLElement>(`.${styles.copyBlock}`);
     const upperLabel = q<HTMLElement>(`.${styles.upperLabel}`);
@@ -115,7 +123,13 @@ export function HanumanIntro() {
     const revealHomepage = () => {
       if (finished) return;
       finished = true;
+      masterTimelineRef.current?.kill();
       masterTimelineRef.current = null;
+      if (onKeyDown) {
+        document.removeEventListener("keydown", onKeyDown);
+        onKeyDown = null;
+      }
+      finishRef.current = () => undefined;
       html.classList.remove("hanuman-intro-active");
       html.classList.add("hanuman-home-reveal");
       html.dataset.hanumanIntroSeen = "true";
@@ -152,7 +166,7 @@ export function HanumanIntro() {
 
       const quick = gsap.timeline({ onComplete: revealHomepage });
       quick.to(
-        [scene, grid, screenFrame, artFrame, welcomeFrame, orbitRef.current, artRef.current, copyBlock, statusDock, marquee, skipButton, particles, shockwave].filter(Boolean),
+        withoutNulls([scene, grid, screenFrame, artFrame, welcomeFrame, orbit, artStage, copyBlock, statusDock, marquee, skipButton, particles, shockwave]),
         { autoAlpha: 0, duration: 0.1, ease: easing.expoOut },
         0,
       );
@@ -173,7 +187,7 @@ export function HanumanIntro() {
 
     finishRef.current = runQuickExit;
 
-    const onKeyDown = (event: KeyboardEvent) => {
+    onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
         runQuickExit();
@@ -186,7 +200,8 @@ export function HanumanIntro() {
       }
       if (event.key === "Tab") {
         event.preventDefault();
-        skipButton?.focus({ preventScroll: true });
+        if (skipButton?.disabled) root.focus({ preventScroll: true });
+        else skipButton?.focus({ preventScroll: true });
       }
     };
     document.addEventListener("keydown", onKeyDown);
@@ -199,8 +214,9 @@ export function HanumanIntro() {
     };
 
     if (reduce) {
+      setSkipReady(true);
       // Keep the geometry still: reduced-motion mode uses one short fade, then reveals the page.
-      gsap.set([screenFrame, artFrame, welcomeFrame].filter(Boolean), {
+      gsap.set(withoutNulls([screenFrame, artFrame, welcomeFrame]), {
         clipPath: "inset(0% 0% 0% 0%)",
         opacity: 0.76,
         scale: 1,
@@ -208,11 +224,12 @@ export function HanumanIntro() {
       gsap.set(gridLines, { scaleY: 1, opacity: 0.08 });
       gsap.set(artRef.current, { x: 0, y: 0, scale: 1, rotation: 0, autoAlpha: 1 });
       gsap.set(copyBlock, { autoAlpha: 1, y: 0 });
-      gsap.set([upperLabel, ...headlineLines, telugu, lowerLabel, welcomeBlock].filter(Boolean), { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" });
-      gsap.set([statusDock, skipButton].filter(Boolean), { autoAlpha: 1 });
+      gsap.set(withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]), { autoAlpha: 1, y: 0, clipPath: "inset(0% 0% 0% 0%)" });
+      gsap.set(withoutNulls([statusDock, skipButton]), { autoAlpha: 1 });
+      setSkipReady(true);
       const reducedTimeline = gsap.timeline({ onComplete: revealHomepage });
       reducedTimeline.fromTo(
-        [upperLabel, ...headlineLines, telugu, lowerLabel, welcome].filter(Boolean),
+        withoutNulls([upperLabel, ...headlineLines, telugu, lowerLabel, welcome]),
         { opacity: 0 },
         { opacity: 1, duration: 0.38, stagger: 0.05, ease: easing.quartOut },
         0,
@@ -271,6 +288,7 @@ export function HanumanIntro() {
         0.02,
       );
       timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], 0.42);
+      timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
       timeline.fromTo(
         skipButton,
         { autoAlpha: 0, y: -8 },
@@ -424,7 +442,7 @@ export function HanumanIntro() {
         timings.lowerLabelStartMs / 1000,
       );
       timeline.fromTo(
-        welcomeBlock,
+        welcome,
         { y: 10, autoAlpha: 0 },
         { y: 0, autoAlpha: 1, duration: timings.welcomeDurationMs / 1000, ease: easing.expoOut },
         timings.welcomeStartMs / 1000,
@@ -439,12 +457,12 @@ export function HanumanIntro() {
 
       // 3.80–4.50s — frames contract, saffron line wipes, then two curtains open to the homepage.
       timeline.to(
-        [screenFrame, grid, artFrame, welcomeFrame].filter(Boolean),
+        withoutNulls([screenFrame, grid, artFrame, welcomeFrame]),
         { scale: 0.94, autoAlpha: 0, duration: 0.22, ease: easing.expoIn },
         timings.exitStartMs / 1000,
       );
       timeline.to(
-        [scene, artRef.current, orbitRef.current, copyBlock, statusDock, marquee, skipButton, particles, shockwave].filter(Boolean),
+        withoutNulls([scene, artStage, orbit, copyBlock, statusDock, marquee, skipButton, particles, shockwave]),
         { autoAlpha: 0, duration: 0.16, ease: easing.expoOut },
         timings.exitStartMs / 1000,
       );
@@ -509,6 +527,7 @@ export function HanumanIntro() {
       className={styles.root}
       style={rootStyle}
       role="dialog"
+      tabIndex={-1}
       aria-modal="true"
       aria-labelledby="hanuman-intro-title"
       aria-describedby="hanuman-intro-welcome"
@@ -603,7 +622,7 @@ export function HanumanIntro() {
 
       <LoadCounter counterRef={counterRef} />
       <Marquee />
-      <SkipButton buttonRef={skipButtonRef} onSkip={() => finishRef.current()} />
+      <SkipButton buttonRef={skipButtonRef} onSkip={() => finishRef.current()} disabled={!skipReady} />
 
       <div className={styles.exitBar} aria-hidden="true" />
       <div className={`${styles.exitPanel} ${styles.exitPanelTop}`} aria-hidden="true" />
