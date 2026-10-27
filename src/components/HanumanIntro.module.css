@@ -337,7 +337,7 @@
   filter: drop-shadow(0 0 12px rgba(255, 153, 51, .12));
   opacity: 0;
   transform: translate3d(0, 12px, 0);
-  animation: telugu-reveal var(--telugu-duration, 720ms) cubic-bezier(.22, 1, .36, 1) 2380ms both;
+  animation: telugu-reveal var(--telugu-duration, 720ms) cubic-bezier(.22, 1, .36, 1) var(--telugu-start, 2380ms) both;
 }
 .englishTitle {
   display: flex;
