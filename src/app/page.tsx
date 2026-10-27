@@ -130,7 +130,7 @@ export default function HomePage() {
 
   const chooseVehicle = (index: number) => {
     setActiveVehicle((index + fleet.length) % fleet.length);
-    document.getElementById("fleet")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById("fleet")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
   };
 
   return (
