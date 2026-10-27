@@ -58,8 +58,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en-IN">
+    <html lang="en-IN" suppressHydrationWarning>
       <body className={`${dmSans.variable} ${manrope.variable} ${cormorant.variable}`}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try { if (window.sessionStorage.getItem("sriram-hanuman-intro-seen") === "1") document.documentElement.dataset.hanumanIntroSeen = "true"; } catch {}`,
+          }}
+        />
         {children}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, telephone: `+${site.phone}`, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
       </body>

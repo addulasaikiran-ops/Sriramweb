@@ -15,6 +15,7 @@ import { TrustStrip } from "@/components/TrustStrip";
 import { BookingSteps } from "@/components/BookingSteps";
 import { Footer } from "@/components/Footer";
 import { FleetControls } from "@/components/FleetControls";
+import { HanumanIntro } from "@/components/HanumanIntro";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -137,6 +138,7 @@ export default function HomePage() {
 
   return (
     <div ref={pageRef} className="site-shell">
+      <HanumanIntro />
       <a className="skip-link" href="#main-content">Skip to main content</a>
       <div className="announcement"><span className="status-dot" /> LOCAL JOURNEYS · OUTSTATION TRAVEL · TOWING SUPPORT <a href={`tel:+${site.phone}`}>Need help? Call us <ArrowUpRight size={12} /></a></div>
       <header className="site-header">
