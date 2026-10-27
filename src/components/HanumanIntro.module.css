@@ -499,11 +499,6 @@
   letter-spacing: .19em;
   white-space: nowrap;
 }
-.marqueePhrase::after {
-  content: "•";
-  margin-left: 24px;
-  color: var(--intro-saffron);
-}
 @keyframes marquee-loop {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
@@ -652,7 +647,6 @@
   .marquee { height: 23px; }
   .marqueeGroup { gap: 16px; padding-right: 16px; }
   .marqueePhrase { font-size: 7px; letter-spacing: .13em; }
-  .marqueePhrase::after { margin-left: 16px; }
   .skip { top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); min-width: 100px; min-height: 46px; padding-inline: 10px; gap: 8px; font-size: 8px; }
   .speedLine { width: min(45vw, 185px); }
 }
