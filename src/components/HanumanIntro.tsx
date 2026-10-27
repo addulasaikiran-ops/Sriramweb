@@ -259,14 +259,14 @@ export function HanumanIntro() {
         <div className={styles.flightOrigin}>
           <div className={styles.flightPath}>
             <div className={styles.flightHover}>
-              {HANUMAN_INTRO.trailOffsets.map((trail, index) => (
+              {!lightMode && HANUMAN_INTRO.trailOffsets.map((trail, index) => (
                 <Image
                   key={index}
                   src="/images/hanuman-flying-silhouette.svg"
                   alt=""
                   aria-hidden="true"
-                  width={1100}
-                  height={560}
+                  width={850}
+                  height={480}
                   className={`${styles.hanumanImage} ${styles.trailCopy}`}
                   style={{
                     "--trail-x": `${trail.x}%`,
@@ -282,8 +282,8 @@ export function HanumanIntro() {
                 src="/images/hanuman-flying-silhouette.svg"
                 alt=""
                 aria-hidden="true"
-                width={1100}
-                height={560}
+                width={850}
+                height={480}
                 priority
                 fetchPriority="high"
                 className={`${styles.hanumanImage} ${styles.mainImage}`}
