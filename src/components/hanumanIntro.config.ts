@@ -5,6 +5,10 @@
 export const HANUMAN_INTRO = {
   timings: {
     sceneFadeMs: 500,
+    frameStartMs: 180,
+    frameDurationMs: 880,
+    signalStartMs: 3450,
+    signalDurationMs: 520,
     skipAppearDurationMs: 350,
     skipAppearMs: 500,
     flightStartMs: 400,
