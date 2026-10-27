@@ -635,6 +635,10 @@
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes divider-draw { to { transform: scaleX(1); } }
+@keyframes reduced-text-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 @keyframes text-rise {
   from { opacity: 0; transform: translate3d(0, 12px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
