@@ -46,7 +46,7 @@ export function HanumanIntro() {
     }
   }, []);
 
-  const finishIntro = useCallback((duration = HANUMAN_INTRO.timings.exitDurationMs) => {
+  const finishIntro = useCallback((duration: number = HANUMAN_INTRO.timings.exitDurationMs) => {
     clearTimers();
 
     if (keydownHandlerRef.current) {
