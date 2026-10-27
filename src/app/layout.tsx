@@ -1,10 +1,20 @@
 import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, DM_Sans, Manrope } from "next/font/google";
+import { site } from "@/data/site";
 import "./globals.css";
+
+const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
+const cormorant = Cormorant_Garamond({ subsets: ["latin"], style: ["italic", "normal"], weight: ["400", "500", "600"], variable: "--font-cormorant", display: "swap" });
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 const siteDescription =
   "Explore car rental, local and outstation travel, family and group journeys, and towing enquiries with Sriram Travels in Gooty, Andhra Pradesh.";
 
 export const metadata: Metadata = {
+  metadataBase: siteUrl ? new URL(siteUrl) : undefined,
+  alternates: { canonical: "/" },
+  icons: { icon: "/icon.svg" },
   title: {
     default: "Sriram Travels | Car Rentals & Towing in Gooty",
     template: "%s | Sriram Travels",
@@ -26,9 +36,11 @@ export const metadata: Metadata = {
     description: siteDescription,
     siteName: "Sriram Travels",
     locale: "en_IN",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Sriram Travels — travel enquiries" }],
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/opengraph-image"],
     title: "Sriram Travels | Car Rentals & Towing in Gooty",
     description: siteDescription,
   },
@@ -47,7 +59,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-IN">
-      <body>{children}</body>
+      <body className={`${dmSans.variable} ${manrope.variable} ${cormorant.variable}`}>
+        {children}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, telephone: `+${site.phone}`, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
+      </body>
     </html>
   );
 }

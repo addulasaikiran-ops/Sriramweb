@@ -1,0 +1,3 @@
+import { Clock3, MapPin, ShieldCheck, Users } from "lucide-react";
+const items=[{label:"Safety comes first",copy:"Vehicle details confirmed before booking",Icon:ShieldCheck},{label:"People-first service",copy:"Help when you need it",Icon:Users},{label:"Here for the journey",copy:"Travel and towing enquiries",Icon:Clock3},{label:"Rooted in Gooty",copy:"And ready to go further",Icon:MapPin}];
+export function TrustStrip(){return <section className="trust-strip" aria-label="Service highlights">{items.map(({label,copy,Icon})=><div className="trust-item" key={label}><span className="trust-symbol"><Icon/></span><div><strong>{label}</strong><small>{copy}</small></div></div>)}</section>;}
