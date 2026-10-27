@@ -1,0 +1,2 @@
+import type { ReactNode } from "react";
+export function SectionHeading({eyebrow,title,copy}:{eyebrow:string;title:ReactNode;copy?:string}){return <div className="section-heading"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line"/> {eyebrow}</div><h2>{title}</h2></div>{copy&&<p>{copy}</p>}</div>;}
