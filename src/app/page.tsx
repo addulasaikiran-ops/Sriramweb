@@ -43,6 +43,35 @@ export default function HomePage() {
         yPercent: 15, ease: "none",
         scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true },
       });
+      // Cinematic, scroll-linked vehicle showcase.
+      gsap.utils.toArray<HTMLElement>(".fleet-feature-image").forEach((frame) => {
+        const image = frame.querySelector<HTMLElement>(".fleet-car-image");
+        if (!image) return;
+        gsap.fromTo(image, { scale: 1.12, yPercent: 2 }, {
+          scale: 1, yPercent: 0, ease: "none",
+          scrollTrigger: { trigger: frame, start: "top bottom", end: "bottom top", scrub: 0.8 },
+        });
+      });
+      gsap.utils.toArray<HTMLElement>(".story-card").forEach((card, index) => {
+        gsap.fromTo(card, { y: 46, opacity: 0.55 }, {
+          y: 0, opacity: 1, ease: "power2.out",
+          scrollTrigger: { trigger: card, start: "top 88%", end: "top 48%", scrub: 0.7 },
+          delay: index * 0.04,
+        });
+        const photo = card.querySelector<HTMLElement>(".story-photo");
+        if (photo) gsap.fromTo(photo, { backgroundPosition: "50% 62%" }, {
+          backgroundPosition: "50% 38%", ease: "none",
+          scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 0.7 },
+        });
+      });
+      gsap.to(".manifesto-image img", {
+        yPercent: 12, ease: "none",
+        scrollTrigger: { trigger: ".manifesto", start: "top bottom", end: "bottom top", scrub: 0.8 },
+      });
+      gsap.fromTo(".manifesto-content h2", { y: 34, opacity: 0.65 }, {
+        y: 0, opacity: 1, ease: "none",
+        scrollTrigger: { trigger: ".manifesto", start: "top 72%", end: "center 42%", scrub: 0.7 },
+      });
     }, root);
     return () => ctx.revert();
   }, []);
