@@ -44,6 +44,7 @@ export function HanumanIntro() {
   const [isExiting, setIsExiting] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const timers = useRef<number[]>([]);
+  const seenMarkerTimer = useRef<number | null>(null);
   const effectStartedRef = useRef(false);
   const skipButtonRef = useRef<HTMLButtonElement>(null);
   const keydownHandlerRef = useRef<((event: KeyboardEvent) => void) | null>(null);
