@@ -255,6 +255,10 @@ export function HanumanIntro() {
     "--accent-orange": HANUMAN_INTRO.colors.orange,
     "--accent-gold": HANUMAN_INTRO.colors.gold,
     "--scene-fade-duration": `${timings.sceneFadeMs}ms`,
+    "--frame-start": `${timings.frameStartMs}ms`,
+    "--frame-duration": `${timings.frameDurationMs}ms`,
+    "--signal-start": `${timings.signalStartMs}ms`,
+    "--signal-duration": `${timings.signalDurationMs}ms`,
     "--skip-appear-duration": `${timings.skipAppearDurationMs}ms`,
     "--flight-delay": `${timings.flightStartMs}ms`,
     "--flight-duration": `${timings.flightDurationMs}ms`,
@@ -306,9 +310,16 @@ export function HanumanIntro() {
         <span className={styles.sideStamp}>FAITH GUIDES THE WAY</span>
         <div className={styles.editorialTicker}>
           <div className={styles.tickerTrack}>
-            {Array.from({ length: 6 }, (_, index) => (
-              <span key={index}>{HANUMAN_INTRO.text.ticker}</span>
-            ))}
+            <div className={styles.tickerGroup}>
+              {Array.from({ length: 12 }, (_, index) => (
+                <span key={index}>{HANUMAN_INTRO.text.ticker}</span>
+              ))}
+            </div>
+            <div className={styles.tickerGroup} aria-hidden="true">
+              {Array.from({ length: 12 }, (_, index) => (
+                <span key={index}>{HANUMAN_INTRO.text.ticker}</span>
+              ))}
+            </div>
           </div>
         </div>
         <div className={styles.chromeBottom}>
@@ -388,7 +399,7 @@ export function HanumanIntro() {
           <span>{HANUMAN_INTRO.text.telugu}</span>
           <span className={styles.shimmerSweep} aria-hidden="true">{HANUMAN_INTRO.text.telugu}</span>
         </p>
-        <h1 id="hanuman-intro-title" className={styles.englishTitle} aria-label={HANUMAN_INTRO.text.english}>
+        <h1 id="hanuman-intro-title" className={styles.englishTitle} data-text={HANUMAN_INTRO.text.english} aria-label={HANUMAN_INTRO.text.english}>
           {Array.from(HANUMAN_INTRO.text.english).map((letter, index) => (
             <span
               aria-hidden="true"
