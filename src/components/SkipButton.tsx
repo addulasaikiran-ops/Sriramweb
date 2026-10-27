@@ -7,14 +7,16 @@ type SkipButtonProps = {
   buttonRef: RefObject<HTMLButtonElement | null>;
   onSkip: () => void;
   reducedMotion: boolean;
+  disabled: boolean;
 };
 
 /** Native button semantics provide Tab/Enter support; Esc is handled by the parent dialog. */
-export function SkipButton({ buttonRef, onSkip, reducedMotion }: SkipButtonProps) {
+export function SkipButton({ buttonRef, onSkip, reducedMotion, disabled }: SkipButtonProps) {
   return (
     <button
       ref={buttonRef}
       type="button"
+      disabled={disabled}
       className={`${styles.skip} ${reducedMotion ? styles.skipReduced : ""}`}
       onClick={onSkip}
       aria-label="Skip the Hanuman intro and open Sriram Travels"
