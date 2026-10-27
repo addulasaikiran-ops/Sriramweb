@@ -161,7 +161,9 @@ export function HanumanIntro() {
     timers.current.push(window.setTimeout(() => {
       skipReadyRef.current = true;
       setSkipReady(true);
-      skipButtonRef.current?.focus({ preventScroll: true });
+      window.requestAnimationFrame(() => {
+        skipButtonRef.current?.focus({ preventScroll: true });
+      });
     }, HANUMAN_INTRO.timings.focusSkipMs));
 
     const canUseParallax = (
