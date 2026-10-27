@@ -72,6 +72,40 @@ export default function HomePage() {
         y: 0, opacity: 1, ease: "none",
         scrollTrigger: { trigger: ".manifesto", start: "top 72%", end: "center 42%", scrub: 0.7 },
       });
+      const cinematicStage = root.querySelector<HTMLElement>(".cinematic-stage");
+      const cinematicChapters = gsap.utils.toArray<HTMLElement>(".cinematic-chapter");
+      const cinematicImages = gsap.utils.toArray<HTMLElement>(".cinematic-visual-image");
+      const progressFill = root.querySelector<HTMLElement>(".cinematic-progress-fill");
+      const frameCount = root.querySelector<HTMLElement>(".cinematic-frame-count strong");
+      if (cinematicStage && cinematicChapters.length === 4 && cinematicImages.length === 4) {
+        cinematicImages.forEach((image, index) => {
+          gsap.set(image, { autoAlpha: index === 0 ? 1 : 0, scale: index === 0 ? 1 : 1.08 });
+        });
+        const storyTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: cinematicStage,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: 0.8,
+            onUpdate: (self) => {
+              if (progressFill) progressFill.style.transform = `scaleX(${self.progress})`;
+              const chapterIndex = Math.min(3, Math.floor(self.progress * 4));
+              if (frameCount) frameCount.textContent = `0${chapterIndex + 1}`;
+              cinematicChapters.forEach((chapter, index) => chapter.classList.toggle("is-active", index === chapterIndex));
+            },
+          },
+        });
+        cinematicChapters.forEach((chapter, index) => {
+          const start = index / 4;
+          const end = (index + 1) / 4;
+          if (index > 0) {
+            storyTimeline.to(cinematicImages[index - 1], { autoAlpha: 0, scale: 0.96, duration: 0.16 }, start);
+            storyTimeline.fromTo(cinematicImages[index], { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.22 }, start + 0.02);
+          }
+          storyTimeline.fromTo(chapter, { autoAlpha: 0.35, y: 38 }, { autoAlpha: 1, y: 0, duration: 0.18 }, start + 0.04);
+          storyTimeline.to(chapter, { autoAlpha: index === 3 ? 1 : 0.45, y: index === 3 ? 0 : -22, duration: 0.14 }, end - 0.08);
+        });
+      }
     }, root);
     return () => ctx.revert();
   }, []);
