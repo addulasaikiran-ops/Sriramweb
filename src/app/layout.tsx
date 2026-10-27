@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans, Manrope } from "next/font/google";
+import { site } from "@/data/site";
 import "./globals.css";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
@@ -58,7 +59,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-IN">
-      <body className={`${dmSans.variable} ${manrope.variable} ${cormorant.variable}`}>{children}</body>
+      <body className={`${dmSans.variable} ${manrope.variable} ${cormorant.variable}`}>
+        {children}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, telephone: `+${site.phone}`, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
+      </body>
     </html>
   );
 }
