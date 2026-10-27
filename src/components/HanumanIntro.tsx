@@ -306,8 +306,9 @@ export function HanumanIntro() {
         <span className={styles.sideStamp}>FAITH GUIDES THE WAY</span>
         <div className={styles.editorialTicker}>
           <div className={styles.tickerTrack}>
-            <span>{HANUMAN_INTRO.text.ticker}</span>
-            <span>{HANUMAN_INTRO.text.ticker}</span>
+            {Array.from({ length: 6 }, (_, index) => (
+              <span key={index}>{HANUMAN_INTRO.text.ticker}</span>
+            ))}
           </div>
         </div>
         <div className={styles.chromeBottom}>
