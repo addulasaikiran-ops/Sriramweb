@@ -43,7 +43,7 @@ export function IntroParticles({ lightMode, reducedMotion }: IntroParticlesProps
             "--ember-drift": `${ember.drift}px`,
             "--ember-size": `${ember.size}px`,
             "--ember-alpha": ember.alpha,
-            "--ember-color": EMBER_COLORS[ember.colorIndex],
+            "--ember-color": EMBER_COLORS[0],
           } as CSSProperties}
         />
       ))}
