@@ -6,9 +6,9 @@ export const HANUMAN_INTRO = {
   timings: {
     totalDurationMs: 4500,
     frameStartMs: 0,
-    frameDurationMs: 380,
-    gridDurationMs: 420,
-    gridStaggerMs: 70,
+    frameDurationMs: 300,
+    gridDurationMs: 250,
+    gridStaggerMs: 40,
     skipStartMs: 400,
     skipDurationMs: 240,
     focusSkipMs: 520,
