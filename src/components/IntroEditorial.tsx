@@ -89,7 +89,12 @@ export function Marquee() {
   const phrase = HANUMAN_INTRO.text.marquee;
 
   return (
-    <div className={styles.marquee} data-layer="marquee" aria-hidden="true">
+    <div
+      className={styles.marquee}
+      data-layer="marquee"
+      aria-hidden="true"
+      style={{ "--marquee-duration": `${HANUMAN_INTRO.timings.marqueeLoopDurationMs}ms` } as CSSProperties}
+    >
       <div className={styles.marqueeTrack}>
         {[0, 1].map((group) => (
           <div className={styles.marqueeGroup} key={group}>
