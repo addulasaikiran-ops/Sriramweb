@@ -3,7 +3,7 @@ import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import styles from "./HanumanIntro.module.css";
 
 type CornerPosition = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
-type CornerVariant = "screen" | "art" | "copy";
+type CornerVariant = "screen" | "art" | "welcome";
 
 const cornerClasses: Record<CornerPosition, string> = {
   topLeft: styles.cornerTopLeft,
@@ -25,7 +25,7 @@ export function CornerBrackets({ variant }: { variant: CornerVariant }) {
     ? styles.screenFrame
     : variant === "art"
       ? styles.artFrame
-      : styles.copyFrame;
+      : styles.welcomeFrame;
 
   return (
     <div className={`${styles.cornerFrame} ${variantClass}`} data-frame={variant} aria-hidden="true">
