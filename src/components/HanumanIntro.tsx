@@ -172,20 +172,21 @@ export function HanumanIntro() {
       const quick = gsap.timeline({ onComplete: revealHomepage });
       quick.to(
         withoutNulls([scene, grid, screenFrame, artFrame, welcomeFrame, orbit, artStage, copyBlock, statusDock, marquee, skipButton, particles, speedLines, shockwave]),
-        { autoAlpha: 0, duration: 0.1, ease: easing.expoOut },
+        { autoAlpha: 0, duration: timings.skipFadeDurationMs / 1000, ease: easing.expoOut },
         0,
       );
       if (exitBar) {
-        quick.fromTo(exitBar, { scaleX: 0 }, { scaleX: 1, duration: 0.1, ease: easing.expoInOut }, 0.025);
+        quick.fromTo(exitBar, { scaleX: 0 }, { scaleX: 1, duration: timings.skipWipeDurationMs / 1000, ease: easing.expoInOut }, timings.skipWipeStartMs / 1000);
       }
       if (exitTop && exitBottom) {
-        quick.fromTo(exitTop, { yPercent: -105 }, { yPercent: 0, duration: 0.09, ease: easing.expoInOut }, 0.12);
-        quick.fromTo(exitBottom, { yPercent: 105 }, { yPercent: 0, duration: 0.09, ease: easing.expoInOut }, 0.12);
-        quick.set(root, { backgroundColor: "transparent" }, 0.21);
-        quick.to(exitTop, { yPercent: -105, duration: 0.15, ease: easing.expoInOut }, 0.21);
-        quick.to(exitBottom, { yPercent: 105, duration: 0.15, ease: easing.expoInOut }, 0.21);
+        quick.fromTo(exitTop, { yPercent: -105 }, { yPercent: 0, duration: timings.skipCurtainCloseDurationMs / 1000, ease: easing.expoInOut }, timings.skipCurtainCloseStartMs / 1000);
+        quick.fromTo(exitBottom, { yPercent: 105 }, { yPercent: 0, duration: timings.skipCurtainCloseDurationMs / 1000, ease: easing.expoInOut }, timings.skipCurtainCloseStartMs / 1000);
+        quick.set(root, { backgroundColor: "transparent" }, timings.skipCurtainOpenStartMs / 1000);
+        const quickCurtainOpenDuration = Math.max(0, timings.skipExitDurationMs - timings.skipCurtainOpenStartMs) / 1000;
+        quick.to(exitTop, { yPercent: -105, duration: quickCurtainOpenDuration, ease: easing.expoInOut }, timings.skipCurtainOpenStartMs / 1000);
+        quick.to(exitBottom, { yPercent: 105, duration: quickCurtainOpenDuration, ease: easing.expoInOut }, timings.skipCurtainOpenStartMs / 1000);
       } else {
-        quick.to(root, { opacity: 0, duration: 0.25, ease: easing.quartOut }, 0.1);
+        quick.to(root, { opacity: 0, duration: timings.skipExitDurationMs / 1000, ease: easing.quartOut }, 0);
       }
       masterTimelineRef.current = quick;
     };
@@ -239,7 +240,7 @@ export function HanumanIntro() {
         0,
       );
       reducedTimeline.call(() => skipButton?.focus({ preventScroll: true }), [], 0.08);
-      reducedTimeline.to(root, { opacity: 0, duration: 0.3, ease: easing.quartOut }, 0.5);
+      reducedTimeline.to(root, { opacity: 0, duration: timings.reducedMotionExitMs / 1000, ease: easing.quartOut }, (timings.reducedMotionDurationMs - timings.reducedMotionExitMs) / 1000);
       masterTimelineRef.current = reducedTimeline;
     } else {
       gsap.set(screenMarks, { clipPath: "inset(0% 100% 100% 0%)", autoAlpha: 0 });
@@ -290,7 +291,7 @@ export function HanumanIntro() {
           stagger: timings.gridStaggerMs / 1000,
           ease: easing.quartOut,
         },
-        0.02,
+        timings.gridStartDelayMs / 1000,
       );
       timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], (timings.frameDurationMs + 120) / 1000);
       timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
@@ -518,13 +519,14 @@ export function HanumanIntro() {
 
   if (!visible) return null;
 
-  const { colors, text, trailOffsets } = HANUMAN_INTRO;
+  const { colors, timings, text, trailOffsets } = HANUMAN_INTRO;
   const rootStyle = {
     "--intro-black": colors.black,
     "--intro-saffron": colors.saffron,
     "--intro-orange": colors.deepOrange,
     "--intro-gold": colors.gold,
     "--intro-paper": colors.offWhite,
+    "--frame-pulse-duration": `${timings.framePulseDurationMs}ms`,
   } as CSSProperties;
 
   return (
