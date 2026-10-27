@@ -677,3 +677,9 @@ body{background:var(--paper);color:var(--ink)}
 @media(max-width:760px){
   .main-nav{inset:auto 0 auto 0;top:100%}
 }
+
+
+/* Indian fleet-led hero photo: keep the existing charcoal / ivory / gold treatment. */
+.image-frame.hero-image-frame{background-image:none;background-color:#263039}
+.hero-car-image{opacity:1!important;object-fit:cover;object-position:58% center;filter:saturate(.88) contrast(1.04)}
+@media(max-width:760px){.hero-car-image{object-position:56% center}}

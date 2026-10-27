@@ -22,7 +22,7 @@ export type Vehicle = {
   image: string;
 };
 
-// Editorial reference photography is used until owner-supplied fleet photos are available.
+// Model-specific external reference photos for layout preview. Replace with owner-supplied fleet photos before relying on exact vehicle condition/variant.
 export const fleet: Vehicle[] = [
   {
     number: "01",
@@ -33,7 +33,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Local & outstation",
-    image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1600&q=88",
+    image: "https://cdn-s3.autocarindia.com/legacy/cdni/Galleries/20160920123111_DSP_9248.jpg?q=85&w=1200",
   },
   {
     number: "02",
@@ -44,7 +44,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Family & outstation",
-    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1600&q=88",
+    image: "https://stimg.cardekho.com/images/car-images/930x620/Toyota/Innova-Crysta/9612/1780562886859/Platinum-White-Pearl_898c89.jpg?impolicy=resize&imwidth=1200",
   },
   {
     number: "03",
@@ -55,7 +55,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Group journeys",
-    image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1600&q=88",
+    image: "https://forceurbania.co.in/wp-content/uploads/2022/12/STYLING-2.jpg",
   },
   {
     number: "04",
@@ -66,7 +66,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=88",
+    image: "https://buscdn.cardekho.com/in/force/traveller-3700/force-traveller-3700.jpg",
   },
   {
     number: "05",
@@ -77,7 +77,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Family & local",
-    image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1600&q=88",
+    image: "https://cdn-s3.autocarindia.com/legacy/cdni/ExtraImages/20220415113510_Ertiga_FL.jpg?q=85&w=1200",
   },
   {
     number: "06",
@@ -88,7 +88,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=1600&q=88",
+    image: "https://www.trucksbuses.com/uploads/43492_7d10764c11ff4ec2b1465a5e2243bc743700a.jpg",
   },
 ];
 
