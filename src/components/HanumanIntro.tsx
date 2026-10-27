@@ -98,7 +98,6 @@ export function HanumanIntro() {
     const telugu = q<HTMLElement>(`.${styles.teluguLine}`);
     const lowerLabel = q<HTMLElement>(`.${styles.lowerLabel}`);
     const welcome = q<HTMLElement>(`.${styles.welcomeText}`);
-    const welcomeBlock = q<HTMLElement>(`.${styles.welcomeBlock}`);
     const statusDock = q<HTMLElement>(`.${styles.statusDock}`);
     const marquee = q<HTMLElement>(`.${styles.marquee}`);
     const speedLines = qa<HTMLElement>(`.${styles.speedLine}`);
@@ -125,8 +124,7 @@ export function HanumanIntro() {
       finished = true;
       masterTimelineRef.current?.kill();
       masterTimelineRef.current = null;
-      if (onKeyDown) {
-        if (onKeyDown) document.removeEventListener("keydown", onKeyDown);
+      if (onKeyDown) { document.removeEventListener("keydown", onKeyDown);
         onKeyDown = null;
       }
       finishRef.current = () => undefined;
