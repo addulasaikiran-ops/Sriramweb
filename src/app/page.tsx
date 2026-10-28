@@ -92,6 +92,17 @@ export default function HomePage() {
         cinematicImages.forEach((image, index) => {
           gsap.set(image, { autoAlpha: index === 0 ? 1 : 0, scale: index === 0 ? 1 : 1.08 });
         });
+        cinematicChapters.forEach((chapter, index) => {
+          const isActive = index === 0;
+          chapter.classList.toggle("is-active", isActive);
+          if (window.matchMedia("(min-width: 761px)").matches) {
+            chapter.setAttribute("aria-hidden", String(!isActive));
+            chapter.inert = !isActive;
+          } else {
+            chapter.removeAttribute("aria-hidden");
+            chapter.inert = false;
+          }
+        });
         const storyTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: cinematicStage,
@@ -102,7 +113,18 @@ export default function HomePage() {
               if (progressFill) progressFill.style.transform = `scaleX(${self.progress})`;
               const chapterIndex = Math.min(3, Math.floor(self.progress * 4));
               if (frameCount) frameCount.textContent = `0${chapterIndex + 1}`;
-              cinematicChapters.forEach((chapter, index) => chapter.classList.toggle("is-active", index === chapterIndex));
+              const desktopStory = window.matchMedia("(min-width: 761px)").matches;
+              cinematicChapters.forEach((chapter, index) => {
+                const isActive = index === chapterIndex;
+                chapter.classList.toggle("is-active", isActive);
+                if (desktopStory) {
+                  chapter.setAttribute("aria-hidden", String(!isActive));
+                  chapter.inert = !isActive;
+                } else {
+                  chapter.removeAttribute("aria-hidden");
+                  chapter.inert = false;
+                }
+              });
             },
           },
         });
@@ -113,8 +135,8 @@ export default function HomePage() {
             storyTimeline.to(cinematicImages[index - 1], { autoAlpha: 0, scale: 0.96, duration: 0.16 }, start);
             storyTimeline.fromTo(cinematicImages[index], { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 0.22 }, start + 0.02);
           }
-          storyTimeline.fromTo(chapter, { autoAlpha: 0.35, y: 38 }, { autoAlpha: 1, y: 0, duration: 0.18 }, start + 0.04);
-          storyTimeline.to(chapter, { autoAlpha: index === 3 ? 1 : 0.45, y: index === 3 ? 0 : -22, duration: 0.14 }, end - 0.08);
+          storyTimeline.fromTo(chapter, { autoAlpha: 0, y: 38, immediateRender: false }, { autoAlpha: 1, y: 0, duration: 0.18 }, start + 0.04);
+          storyTimeline.to(chapter, { autoAlpha: index === 3 ? 1 : 0, y: index === 3 ? 0 : -22, duration: 0.14 }, end - 0.08);
         });
       }
       });
@@ -123,11 +145,20 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (!menuOpen) { document.body.style.overflow = ""; return; }
+    if (!menuOpen) return;
+    const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") { setMenuOpen(false); menuToggleRef.current?.focus(); } };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
     document.addEventListener("keydown", onKeyDown);
-    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", onKeyDown); };
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [menuOpen]);
 
   const chooseVehicle = (index: number) => {
@@ -147,7 +178,7 @@ export default function HomePage() {
           <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#destinations">Destinations</a><a onClick={() => setMenuOpen(false)} href="#faq">FAQ</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
         </nav>
         <div className="header-actions"><a className="header-phone" href={`tel:+${site.phone}`}><Phone size={14} /> <span>{site.phoneDisplay}</span></a><WhatsAppLink label="Enquire now" className="button button-dark header-cta" /></div>
-        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X /> : <Menu />}</button>
+        <button ref={menuToggleRef} className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
       <main id="main-content">
