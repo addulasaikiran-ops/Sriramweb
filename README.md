@@ -21,7 +21,15 @@ npm run build
 
 Set `NEXT_PUBLIC_SITE_URL` to the real canonical HTTPS origin in your deployment environment. Do not use a placeholder domain in production. Without this value, the sitemap stays empty and canonical/absolute social metadata is omitted rather than guessed.
 
-This repository configures the MIT-licensed Claude SEO plugin from [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo) in `.claude/settings.json`. Open the project in Claude Code and approve the project marketplace/plugin if prompted. If it is not available, run the upstream installation commands:\n\n```text\n/plugin marketplace add AgriciDaniel/claude-seo\n/plugin install claude-seo@agricidaniel-claude-seo\n/seo setup\n```\n\nThen use targeted audits such as `/seo technical`, `/seo schema`, `/seo sitemap`, `/seo local`, and `/seo performance`. These commands run in Claude Code, not in GitHub Actions. See `docs/seo-implementation.md` and `.claude/skills/sriram-travels-seo/SKILL.md` for the project-specific checklist.
+This repository configures the MIT-licensed Claude SEO plugin from [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo) in `.claude/settings.json`. Open the project in Claude Code and approve the project marketplace/plugin if prompted. If it is not available, run the upstream installation commands:
+
+```text
+/plugin marketplace add AgriciDaniel/claude-seo
+/plugin install claude-seo@agricidaniel-claude-seo
+/seo setup
+```
+
+Then use targeted audits such as `/seo technical`, `/seo schema`, `/seo sitemap`, `/seo local`, and `/seo performance`. These commands run in Claude Code, not in GitHub Actions. See `docs/seo-implementation.md` and `.claude/skills/sriram-travels-seo/SKILL.md` for the project-specific checklist.
 
 ## Deployment
 
