@@ -95,8 +95,13 @@ export default function HomePage() {
         cinematicChapters.forEach((chapter, index) => {
           const isActive = index === 0;
           chapter.classList.toggle("is-active", isActive);
-          chapter.setAttribute("aria-hidden", String(!isActive));
-          chapter.inert = !isActive;
+          if (window.matchMedia("(min-width: 761px)").matches) {
+            chapter.setAttribute("aria-hidden", String(!isActive));
+            chapter.inert = !isActive;
+          } else {
+            chapter.removeAttribute("aria-hidden");
+            chapter.inert = false;
+          }
         });
         const storyTimeline = gsap.timeline({
           scrollTrigger: {
@@ -108,11 +113,17 @@ export default function HomePage() {
               if (progressFill) progressFill.style.transform = `scaleX(${self.progress})`;
               const chapterIndex = Math.min(3, Math.floor(self.progress * 4));
               if (frameCount) frameCount.textContent = `0${chapterIndex + 1}`;
+              const desktopStory = window.matchMedia("(min-width: 761px)").matches;
               cinematicChapters.forEach((chapter, index) => {
                 const isActive = index === chapterIndex;
                 chapter.classList.toggle("is-active", isActive);
-                chapter.setAttribute("aria-hidden", String(!isActive));
-                chapter.inert = !isActive;
+                if (desktopStory) {
+                  chapter.setAttribute("aria-hidden", String(!isActive));
+                  chapter.inert = !isActive;
+                } else {
+                  chapter.removeAttribute("aria-hidden");
+                  chapter.inert = false;
+                }
               });
             },
           },
