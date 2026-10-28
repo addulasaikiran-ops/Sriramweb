@@ -9,7 +9,15 @@ This project uses the MIT-licensed Claude SEO plugin by AgriciDaniel as its spec
 
 ## Install and use the upstream plugin
 
-The repository declares the upstream marketplace and enables `claude-seo@agricidaniel-claude-seo` in `.claude/settings.json`. Claude Code may ask a user to trust the project or confirm plugin installation; approve only after reviewing the marketplace and plugin. If the plugin is not available after opening the repository, run the official commands in Claude Code:\n\n```text\n/plugin marketplace add AgriciDaniel/claude-seo\n/plugin install claude-seo@agricidaniel-claude-seo\n/seo setup\n```\n\nThen use targeted commands such as `/seo audit`, `/seo technical`, `/seo schema`, `/seo sitemap`, `/seo local`, and `/seo performance` as appropriate. The upstream plugin is not copied wholesale into this repository and its commands do not run in GitHub Actions.
+The repository declares the upstream marketplace and enables `claude-seo@agricidaniel-claude-seo` in `.claude/settings.json`. Claude Code may ask a user to trust the project or confirm plugin installation; approve only after reviewing the marketplace and plugin. If the plugin is not available after opening the repository, run the official commands in Claude Code:
+
+```text
+/plugin marketplace add AgriciDaniel/claude-seo
+/plugin install claude-seo@agricidaniel-claude-seo
+/seo setup
+```
+
+Then use targeted commands such as `/seo audit`, `/seo technical`, `/seo schema`, `/seo sitemap`, `/seo local`, and `/seo performance` as appropriate. The upstream plugin is not copied wholesale into this repository and its commands do not run in GitHub Actions.
 
 Upstream source and install instructions: https://github.com/AgriciDaniel/claude-seo (MIT). Re-check upstream instructions before changing plugin setup.
 
