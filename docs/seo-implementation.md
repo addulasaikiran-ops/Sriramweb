@@ -2,7 +2,15 @@
 
 ## Claude SEO plugin
 
-This repository declares the upstream MIT-licensed Claude SEO marketplace and enables its plugin in `.claude/settings.json`. Claude Code may require project trust and explicit plugin installation approval. If it does not appear automatically, run these official commands in Claude Code:\n\n```text\n/plugin marketplace add AgriciDaniel/claude-seo\n/plugin install claude-seo@agricidaniel-claude-seo\n/seo setup\n```\n\nThe repository-local `.claude/skills/sriram-travels-seo/SKILL.md` captures project constraints; it is not a vendored copy of the upstream plugin. Claude SEO commands run inside Claude Code, not GitHub Actions.
+This repository declares the upstream MIT-licensed Claude SEO marketplace and enables its plugin in `.claude/settings.json`. Claude Code may require project trust and explicit plugin installation approval. If it does not appear automatically, run these official commands in Claude Code:
+
+```text
+/plugin marketplace add AgriciDaniel/claude-seo
+/plugin install claude-seo@agricidaniel-claude-seo
+/seo setup
+```
+
+The repository-local `.claude/skills/sriram-travels-seo/SKILL.md` captures project constraints; it is not a vendored copy of the upstream plugin. Claude SEO commands run inside Claude Code, not GitHub Actions.
 
 Upstream: https://github.com/AgriciDaniel/claude-seo
 
