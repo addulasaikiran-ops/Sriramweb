@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main, feat/hanuman-opening-intro]
+    branches: [main, feat/hanuman-opening-intro, feat/sriram-claude-seo]
   pull_request:
     branches: [main]
 
