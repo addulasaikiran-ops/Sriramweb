@@ -6,6 +6,7 @@ import { gsap } from "gsap";
 import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import styles from "./HanumanIntro.module.css";
 import { HANUMAN_INTRO } from "./hanumanIntro.config";
+import { collectHanumanIntroElements } from "./hanumanIntro.dom";
 import { IntroScene } from "./IntroScene";
 import { IntroParticles } from "./IntroParticles";
 import { SkipButton } from "./SkipButton";
@@ -85,33 +86,13 @@ export function HanumanIntro() {
     document.body.style.overflow = "hidden";
     html.style.overflow = "hidden";
 
-    const q = <T extends Element>(selector: string) => root.querySelector<T>(selector);
-    const qa = <T extends Element>(selector: string) => Array.from(root.querySelectorAll<T>(selector));
+    const {
+      screenFrame, artFrame, welcomeFrame, scene, grid, gridLines,
+      screenMarks, artMarks, welcomeMarks, skipButton, copyBlock,
+      upperLabel, headlineLines, telugu, lowerLabel, welcome, statusDock,
+      marquee, speedLines, shockwave, exitBar, exitTop, exitBottom, particles,
+    } = collectHanumanIntroElements(root, skipButtonRef.current);
 
-    const screenFrame = q<HTMLElement>('[data-frame="screen"]');
-    const artFrame = q<HTMLElement>('[data-frame="art"]');
-    const welcomeFrame = q<HTMLElement>('[data-frame="welcome"]');
-    const scene = q<HTMLElement>(`.${styles.scene}`);
-    const grid = q<HTMLElement>(`.${styles.gridLines}`);
-    const gridLines = qa<HTMLElement>(`.${styles.gridLine}`);
-    const screenMarks = qa<SVGElement>('[data-frame="screen"] .' + styles.cornerMark);
-    const artMarks = qa<SVGElement>('[data-frame="art"] .' + styles.cornerMark);
-    const welcomeMarks = qa<SVGElement>('[data-frame="welcome"] .' + styles.cornerMark);
-    const skipButton = skipButtonRef.current;
-    const copyBlock = q<HTMLElement>(`.${styles.copyBlock}`);
-    const upperLabel = q<HTMLElement>(`.${styles.upperLabel}`);
-    const headlineLines = qa<HTMLElement>(`.${styles.headlineLine}`);
-    const telugu = q<HTMLElement>(`.${styles.teluguLine}`);
-    const lowerLabel = q<HTMLElement>(`.${styles.lowerLabel}`);
-    const welcome = q<HTMLElement>(`.${styles.welcomeText}`);
-    const statusDock = q<HTMLElement>(`.${styles.statusDock}`);
-    const marquee = q<HTMLElement>(`.${styles.marquee}`);
-    const speedLines = qa<HTMLElement>(`.${styles.speedLine}`);
-    const shockwave = q<HTMLElement>(`.${styles.shockwaveRing}`);
-    const exitBar = q<HTMLElement>(`.${styles.exitBar}`);
-    const exitTop = q<HTMLElement>(`.${styles.exitPanelTop}`);
-    const exitBottom = q<HTMLElement>(`.${styles.exitPanelBottom}`);
-    const particles = q<HTMLElement>(`.${styles.emberField}`);
     const { timings, easing } = HANUMAN_INTRO;
 
     const restoreScroll = () => {
