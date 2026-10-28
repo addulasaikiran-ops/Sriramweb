@@ -6,7 +6,7 @@ import "./globals.css";
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], style: ["italic", "normal"], weight: ["400", "500", "600"], variable: "--font-cormorant", display: "swap" });
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/+$/, "");
 
 const siteDescription =
   "Explore car rental, local and outstation travel, family and group journeys, and towing enquiries with Sriram Travels in Gooty, Andhra Pradesh.";
@@ -56,6 +56,45 @@ export const viewport: Viewport = {
   themeColor: "#111b2b",
 };
 
+const businessId = siteUrl ? `${siteUrl}/#business` : undefined;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AutoRental",
+      ...(businessId ? { "@id": businessId } : {}),
+      name: site.name,
+      ...(siteUrl ? {
+        url: siteUrl,
+        image: `${siteUrl}/opengraph-image`,
+        logo: `${siteUrl}/icon.svg`,
+      } : {}),
+      description: siteDescription,
+      telephone: `+${site.phone}`,
+      areaServed: {
+        "@type": "Place",
+        name: "Gooty, Andhra Pradesh, India",
+      },
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Travel and roadside assistance enquiries",
+        itemListElement: [
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Local and outstation car rental" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Family and group travel" } },
+          { "@type": "Offer", itemOffered: { "@type": "Service", name: "Towing and recovery enquiries" } },
+        ],
+      },
+    },
+    {
+      "@type": "WebSite",
+      ...(siteUrl ? { "@id": `${siteUrl}/#website`, url: siteUrl } : {}),
+      name: site.name,
+      inLanguage: "en-IN",
+      ...(businessId ? { publisher: { "@id": businessId } } : { publisher: { "@type": "AutoRental", name: site.name } }),
+    },
+  ],
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en-IN" suppressHydrationWarning>
@@ -66,7 +105,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
         {children}
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": "LocalBusiness", name: site.name, telephone: `+${site.phone}`, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, "\\\\u003c"),
+          }}
+        />
       </body>
     </html>
   );
