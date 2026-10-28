@@ -104,6 +104,7 @@ export function HanumanIntro() {
     const telugu = q<HTMLElement>(`.${styles.teluguLine}`);
     const lowerLabel = q<HTMLElement>(`.${styles.lowerLabel}`);
     const welcome = q<HTMLElement>(`.${styles.welcomeText}`);
+    const welcomeBlock = q<HTMLElement>(`.${styles.welcomeBlock}`);
     const statusDock = q<HTMLElement>(`.${styles.statusDock}`);
     const marquee = q<HTMLElement>(`.${styles.marquee}`);
     const speedLines = qa<HTMLElement>(`.${styles.speedLine}`);
