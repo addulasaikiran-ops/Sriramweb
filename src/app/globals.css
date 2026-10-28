@@ -1067,3 +1067,13 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
     transform: none !important;
   }
 }
+
+
+/* Release-pass: keep sticky story chapters exclusive and keyboard-safe. */
+@media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+  .cinematic-chapter { opacity: 0; }
+  .cinematic-chapter.is-active { opacity: 1; }
+}
+@media (max-width: 760px), (prefers-reduced-motion: reduce) {
+  .cinematic-chapter { visibility: visible; }
+}
