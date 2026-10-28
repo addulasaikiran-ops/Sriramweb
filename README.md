@@ -9,22 +9,20 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000.
-
-## Production build
+## Quality checks
 
 ```bash
+npm run lint
+npm run typecheck
 npm run build
-npm start
 ```
 
-## Project structure
+## SEO setup
 
-- `src/app` — App Router pages and global styles
-- `src/components` — reusable UI components as the site grows
-- `src/data/site.ts` — fleet and contact data
-- GSAP ScrollTrigger — scroll-linked entrances and reveal animations
+Set `NEXT_PUBLIC_SITE_URL` to the real canonical HTTPS origin in your deployment environment. Do not use a placeholder domain in production. Without this value, the sitemap stays empty and canonical/absolute social metadata is omitted rather than guessed.
 
-## Before publishing
+This repository configures the MIT-licensed Claude SEO plugin from [AgriciDaniel/claude-seo](https://github.com/AgriciDaniel/claude-seo) in `.claude/settings.json`. In Claude Code, approve the project marketplace/plugin if prompted, run `/seo setup`, and use targeted audits such as `/seo technical`, `/seo schema`, `/seo sitemap`, `/seo local`, and `/seo performance`. See `docs/seo-implementation.md` and `.claude/skills/sriram-travels-seo/SKILL.md` for the project-specific checklist.
 
-Review phone and WhatsApp values in `src/data/site.ts`. Fleet information and vehicle images are editable sample content until verified by the business owner.
+## Deployment
+
+Cloudflare Workers/OpenNext configuration is included. Run `npm run preview` before `npm run deploy`; verify the actual deployed domain, contact links, sitemap, robots route and mobile layout after deployment. Owner confirmation is still required for phone number, fleet details, fares and the canonical domain.
