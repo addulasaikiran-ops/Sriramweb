@@ -217,7 +217,6 @@ export function HanumanIntro() {
       });
       gsap.set(headlineLines, { yPercent: 112, autoAlpha: 0 });
       gsap.set(marquee, { yPercent: 110, autoAlpha: 0 });
-      gsap.set(skipButton!, { y: -8, autoAlpha: 0 });
       gsap.set(shockwave, { scale: 0.18, autoAlpha: 0 });
       gsap.set(speedLines, { scaleX: 0, autoAlpha: 0, transformOrigin: "right center" });
       gsap.set(exitBar, { scaleX: 0, transformOrigin: "left center" });
@@ -252,12 +251,6 @@ export function HanumanIntro() {
       );
       timeline.call(() => screenFrame?.classList.add(styles.frameLive), [], (timings.frameDurationMs + 120) / 1000);
       timeline.call(() => setSkipReady(true), [], timings.skipStartMs / 1000);
-      timeline.fromTo(
-        skipButton!,
-        { autoAlpha: 0, y: -8 },
-        { autoAlpha: 1, y: 0, duration: timings.skipDurationMs / 1000, ease: easing.expoOut },
-        timings.skipStartMs / 1000,
-      );
 
       // 0.30–1.90s — the artwork rides a curved MotionPath with three sharp ghost trails.
       timeline.fromTo(
