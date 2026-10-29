@@ -1,1 +1,21 @@
-export function Brand({footer=false}:{footer?:boolean}){return <a href="#home" className={footer?"brand footer-brand":"brand"} aria-label="Sriram Travels home"><span className="brand-mark" aria-hidden="true"><span className="brand-mark-line"/><span className="brand-mark-line short"/></span><span><strong>SRIRAM<span>.</span></strong><small>TRAVELS &amp; TOWING SERVICES</small></span></a>;}
+import Image from "next/image";
+
+export function Brand({ footer = false }: { footer?: boolean }) {
+  return (
+    <a
+      href="#home"
+      className={footer ? "brand footer-brand" : "brand"}
+      aria-label="Sriram Travels home"
+    >
+      <Image
+        className="brand-logo"
+        src="/Hanuman%20Flight%20Sriram%20Travels%20Logo.png"
+        alt="Sriram Travels — flying Lord Hanuman carrying the Sanjeevani mountain, with the Sriram Travels wordmark and flag"
+        width={220}
+        height={110}
+        priority
+        draggable={false}
+      />
+    </a>
+  );
+}

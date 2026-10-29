@@ -1067,3 +1067,40 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
     transform: none !important;
   }
 }
+
+
+/* Real brand artwork: transparent canvas, no extra badge or rectangular backing. */
+.brand-logo {
+  display: block;
+  width: 142px;
+  height: auto;
+  max-height: 64px;
+  object-fit: contain;
+  object-position: left center;
+  flex: 0 0 auto;
+  background: transparent;
+}
+.footer-brand .brand-logo {
+  width: 174px;
+  max-height: 84px;
+}
+@media (max-width: 760px) {
+  .brand-logo {
+    width: 112px;
+    max-height: 54px;
+  }
+  .footer-brand .brand-logo {
+    width: 150px;
+    max-height: 74px;
+  }
+}
+@media (max-width: 360px) {
+  .brand-logo {
+    width: 98px;
+    max-height: 48px;
+  }
+  .footer-brand .brand-logo {
+    width: 132px;
+    max-height: 66px;
+  }
+}
