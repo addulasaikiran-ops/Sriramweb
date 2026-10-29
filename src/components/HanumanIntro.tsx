@@ -7,10 +7,7 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import styles from "./HanumanIntro.module.css";
 import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import { collectHanumanIntroElements } from "./hanumanIntro.dom";
-import { IntroScene } from "./IntroScene";
-import { IntroParticles } from "./IntroParticles";
 import { SkipButton } from "./SkipButton";
-import { CornerBrackets, IntroGrid, LoadCounter, Marquee } from "./IntroEditorial";
 
 function withoutNulls<T>(values: Array<T | null | undefined>): T[] {
   return values.filter((value): value is T => value !== null && value !== undefined);
@@ -513,105 +510,26 @@ export function HanumanIntro() {
   return (
     <div
       ref={rootRef}
-      className={styles.root}
+      className={`${styles.root} ${styles.simpleIntro}`}
       style={rootStyle}
       role="dialog"
       tabIndex={-1}
       aria-modal="true"
-      aria-labelledby="hanuman-intro-title"
-      aria-describedby="hanuman-intro-welcome"
+      aria-label="Sriram Travels intro"
     >
-      <IntroScene lightMode={lowPower} />
-      <IntroParticles lightMode={lowPower} reducedMotion={reducedMotion} />
-      <IntroGrid />
-      <CornerBrackets variant="screen" />
-
-      <div className={styles.orbitRing} ref={orbitRef} aria-hidden="true">
-        <svg viewBox="0 0 600 600" focusable="false">
-          <circle cx="300" cy="300" r="258" fill="none" stroke="currentColor" strokeWidth="1" />
-          <circle cx="300" cy="300" r="230" fill="none" stroke="currentColor" strokeWidth=".7" strokeDasharray="1 14" />
-          <path d="M300 12V52M300 548V588M12 300H52M548 300H588M97 97L125 125M475 475L503 503M503 97L475 125M125 475L97 503" fill="none" stroke="currentColor" strokeWidth="1.2" />
-        </svg>
-      </div>
-
       <div className={styles.artStage} ref={artRef} data-layer="art">
-        <CornerBrackets variant="art" />
-        {trailOffsets.slice(0, lowPower ? 1 : 3).map((trail, index) => (
-          <Image
-            key={index}
-            src="/images/hanuman-flying-silhouette.svg"
-            alt=""
-            aria-hidden="true"
-            width={850}
-            height={480}
-            className={styles.trailImage}
-            style={{
-              "--trail-x": `${trail.x}%`,
-              "--trail-y": `${trail.y}px`,
-              "--trail-opacity": trail.opacity,
-              "--trail-scale": trail.scale,
-            } as CSSProperties}
-            draggable={false}
-          />
-        ))}
         <Image
-          src="/images/hanuman-flying-silhouette.svg"
-          alt="Flying Hanuman carrying the Sanjeevani mountain"
-          width={850}
-          height={480}
+          src="/Hanuman%20Flight%20Sriram%20Travels%20Logo.png"
+          alt="Sriram Travels logo with flying Lord Hanuman carrying the Sanjeevani mountain"
+          width={1000}
+          height={1000}
           priority
           fetchPriority="high"
           className={styles.hanumanImage}
           draggable={false}
         />
-        {!lowPower && (
-          <>
-            <Image
-              src="/images/hanuman-flying-silhouette.svg"
-              alt=""
-              aria-hidden="true"
-              width={850}
-              height={480}
-              className={`${styles.hanumanImage} ${styles.glitchSlice} ${styles.glitchSliceOne}`}
-              draggable={false}
-            />
-            <Image
-              src="/images/hanuman-flying-silhouette.svg"
-              alt=""
-              aria-hidden="true"
-              width={850}
-              height={480}
-              className={`${styles.hanumanImage} ${styles.glitchSlice} ${styles.glitchSliceTwo}`}
-              draggable={false}
-            />
-          </>
-        )}
       </div>
 
-      <div className={styles.speedLines} aria-hidden="true" data-layer="speed-lines">
-        <span className={styles.speedLine} />
-        <span className={styles.speedLine} />
-        <span className={styles.speedLine} />
-        <span className={styles.speedLine} />
-      </div>
-      <div className={styles.shockwaveRing} aria-hidden="true" />
-
-      <div className={styles.copyBlock} data-layer="copy">
-        <p className={styles.upperLabel}>{text.upperLabel}</p>
-        <h1 id="hanuman-intro-title" className={styles.headline} aria-label={text.headlineAccessible}>
-          <span className={styles.headlineMask}><span className={styles.headlineLine} aria-hidden="true">{text.headlineLineOne}</span></span>
-          <span className={styles.headlineMask}><span className={styles.headlineLine} aria-hidden="true">{text.headlineLineTwo}</span></span>
-        </h1>
-        <p className={styles.teluguLine} aria-label={text.telugu}>{text.telugu}</p>
-        <p className={styles.lowerLabel}>{text.lowerLabel}</p>
-        <div className={styles.welcomeBlock} id="hanuman-intro-welcome">
-          <CornerBrackets variant="welcome" />
-          <p className={styles.welcomeText}>{text.welcome}</p>
-        </div>
-      </div>
-
-      <LoadCounter counterRef={counterRef} />
-      <Marquee />
       <SkipButton buttonRef={skipButtonRef} onSkip={() => finishRef.current()} disabled={!skipReady} />
 
       <div className={styles.exitBar} aria-hidden="true" />
