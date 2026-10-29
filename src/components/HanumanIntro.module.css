@@ -675,3 +675,42 @@
   .marqueeTrack { transform: none !important; }
   .cornerMark { clip-path: inset(0% 0% 0% 0%); opacity: .68; }
 }
+
+/* Keep the art and title from colliding on short phones and landscape viewports. */
+@media (max-height: 700px) and (max-width: 600px) {
+  .artStage {
+    top: 25%;
+    width: min(66vw, 330px);
+  }
+  .orbitRing {
+    top: 25%;
+    width: min(54vw, 270px);
+  }
+  .copyBlock {
+    top: 57%;
+    width: calc(100vw - 28px);
+  }
+  .upperLabel {
+    margin-bottom: 8px;
+  }
+  .headline {
+    font-size: clamp(36px, 10vw, 48px);
+    line-height: .86;
+  }
+  .teluguLine {
+    margin-top: 5px;
+    font-size: clamp(20px, 6vw, 25px);
+  }
+  .lowerLabel {
+    margin-top: 4px;
+    font-size: 6px;
+    line-height: 1.35;
+  }
+  .welcomeBlock {
+    min-height: 28px;
+    margin-top: 7px;
+  }
+  .statusDock {
+    bottom: max(28px, calc(env(safe-area-inset-bottom) + 24px));
+  }
+}
