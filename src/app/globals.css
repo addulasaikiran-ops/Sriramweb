@@ -1077,3 +1077,9 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 @media (max-width: 760px), (prefers-reduced-motion: reduce) {
   .cinematic-chapter { visibility: visible; }
 }
+
+
+/* Sriram Travels Hanuman brand mark */
+.brand-logo{display:block;width:142px;height:auto;max-height:64px;object-fit:contain;flex:0 0 auto}
+.footer-brand .brand-logo{width:174px;max-height:84px}
+@media(max-width:760px){.brand-logo{width:112px;max-height:54px}.footer-brand .brand-logo{width:150px;max-height:74px}}
