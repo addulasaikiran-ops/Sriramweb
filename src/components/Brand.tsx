@@ -7,10 +7,10 @@ export function Brand({ footer = false }: { footer?: boolean }) {
     >
       <img
         className="brand-logo"
-        src="/images/sriram-travels-logo.svg"
-        alt="Sriram Travels — Hanuman carrying the Sanjeevani mountain"
-        width={150}
-        height={72}
+        src="/Hanuman%20Flight%20Sriram%20Travels%20Logo.png"
+        alt="Sriram Travels — flying Lord Hanuman carrying the Sanjeevani mountain, with the Sriram Travels wordmark and flag"
+        width={220}
+        height={110}
         loading="eager"
       />
     </a>
