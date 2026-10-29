@@ -679,7 +679,9 @@
 
 /* Simple brand intro: one large logo gently moving in a soft breeze. */
 .simpleIntro {
-  background: #f5f1e8;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(255, 153, 51, .11) 0%, rgba(255, 153, 51, .035) 24%, transparent 47%),
+    radial-gradient(ellipse at 50% 50%, #fffaf1 0%, #f5f1e8 62%, #e9e1d3 100%);
   color: #111b2b;
 }
 .simpleIntro .scene,
@@ -696,8 +698,8 @@
 }
 .simpleIntro .artStage {
   z-index: 2;
-  top: 46%;
-  width: min(88vw, 760px);
+  top: 50%;
+  width: min(78vw, 720px);
   aspect-ratio: 1 / 1;
   transform-origin: 50% 50%;
 }
@@ -721,7 +723,7 @@
   .simpleIntro .hanumanImage { animation: none; }
 }
 @media (max-width: 640px) {
-  .simpleIntro .artStage { width: min(94vw, 560px); top: 45%; }
+  .simpleIntro .artStage { width: min(92vw, 560px); top: 50%; }
 }
 
 
@@ -745,4 +747,177 @@
     filter: none;
     transform: none;
   }
+}
+
+/* Premium editorial art direction: quiet paper, precise framing, warm light. */
+.simpleIntro {
+  background:
+    radial-gradient(ellipse at 50% 43%, rgba(255, 168, 72, .2) 0%, rgba(255, 168, 72, .07) 22%, transparent 48%),
+    radial-gradient(ellipse at 50% 100%, rgba(18, 34, 54, .055), transparent 55%),
+    linear-gradient(145deg, #fffdf8 0%, #f5f0e6 52%, #eee5d7 100%);
+  color: #152238;
+}
+.simpleIntro::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: .42;
+  background-image:
+    linear-gradient(rgba(21, 34, 56, .035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(21, 34, 56, .035) 1px, transparent 1px);
+  background-size: 9.5vw 9.5vw;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 78%);
+}
+.simpleIntro::after {
+  position: absolute;
+  z-index: 8;
+  inset: clamp(16px, 2.1vw, 32px);
+  content: "";
+  pointer-events: none;
+  border: 1px solid rgba(21, 34, 56, .17);
+  box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .14);
+}
+.simpleIntro .artStage {
+  top: 49%;
+  width: min(72vw, 660px);
+  filter: drop-shadow(0 22px 32px rgba(42, 31, 16, .055));
+}
+.simpleIntro .hanumanImage {
+  filter: drop-shadow(0 0 1px rgba(255, 153, 51, .22));
+  animation: logo-breeze 5.8s cubic-bezier(.45, 0, .55, 1) 1.9s infinite;
+}
+.introEyebrow {
+  position: absolute;
+  z-index: 9;
+  top: clamp(36px, 5.8vh, 64px);
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  width: max-content;
+  max-width: calc(100% - 80px);
+  transform: translateX(-50%);
+  color: #17243a;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.eyebrowRule {
+  display: block;
+  width: clamp(22px, 4vw, 52px);
+  height: 1px;
+  background: #d66a24;
+}
+.eyebrowIndex {
+  margin-left: 7px;
+  color: rgba(23, 36, 58, .52);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .15em;
+}
+.introFooter {
+  position: absolute;
+  z-index: 9;
+  right: clamp(36px, 5.8vw, 84px);
+  bottom: clamp(34px, 5.5vh, 60px);
+  left: clamp(36px, 5.8vw, 84px);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  color: #17243a;
+  font-family: var(--font-dm-sans), Arial, sans-serif;
+  opacity: 0;
+}
+.footerMark {
+  font-family: var(--font-manrope), Arial, sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.08em;
+}
+.footerMark span {
+  display: inline-block;
+  margin-left: 3px;
+  font-size: 8px;
+  vertical-align: top;
+  letter-spacing: 0;
+}
+.footerCaption {
+  color: rgba(23, 36, 58, .68);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .19em;
+  text-align: center;
+}
+.footerIndex {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 8px;
+  font-family: "Roboto Mono", Consolas, monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+}
+.footerIndex i {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: #d66a24;
+}
+.progressTrack {
+  position: absolute;
+  z-index: 10;
+  right: clamp(16px, 2.1vw, 32px);
+  bottom: clamp(16px, 2.1vw, 32px);
+  left: clamp(16px, 2.1vw, 32px);
+  height: 2px;
+  overflow: hidden;
+  background: rgba(21, 34, 56, .11);
+}
+.progressTrack span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: linear-gradient(90deg, #e86d24, #e7ad57);
+}
+@media (max-width: 640px) {
+  .simpleIntro::after { inset: 12px; }
+  .simpleIntro .artStage { top: 49%; width: min(91vw, 540px); }
+  .introEyebrow {
+    top: max(34px, calc(env(safe-area-inset-top) + 22px));
+    gap: 8px;
+    font-size: 8px;
+    letter-spacing: .17em;
+  }
+  .eyebrowIndex { display: none; }
+  .eyebrowRule { width: 20px; }
+  .introFooter {
+    right: 27px;
+    bottom: max(30px, calc(env(safe-area-inset-bottom) + 22px));
+    left: 27px;
+    grid-template-columns: auto 1fr auto;
+    gap: 8px;
+  }
+  .footerMark { font-size: 16px; }
+  .footerCaption { font-size: 6px; letter-spacing: .11em; }
+  .footerIndex { gap: 5px; font-size: 7px; }
+  .footerIndex i { width: 13px; }
+  .progressTrack { right: 12px; bottom: 12px; left: 12px; }
+}
+@media (max-height: 620px) {
+  .simpleIntro .artStage { width: min(54vw, 480px); }
+  .introEyebrow { top: 28px; }
+  .introFooter { bottom: 30px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simpleIntro .hanumanImage { animation: none !important; }
+  .simpleIntro::before { opacity: .2; }
 }
