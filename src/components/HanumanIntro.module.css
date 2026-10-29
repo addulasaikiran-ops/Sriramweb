@@ -723,3 +723,49 @@
 @media (max-width: 640px) {
   .simpleIntro .artStage { width: min(94vw, 560px); top: 45%; }
 }
+
+
+/* Polished but intentionally simple: arrive, settle, then drift in the breeze. */
+.simpleIntro .artStage {
+  animation: logo-arrive 1.15s cubic-bezier(.2,.78,.24,1) both;
+}
+.simpleIntro .hanumanImage {
+  animation: logo-breeze 4.2s ease-in-out 1.05s infinite;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+@keyframes logo-arrive {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 42px, 0) scale(.84);
+    filter: blur(5px);
+  }
+  68% {
+    opacity: 1;
+    transform: translate3d(0, -5px, 0) scale(1.025);
+    filter: blur(0);
+  }
+  84% {
+    transform: translate3d(0, 2px, 0) scale(.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+    filter: blur(0);
+  }
+}
+@keyframes logo-breeze {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.45deg); }
+  25% { transform: translate3d(3px, -5px, 0) rotate(0.15deg); }
+  50% { transform: translate3d(0, -11px, 0) rotate(0.65deg); }
+  75% { transform: translate3d(-3px, -4px, 0) rotate(0.1deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simpleIntro .artStage,
+  .simpleIntro .hanumanImage {
+    animation: none !important;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
