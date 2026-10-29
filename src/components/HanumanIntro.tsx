@@ -62,9 +62,11 @@ export function HanumanIntro() {
     };
 
     let timeline: gsap.core.Timeline | null = null;
+    let safetyTimer = 0;
     const revealHomepage = () => {
       if (finished) return;
       finished = true;
+      window.clearTimeout(safetyTimer);
       timeline?.kill();
       html.classList.remove("hanuman-intro-active");
       html.classList.add("hanuman-home-reveal");
@@ -78,40 +80,39 @@ export function HanumanIntro() {
       setVisible(false);
     };
 
-    // Never let an animation failure leave a full-screen intro blocking the page.
-    const safetyTimer = window.setTimeout(revealHomepage, 5000);
+    // Fail open if the animation library throws or stalls for any reason.
+    safetyTimer = window.setTimeout(revealHomepage, 5000);
 
     try {
-      timeline = gsap.timeline({
-        onComplete: () => {
-          window.clearTimeout(safetyTimer);
-          revealHomepage();
-        },
-      });
+      timeline = gsap.timeline({ onComplete: revealHomepage });
 
       if (reduceMotion) {
         gsap.set(artStage, { clearProps: "transform", autoAlpha: 1 });
         timeline.to(root, { autoAlpha: 0, duration: 0.25, ease: "power1.out" }, 0.45);
       } else {
+        // Center-stage arrival: decisive, controlled, and without a springy bounce.
         timeline.fromTo(
           artStage,
-          { x: 0, y: 42, scale: 0.84, rotation: -1.5, autoAlpha: 0 },
+          { x: 0, y: 88, scale: 0.76, rotation: -5, autoAlpha: 0 },
           {
             x: 0,
             y: 0,
             scale: 1,
             rotation: 0,
             autoAlpha: 1,
-            duration: 1.15,
-            ease: "back.out(1.25)",
+            duration: 1.45,
+            ease: "expo.out",
           },
-          0,
+          0.12,
         );
-        timeline.to(root, { autoAlpha: 0, duration: 0.35, ease: "power2.out" }, "+=1.35");
+        // A tiny optical settle gives the mark a crafted, premium finish.
+        timeline.to(artStage, { scale: 1.025, duration: 0.48, ease: "power2.out" }, 1.38);
+        timeline.to(artStage, { scale: 1, duration: 0.72, ease: "power2.inOut" }, 1.86);
+        // Let the logo breathe before the clean curtain fade.
+        timeline.to(root, { autoAlpha: 0, duration: 0.48, ease: "power2.inOut" }, 3.65);
       }
     } catch (error) {
       console.error("Sriram Travels intro animation failed; showing the homepage.", error);
-      window.clearTimeout(safetyTimer);
       revealHomepage();
     }
 
