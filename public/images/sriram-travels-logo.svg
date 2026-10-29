@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 430" role="img" aria-labelledby="title desc">
+<title id="title">Sriram Travels logo</title><desc id="desc">Saffron vector silhouette of flying Hanuman carrying the Sanjeevani mountain above the Sriram Travels wordmark and a saffron flag.</desc>
+<g fill="#F45112">
+  <path d="M112 176c48-42 92-43 137-19 30 16 62 14 96-2-22 26-53 39-88 31-34-7-56-25-84-21-20 2-37 10-61 11z"/>
+  <path d="M166 121c28-39 64-48 97-28 17 10 31 25 52 34-28 2-50-6-69-21-23-17-49-12-80 15z"/>
+  <path d="M242 92c-10-30 5-51 26-59 21-7 40 4 44 24 3 18-8 30-24 37l-1 23c-2 18-13 29-27 33l-15 25 31 16-12 15-50-18 22-37-16-28c-6-10-4-20 4-31z"/>
+  <path d="M297 118c28-8 48-4 69 11l35 22 62-1 24 17-83 8-49-24-48 3z"/>
+  <path d="M335 145c-12 22-28 35-49 40l-49 8 7 20 63-8c28-4 50-20 67-44z"/>
+  <path d="M314 182c31 11 61 14 92 8l59-13 19 17-72 25c-37 12-76 7-112-10z"/>
+  <path d="M451 172c22-14 43-20 63-18l43 7 33-24 14 15-39 32-47-1-33 16z"/>
+  <path d="M544 135l17-44 18-4 7 12-13 43z"/>
+  <path d="M565 92l-13-14 5-21 18 8 10 16z"/>
+  <path d="M572 77c15-9 27-6 38 2l-5 10-27-1z"/>
+  <path d="M583 91c17-8 33-3 43 10l-10 12-27-5z"/>
+  <path d="M604 110l18 7 15 17-10 10-21-12z"/>
+  <path d="M628 132l31-17 19 10-15 20-34 8z"/>
+  <path d="M647 118l-2-29 13-5 11 28z"/>
+  <path d="M659 93l-2-14 15 7 2 15z"/>
+  <path d="M673 111l20-9 15 9-15 12z"/>
+  <path d="M689 110l20-21 10 5-11 24z"/>
+  <path d="M714 94l7-11 9 5-4 12z"/>
+  <path d="M681 113l42-5 8 14-40 10z"/>
+  <path d="M711 91l35-44 33 8 39 38-5 9-98 1z"/>
+  <path d="M727 89l18-22 9 3-11 19zM755 89l19-23 8 8-11 15z" fill="#fff" opacity=".92"/>
+  <path d="M385 151c-12-32-30-48-54-51 17 17 21 34 15 53l-16 26 20 9 23-22z"/>
+  <path d="M271 216c-26 10-51 18-75 17l-37-2 6-17 40-1 43-16z"/>
+  <path d="M314 211c-15 17-32 27-54 29l-34 4 7 16 42-5c24-4 43-16 57-35z"/>
+  <path d="M240 252l-42 16-36 27-17-8 27-37 47-22z"/>
+  <path d="M340 212l-21 29-20 28-14-4 11-42 17-20z"/>
+  <path d="M397 205l-3 26-21 18-9-8 8-32z"/>
+  <path d="M462 172l-1 36 19 26 17-8-11-36z"/>
+  <path d="M497 178l28 18 20 32-12 10-31-25-24-8z"/>
+  <path d="M557 151l16 18 32 1 13-10-5-10-29 2-12-15z"/>
+  <path d="M301 103c-3-25 9-43 26-48 17-5 31 5 35 19 3 13-3 23-15 30l-3 15-20 4-8-15z"/>
+  <path d="M321 87c8-10 20-13 32-8l-8 14-20 5z" fill="#fff" opacity=".92"/>
+</g>
+<g fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".95">
+  <path d="M293 128l-13 23 12 14M337 155l25 13M475 177l-9 26M530 198l20 25"/>
+</g>
+<g fill="#202124" text-anchor="middle">
+  <text x="450" y="335" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="600" letter-spacing="-3">Sriram Travels</text>
+</g>
+<g fill="#F45112"><path d="M566 264v64h-5v-64z"/><path d="M566 267c25-14 49-12 77-1-22 19-48 24-77 18z"/></g>
+<path d="M175 359c100 16 450 16 550 0" fill="none" stroke="#F45112" stroke-width="3" stroke-linecap="round"/>
+</svg>
