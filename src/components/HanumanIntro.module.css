@@ -679,7 +679,9 @@
 
 /* Simple brand intro: one large logo gently moving in a soft breeze. */
 .simpleIntro {
-  background: #f5f1e8;
+  background:
+    radial-gradient(ellipse at 50% 48%, rgba(255, 153, 51, .11) 0%, rgba(255, 153, 51, .035) 24%, transparent 47%),
+    radial-gradient(ellipse at 50% 50%, #fffaf1 0%, #f5f1e8 62%, #e9e1d3 100%);
   color: #111b2b;
 }
 .simpleIntro .scene,
@@ -696,8 +698,8 @@
 }
 .simpleIntro .artStage {
   z-index: 2;
-  top: 46%;
-  width: min(88vw, 760px);
+  top: 50%;
+  width: min(78vw, 720px);
   aspect-ratio: 1 / 1;
   transform-origin: 50% 50%;
 }
@@ -721,7 +723,7 @@
   .simpleIntro .hanumanImage { animation: none; }
 }
 @media (max-width: 640px) {
-  .simpleIntro .artStage { width: min(94vw, 560px); top: 45%; }
+  .simpleIntro .artStage { width: min(92vw, 560px); top: 50%; }
 }
 
 
