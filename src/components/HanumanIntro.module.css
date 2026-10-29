@@ -921,3 +921,35 @@
   .simpleIntro .hanumanImage { animation: none !important; }
   .simpleIntro::before { opacity: .2; }
 }
+
+
+/* Correct the visible artwork bounds: the source PNG has asymmetric transparent padding. */
+.simpleIntro .artStage {
+  left: 50%;
+  top: 50%;
+  width: min(76vw, 780px);
+  aspect-ratio: 1 / 1;
+  overflow: visible;
+}
+.simpleIntro .hanumanImage {
+  inset: -18% auto auto -18%;
+  width: 136%;
+  height: 136%;
+  max-width: none;
+  object-fit: contain;
+  transform-origin: 50% 50%;
+}
+@media (max-width: 640px) {
+  .simpleIntro .artStage {
+    top: 50%;
+    width: min(96vw, 620px);
+  }
+  .simpleIntro .hanumanImage {
+    inset: -16% auto auto -16%;
+    width: 132%;
+    height: 132%;
+  }
+}
+@media (max-height: 620px) {
+  .simpleIntro .artStage { width: min(64vh, 560px); }
+}
