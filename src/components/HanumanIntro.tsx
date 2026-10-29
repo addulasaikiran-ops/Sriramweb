@@ -61,10 +61,11 @@ export function HanumanIntro() {
       }
     };
 
+    let timeline: gsap.core.Timeline | null = null;
     const revealHomepage = () => {
       if (finished) return;
       finished = true;
-      timeline.kill();
+      timeline?.kill();
       html.classList.remove("hanuman-intro-active");
       html.classList.add("hanuman-home-reveal");
       html.dataset.hanumanIntroSeen = "true";
@@ -77,31 +78,46 @@ export function HanumanIntro() {
       setVisible(false);
     };
 
-    const timeline = gsap.timeline({ onComplete: revealHomepage });
+    // Never let an animation failure leave a full-screen intro blocking the page.
+    const safetyTimer = window.setTimeout(revealHomepage, 5000);
 
-    if (reduceMotion) {
-      gsap.set(artStage, { clearProps: "transform", autoAlpha: 1 });
-      timeline.to(root, { autoAlpha: 0, duration: 0.25, ease: "power1.out" }, 0.45);
-    } else {
-      timeline.fromTo(
-        artStage,
-        { x: 0, y: 42, scale: 0.84, rotation: -1.5, autoAlpha: 0 },
-        {
-          x: 0,
-          y: 0,
-          scale: 1,
-          rotation: 0,
-          autoAlpha: 1,
-          duration: 1.15,
-          ease: "back.out(1.25)",
+    try {
+      timeline = gsap.timeline({
+        onComplete: () => {
+          window.clearTimeout(safetyTimer);
+          revealHomepage();
         },
-        0,
-      );
-      timeline.to(root, { autoAlpha: 0, duration: 0.35, ease: "power2.out" }, "+=1.35");
+      });
+
+      if (reduceMotion) {
+        gsap.set(artStage, { clearProps: "transform", autoAlpha: 1 });
+        timeline.to(root, { autoAlpha: 0, duration: 0.25, ease: "power1.out" }, 0.45);
+      } else {
+        timeline.fromTo(
+          artStage,
+          { x: 0, y: 42, scale: 0.84, rotation: -1.5, autoAlpha: 0 },
+          {
+            x: 0,
+            y: 0,
+            scale: 1,
+            rotation: 0,
+            autoAlpha: 1,
+            duration: 1.15,
+            ease: "back.out(1.25)",
+          },
+          0,
+        );
+        timeline.to(root, { autoAlpha: 0, duration: 0.35, ease: "power2.out" }, "+=1.35");
+      }
+    } catch (error) {
+      console.error("Sriram Travels intro animation failed; showing the homepage.", error);
+      window.clearTimeout(safetyTimer);
+      revealHomepage();
     }
 
     return () => {
-      timeline.kill();
+      window.clearTimeout(safetyTimer);
+      timeline?.kill();
       html.classList.remove("hanuman-intro-active");
       restoreScroll();
     };
