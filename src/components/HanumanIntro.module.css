@@ -675,3 +675,74 @@
   .marqueeTrack { transform: none !important; }
   .cornerMark { clip-path: inset(0% 0% 0% 0%); opacity: .68; }
 }
+
+
+/* Simple brand intro: one large logo gently moving in a soft breeze. */
+.simpleIntro {
+  background: #f5f1e8;
+  color: #111b2b;
+}
+.simpleIntro .scene,
+.simpleIntro .gridLines,
+.simpleIntro .cornerFrame,
+.simpleIntro .orbitRing,
+.simpleIntro .speedLines,
+.simpleIntro .shockwaveRing,
+.simpleIntro .copyBlock,
+.simpleIntro .marquee,
+.simpleIntro .emberField,
+.simpleIntro .statusDock {
+  display: none !important;
+}
+.simpleIntro .artStage {
+  z-index: 2;
+  top: 46%;
+  width: min(88vw, 760px);
+  aspect-ratio: 1 / 1;
+  transform-origin: 50% 50%;
+}
+.simpleIntro .hanumanImage {
+  object-fit: contain;
+  filter: none;
+  animation: logo-breeze 3.2s ease-in-out infinite;
+  will-change: transform;
+}
+.simpleIntro .exitBar {
+  background: #f45112;
+}
+.simpleIntro .exitPanel {
+  background: #f5f1e8;
+}
+@keyframes logo-breeze {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.7deg); }
+  50% { transform: translate3d(0, -12px, 0) rotate(0.8deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simpleIntro .hanumanImage { animation: none; }
+}
+@media (max-width: 640px) {
+  .simpleIntro .artStage { width: min(94vw, 560px); top: 45%; }
+}
+
+
+/* GSAP owns the logo entrance and homepage reveal; CSS owns the light breeze loop. */
+.simpleIntro .hanumanImage {
+  animation: logo-breeze 4.2s ease-in-out 1.05s infinite;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+}
+@keyframes logo-breeze {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.45deg); }
+  25% { transform: translate3d(3px, -5px, 0) rotate(0.15deg); }
+  50% { transform: translate3d(0, -11px, 0) rotate(0.65deg); }
+  75% { transform: translate3d(-3px, -4px, 0) rotate(0.1deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simpleIntro .artStage,
+  .simpleIntro .hanumanImage {
+    animation: none !important;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
