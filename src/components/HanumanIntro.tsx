@@ -7,7 +7,6 @@ import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import styles from "./HanumanIntro.module.css";
 import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import { collectHanumanIntroElements } from "./hanumanIntro.dom";
-import { SkipButton } from "./SkipButton";
 
 function withoutNulls<T>(values: Array<T | null | undefined>): T[] {
   return values.filter((value): value is T => value !== null && value !== undefined);
@@ -171,25 +170,6 @@ export function HanumanIntro() {
 
     finishRef.current = runQuickExit;
 
-    onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        runQuickExit();
-        return;
-      }
-      if (event.key === "Enter" && event.target !== skipButton) {
-        event.preventDefault();
-        runQuickExit();
-        return;
-      }
-      if (event.key === "Tab") {
-        event.preventDefault();
-        if (skipButton?.disabled) root.focus({ preventScroll: true });
-        else skipButton?.focus({ preventScroll: true });
-      }
-    };
-    if (onKeyDown) document.addEventListener("keydown", onKeyDown);
-
     const counterValue = { value: 0 };
     const updateCounter = () => {
       if (counterRef.current) {
@@ -217,7 +197,6 @@ export function HanumanIntro() {
         { opacity: 1, duration: 0.38, stagger: 0.05, ease: easing.quartOut },
         0,
       );
-      reducedTimeline.call(() => skipButton?.focus({ preventScroll: true }), [], 0.08);
       reducedTimeline.to(root, { opacity: 0, duration: timings.reducedMotionExitMs / 1000, ease: easing.quartOut }, (timings.reducedMotionDurationMs - timings.reducedMotionExitMs) / 1000);
       masterTimelineRef.current = reducedTimeline;
     } else {
@@ -279,7 +258,6 @@ export function HanumanIntro() {
         { autoAlpha: 1, y: 0, duration: timings.skipDurationMs / 1000, ease: easing.expoOut },
         timings.skipStartMs / 1000,
       );
-      timeline.call(() => skipButton?.focus({ preventScroll: true }), [], timings.focusSkipMs / 1000);
 
       // 0.30–1.90s — the artwork rides a curved MotionPath with three sharp ghost trails.
       timeline.fromTo(
@@ -530,7 +508,6 @@ export function HanumanIntro() {
         />
       </div>
 
-      <SkipButton buttonRef={skipButtonRef} onSkip={() => finishRef.current()} disabled={!skipReady} />
 
       <div className={styles.exitBar} aria-hidden="true" />
       <div className={`${styles.exitPanel} ${styles.exitPanelTop}`} aria-hidden="true" />
