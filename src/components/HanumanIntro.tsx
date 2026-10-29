@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import styles from "./HanumanIntro.module.css";
 import { HANUMAN_INTRO } from "./hanumanIntro.config";
 import { collectHanumanIntroElements } from "./hanumanIntro.dom";
@@ -57,7 +56,6 @@ export function HanumanIntro() {
     effectStartedRef.current = true;
 
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!reduce) gsap.registerPlugin(MotionPathPlugin);
     const nav = window.navigator as Navigator & { deviceMemory?: number };
     const isLowPower = (
       (nav.hardwareConcurrency > 0 && nav.hardwareConcurrency <= 4) ||
@@ -278,31 +276,18 @@ export function HanumanIntro() {
         },
         timings.orbitStartMs / 1000,
       );
+      // Simple logo entrance: rise in, scale up, and settle into place.
       timeline.fromTo(
         artStage,
+        { x: 0, y: 42, scale: 0.84, rotation: -1.5, autoAlpha: 0 },
         {
-          x: -window.innerWidth * 0.88,
-          y: window.innerHeight * 0.11,
-          scale: 0.62,
-          rotation: -8,
-          autoAlpha: 0,
-        },
-        {
-          motionPath: {
-            path: [
-              { x: -window.innerWidth * 0.88, y: window.innerHeight * 0.11 },
-              { x: -window.innerWidth * 0.55, y: window.innerHeight * 0.03 },
-              { x: -window.innerWidth * 0.2, y: -window.innerHeight * 0.07 },
-              { x: 0, y: 0 },
-            ],
-            curviness: 1.25,
-            autoRotate: false,
-          },
+          x: 0,
+          y: 0,
           scale: 1,
           rotation: 0,
           autoAlpha: 1,
-          duration: (timings.flightEndMs - timings.flightStartMs) / 1000,
-          ease: easing.expoInOut,
+          duration: 1.15,
+          ease: "back.out(1.25)",
         },
         timings.flightStartMs / 1000,
       );
