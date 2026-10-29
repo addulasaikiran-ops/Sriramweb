@@ -1,1 +1,18 @@
-export function Brand({footer=false}:{footer?:boolean}){return <a href="#home" className={footer?"brand footer-brand":"brand"} aria-label="Sriram Travels home"><span className="brand-mark" aria-hidden="true"><span className="brand-mark-line"/><span className="brand-mark-line short"/></span><span><strong>SRIRAM<span>.</span></strong><small>TRAVELS &amp; TOWING SERVICES</small></span></a>;}
+export function Brand({ footer = false }: { footer?: boolean }) {
+  return (
+    <a
+      href="#home"
+      className={footer ? "brand footer-brand" : "brand"}
+      aria-label="Sriram Travels home"
+    >
+      <img
+        className="brand-logo"
+        src="/images/sriram-travels-logo.svg"
+        alt="Sriram Travels — Hanuman carrying the Sanjeevani mountain"
+        width={150}
+        height={72}
+        loading="eager"
+      />
+    </a>
+  );
+}
