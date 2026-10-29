@@ -725,34 +725,11 @@
 }
 
 
-/* Polished but intentionally simple: arrive, settle, then drift in the breeze. */
-.simpleIntro .artStage {
-  animation: logo-arrive 1.15s cubic-bezier(.2,.78,.24,1) both;
-}
+/* GSAP owns the logo entrance and homepage reveal; CSS owns the light breeze loop. */
 .simpleIntro .hanumanImage {
   animation: logo-breeze 4.2s ease-in-out 1.05s infinite;
   transform-origin: 50% 50%;
   backface-visibility: hidden;
-}
-@keyframes logo-arrive {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, 42px, 0) scale(.84);
-    filter: blur(5px);
-  }
-  68% {
-    opacity: 1;
-    transform: translate3d(0, -5px, 0) scale(1.025);
-    filter: blur(0);
-  }
-  84% {
-    transform: translate3d(0, 2px, 0) scale(.995);
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
-    filter: blur(0);
-  }
 }
 @keyframes logo-breeze {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(-0.45deg); }
