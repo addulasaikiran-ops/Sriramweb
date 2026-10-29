@@ -714,3 +714,97 @@
     bottom: max(28px, calc(env(safe-area-inset-bottom) + 24px));
   }
 }
+
+
+/* Mobile hardening: keep the intro legible on compact phones and landscape. */
+@media (max-width: 600px) and (max-height: 740px) {
+  .artStage {
+    top: 24%;
+    width: min(64vw, 310px);
+  }
+  .orbitRing {
+    top: 24%;
+    width: min(50vw, 245px);
+  }
+  .copyBlock {
+    top: 58%;
+    width: calc(100vw - 28px);
+  }
+  .upperLabel {
+    margin-bottom: 7px;
+    font-size: 7px;
+    letter-spacing: .14em;
+  }
+  .headline {
+    font-size: clamp(34px, 9.4vw, 46px);
+    line-height: .88;
+    letter-spacing: .055em;
+  }
+  .teluguLine {
+    margin-top: 5px;
+    font-size: clamp(19px, 5.8vw, 24px);
+  }
+  .lowerLabel {
+    margin-top: 4px;
+    font-size: 6px;
+    letter-spacing: .075em;
+    line-height: 1.35;
+  }
+  .welcomeBlock {
+    min-height: 26px;
+    margin-top: 6px;
+    padding: 4px 9px;
+  }
+  .welcomeText {
+    font-size: 7px;
+    letter-spacing: .08em;
+  }
+  .statusDock {
+    bottom: max(26px, calc(env(safe-area-inset-bottom) + 22px));
+  }
+  .metaBlock span + span {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) and (max-height: 480px) {
+  .screenFrame {
+    inset: max(8px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom)) 10px;
+  }
+  .artStage {
+    top: 24%;
+    width: min(45vw, 250px);
+  }
+  .orbitRing {
+    top: 24%;
+    width: min(38vw, 190px);
+  }
+  .copyBlock {
+    top: 60%;
+    width: min(58vw, 340px);
+    left: 68%;
+  }
+  .headline {
+    font-size: clamp(30px, 6vw, 42px);
+  }
+  .upperLabel {
+    margin-bottom: 4px;
+    font-size: 6px;
+  }
+  .teluguLine {
+    margin-top: 3px;
+    font-size: clamp(17px, 3.6vw, 22px);
+  }
+  .lowerLabel,
+  .welcomeBlock,
+  .statusDock,
+  .marquee {
+    display: none !important;
+  }
+  .skip {
+    top: max(8px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    min-height: 44px;
+    min-width: 96px;
+  }
+}
