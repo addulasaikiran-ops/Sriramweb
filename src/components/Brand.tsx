@@ -13,7 +13,7 @@ export function Brand({ footer = false }: { footer?: boolean }) {
         alt="Sriram Travels — flying Lord Hanuman carrying the Sanjeevani mountain, with the Sriram Travels wordmark and flag"
         width={220}
         height={110}
-        priority
+        priority={!footer}
         draggable={false}
       />
     </a>
