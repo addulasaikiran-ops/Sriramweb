@@ -147,19 +147,6 @@
   letter-spacing: .06em;
   opacity: 0;
 }
-.skipMain {
-  position: absolute;
-  z-index: 10010;
-  top: max(10px, env(safe-area-inset-top));
-  left: max(10px, env(safe-area-inset-left));
-  padding: 11px 14px;
-  transform: translateY(-180%);
-  background: var(--intro-paper);
-  color: var(--intro-navy);
-  font-size: 13px;
-  font-weight: 700;
-}
-.skipMain:focus { transform: translateY(0); }
 .skipIntro {
   position: absolute;
   z-index: 10011;
