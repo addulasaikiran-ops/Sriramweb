@@ -152,7 +152,7 @@ export function HanumanIntro() {
       const progressNumber = { value: 0 };
 
       gsap.set([road, lane, counter, logoStage, wordmark, tagline, eyebrow, glow, topPanel, bottomPanel], { willChange: "transform, opacity, clip-path" });
-      gsap.set(logoStage, { autoAlpha: 0, clipPath: "inset(0 100% 0 0)", scale: 1.08, xPercent: -50, yPercent: -50 });
+      gsap.set(logoStage, { autoAlpha: 0, clipPath: "inset(0 100% 0 0)", scale: 1.08 });
       gsap.set(wordLetters, { yPercent: 110, autoAlpha: 0 });
       gsap.set(tagline, { autoAlpha: 0, y: 8 });
       gsap.set(eyebrow, { autoAlpha: 0, y: 8 });
@@ -248,6 +248,7 @@ export function HanumanIntro() {
       timeline.call(() => {
         gsap.set(root.querySelectorAll<HTMLElement>("[style*='will-change']"), { clearProps: "willChange" });
       }, [], Math.max(2.7, duration - 0.05));
+      timeline.timeScale(Math.max(1, 2.7 / Math.max(0.5, remaining / 1000)));
     };
 
     void run().catch((error: unknown) => {
