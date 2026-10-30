@@ -42,8 +42,15 @@ export default function HomePage() {
     const ctx = gsap.context(() => {
       const motion = gsap.matchMedia();
       motion.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from(".hero-copy > *", { y: 28, opacity: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", delay: 0.1 });
-      gsap.from(".hero-visual", { x: 50, opacity: 0, duration: 1.1, ease: "power3.out", delay: 0.25 });
+      let heroRevealStarted = false;
+      const startHeroReveal = () => {
+        if (heroRevealStarted) return;
+        heroRevealStarted = true;
+        gsap.from(".hero-copy > *", { y: 28, opacity: 0, duration: 0.9, stagger: 0.1, ease: "power3.out" });
+        gsap.from(".hero-visual", { x: 50, opacity: 0, duration: 1.1, ease: "power3.out", delay: 0.08 });
+      };
+      document.addEventListener("sriram:intro-exit-start", startHeroReveal, { once: true });
+      const heroRevealFallback = window.setTimeout(startHeroReveal, 3000);
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
         gsap.from(element, {
           y: 32, opacity: 0, duration: 0.85, ease: "power2.out",
@@ -139,6 +146,10 @@ export default function HomePage() {
           storyTimeline.to(chapter, { autoAlpha: index === 3 ? 1 : 0, y: index === 3 ? 0 : -22, duration: 0.14 }, end - 0.08);
         });
       }
+      return () => {
+        document.removeEventListener("sriram:intro-exit-start", startHeroReveal);
+        window.clearTimeout(heroRevealFallback);
+      };
       });
     }, root);
     return () => ctx.revert();
@@ -169,8 +180,8 @@ export default function HomePage() {
 
   return (
     <div ref={pageRef} className="site-shell">
-      <HanumanIntro />
       <a className="skip-link" href="#main-content">Skip to main content</a>
+      <HanumanIntro />
       <div className="announcement"><span className="status-dot" /> LOCAL JOURNEYS · OUTSTATION TRAVEL · TOWING SUPPORT <a href={`tel:+${site.phone}`}>Need help? Call us <ArrowUpRight size={12} /></a></div>
       <header className="site-header">
         <Brand />
