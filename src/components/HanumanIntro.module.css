@@ -1,4 +1,3 @@
-:global(html.hanuman-intro-active) { scroll-behavior: auto; }
 .root {
   --intro-navy: #111b2b;
   --intro-saffron: #e7a34b;
@@ -249,4 +248,3 @@
   .root *, .root *::before, .root *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
 
-:global(.skip-link) { z-index: 10020; }
