@@ -331,7 +331,29 @@ export default function HomePage() {
           <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{service.title}</h3><p>{service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
         </section>
 
-        <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {site.location}</span><span><Clock3 size={14} /> Towing: {site.towingCoverage}</span></div></div></section>
+        <section className="trust-proof-section section-pad" id="why-us" aria-labelledby="why-us-title">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> WHY SRIRAM TRAVELS</div><h2 id="why-us-title">Travel with <em>clarity.</em></h2></div><p>Review these business details with us before booking. Only publish verified claims once the corresponding placeholders have been updated.</p></div>
+          <div className="trust-facts-grid reveal">
+            <article><ShieldCheck size={22}/><h3>Driver verification</h3><p>{site.driverVerification}</p></article>
+            <article><ShieldCheck size={22}/><h3>Vehicle insurance</h3><p>{site.vehicleInsurance}</p></article>
+            <article><ShieldCheck size={22}/><h3>Tourist permit</h3><p>{site.touristPermit}</p></article>
+            <article><MapPin size={22}/><h3>GPS tracking</h3><p>{site.gpsTracking}</p></article>
+          </div>
+          <div className="years-highlight reveal"><span>Years in business</span><strong>{site.yearsInBusiness}</strong></div>
+        </section>
+
+        <section className="reviews-section section-pad" id="reviews" aria-labelledby="reviews-title">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> CUSTOMER EXPERIENCES</div><h2 id="reviews-title">Words from <em>travellers.</em></h2></div><p>These are empty review slots—not real testimonials. Replace them with genuine customer feedback and permission to publish.</p></div>
+          <div className="review-placeholder-grid">
+            {[1, 2, 3].map((item) => <article className="review-placeholder-card reveal" key={item}><span className="review-placeholder-label">REVIEW SLOT 0{item}</span><p>[CUSTOMER_REVIEW_{item}]</p><strong>[CUSTOMER_NAME_{item}]</strong><small>Replace with a genuine, approved customer review.</small></article>)}
+          </div>
+        </section>
+
+        <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {site.address}</span><span><Clock3 size={14} /> Hours: {site.operatingHours}</span><span><Phone size={14} /> {site.phoneDisplay}</span><span>{site.email}</span><span>{site.location}</span></div></div></section>
+        <section className="contact-map-section section-pad" aria-labelledby="map-title">
+          <div className="section-heading"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FIND US</div><h2 id="map-title">Contact &amp; <em>location.</em></h2></div><p>Update the address, email and map embed URL in <code>src/data/site.ts</code> before launch. The map currently points to Gooty town, not a verified business pin.</p></div>
+          <div className="contact-map-layout"><div className="contact-map-copy"><h3>{site.name}</h3><p>{site.address}</p><p>{site.location}</p><p><a href={`tel:+${site.phone}`}>{site.phoneDisplay}</a></p><p><a href={`mailto:${site.email}`}>{site.email}</a></p><p>Operating hours: {site.operatingHours}</p><a className="button button-dark" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address === "[BUSINESS_ADDRESS]" ? site.location : site.address)}`} target="_blank" rel="noreferrer">Open in Google Maps <ArrowUpRight size={16}/></a></div><div className="contact-map-frame"><iframe src={site.mapEmbedUrl} title="Map showing Gooty, Andhra Pradesh" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div></div>
+        </section>
         <TowingEmergency />
         <EnquiryForm selectedVehicle={hasChosenVehicle ? active.name : ""} />
       </main>
