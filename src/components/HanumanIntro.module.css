@@ -64,6 +64,12 @@
   text-shadow: 0 0 24px #e7a34b22;
 }
 .counterHit { color: var(--intro-paper); text-shadow: 0 0 26px #e7a34b88; }
+.counter { display: flex; align-items: center; justify-content: center; gap: .015em; }
+.digitWindow { display: block; height: 1em; overflow: hidden; line-height: 1; }
+.digitWindow:first-child { opacity: 0; }
+.counterHundredsVisible .digitWindow:first-child { opacity: 1; }
+.digitStrip { display: flex; flex-direction: column; line-height: 1; transform: translateY(0); }
+.digit { display: block; height: 1em; line-height: 1; }
 .logoComposition {
   position: absolute;
   z-index: 5;
