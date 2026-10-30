@@ -37,7 +37,6 @@ export function HanumanIntro() {
     const touchOnly = window.matchMedia("(hover: none), (pointer: coarse)").matches;
     const startedAt = performance.now();
     let timeline: gsap.core.Timeline | undefined;
-    let skipTimer = 0;
     let safetyTimer = 0;
     let parallaxHandler: ((event: MouseEvent) => void) | undefined;
     let flightClone: HTMLImageElement | undefined;
@@ -60,7 +59,6 @@ export function HanumanIntro() {
     const finish = () => {
       if (finishedRef.current) return;
       finishedRef.current = true;
-      window.clearTimeout(skipTimer);
       window.clearTimeout(safetyTimer);
       timeline?.kill();
       if (parallaxHandler) window.removeEventListener("mousemove", parallaxHandler);
@@ -100,9 +98,6 @@ export function HanumanIntro() {
     window.addEventListener("keydown", onKeyDown);
     const onSkipEvent = () => skipIntro();
     window.addEventListener("sriram:skip-intro", onSkipEvent);
-    skipTimer = window.setTimeout(() => {
-      if (skipRef.current) skipRef.current.dataset.ready = "true";
-    }, 300);
     // The hard deadline keeps a slow image or animation from trapping the visitor.
     safetyTimer = window.setTimeout(finish, TOTAL_MS + 150);
 
@@ -286,7 +281,7 @@ export function HanumanIntro() {
 
   return (
     <div ref={rootRef} className={styles.root} style={style} aria-label="Sriram Travels intro">
-      <button ref={skipRef} type="button" className={styles.skipIntro} onClick={() => window.dispatchEvent(new Event("sriram:skip-intro"))}>
+      <button ref={skipRef} type="button" className={styles.skipIntro} data-ready="true" onClick={() => window.dispatchEvent(new Event("sriram:skip-intro"))}>
         Skip intro <span aria-hidden="true">↗</span>
       </button>
 
