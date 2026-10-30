@@ -953,3 +953,36 @@
 @media (max-height: 620px) {
   .simpleIntro .artStage { width: min(64vh, 560px); }
 }
+
+
+/* Crosswind around the flying mark: subtle, low-cost motion with reduced-motion support. */
+.simpleIntro .artStage::before,
+.simpleIntro .artStage::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  left: -24%;
+  width: 58%;
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 183, 91, .7), transparent);
+  transform: translate3d(-18px, 0, 0) scaleX(.7);
+  animation: intro-crosswind 1.65s ease-in-out infinite;
+}
+.simpleIntro .artStage::before { top: 39%; }
+.simpleIntro .artStage::after {
+  top: 58%;
+  width: 43%;
+  animation-delay: .55s;
+  opacity: .7;
+}
+@keyframes intro-crosswind {
+  0%, 100% { opacity: 0; transform: translate3d(-18px, 0, 0) scaleX(.7); }
+  35% { opacity: .72; }
+  72% { opacity: .22; transform: translate3d(26px, 0, 0) scaleX(1.12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .simpleIntro .artStage::before,
+  .simpleIntro .artStage::after { animation: none !important; opacity: 0 !important; }
+}
