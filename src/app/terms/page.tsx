@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { site } from "@/data/site";
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <main className="legal-page">
-      <header className="legal-header"><a href="/">SRIRAM TRAVELS</a><a href="/">Back to website</a></header>
+      <header className="legal-header"><Link href="/">SRIRAM TRAVELS</Link><Link href="/">Back to website</Link></header>
       <article className="legal-content">
         <p className="eyebrow dark-eyebrow">BOOKING INFORMATION</p>
         <h1>Terms &amp; Conditions</h1>
@@ -30,7 +31,7 @@ export default function TermsPage() {
         <p>Contact Sriram Travels as early as possible if you need to change or cancel a trip. Availability and any applicable charges depend on the policy agreed for the booking. The business owner must add the actual cancellation window, rescheduling terms, advance/refund rules and any fees here before accepting payments. No fixed fee or refund guarantee is stated by this template.</p>
 
         <h2>Towing and recovery</h2>
-        <p>Towing and recovery enquiries are subject to location, vehicle condition, equipment and availability. The website's coverage and response-time fields are editable placeholders and do not promise a service level. If anyone is in immediate danger, contact local emergency services first.</p>
+        <p>Towing and recovery enquiries are subject to location, vehicle condition, equipment and availability. The website&apos;s coverage and response-time fields are editable placeholders and do not promise a service level. If anyone is in immediate danger, contact local emergency services first.</p>
 
         <h2>Customer responsibilities</h2>
         <p>Provide accurate contact, pickup, destination, date, passenger and luggage details. Before departure, confirm the final fare, route, pickup time, vehicle, payment method and any additional charges directly with Sriram Travels.</p>
@@ -41,7 +42,7 @@ export default function TermsPage() {
         <h2>Owner review required</h2>
         <p>Fill in the effective date and actual business terms, and obtain appropriate legal review before publishing this page or accepting bookings under it.</p>
       </article>
-      <footer className="legal-footer"><span>{site.name} · {site.location}</span><a href="/privacy-policy">Privacy Policy</a><a href="/">Home</a></footer>
+      <footer className="legal-footer"><span>{site.name} · {site.location}</span><Link href="/privacy-policy">Privacy Policy</Link><Link href="/">Home</Link></footer>
     </main>
   );
 }
