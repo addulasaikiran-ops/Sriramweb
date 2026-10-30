@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { MapPin, Phone } from "lucide-react";
 import { site } from "@/data/site";
 import { Brand } from "./Brand";
@@ -18,8 +19,8 @@ export function Footer() {
       <div className="footer-bottom">
         <span className="footer-copy">© {new Date().getFullYear()} {site.name}. Please review our policies before booking.</span>
         <nav className="footer-legal-links" aria-label="Legal">
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/terms">Terms</a>
+          <Link href="/privacy-policy">Privacy Policy</Link>
+          <Link href="/terms">Terms</Link>
           <a className="back-top" href="#home">BACK TO TOP ↑</a>
         </nav>
       </div>
