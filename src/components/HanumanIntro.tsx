@@ -107,20 +107,21 @@ export function HanumanIntro() {
     safetyTimer = window.setTimeout(finish, TOTAL_MS + 150);
 
     const decodeLogo = async () => {
-      if (logo.complete && logo.naturalWidth > 0) {
-        try { await logo.decode(); } catch { /* decoded pixels may still be drawable */ }
-        return;
-      }
+      const loadAndDecode = async () => {
+        if (!logo.complete) {
+          await new Promise<void>((resolve) => {
+            logo.addEventListener("load", () => resolve(), { once: true });
+            logo.addEventListener("error", () => resolve(), { once: true });
+          });
+        }
+        if (logo.complete && logo.naturalWidth > 0 && typeof logo.decode === "function") {
+          try { await logo.decode(); } catch { /* the rendered image remains usable */ }
+        }
+      };
       await Promise.race([
-        new Promise<void>((resolve) => {
-          logo.addEventListener("load", () => resolve(), { once: true });
-          logo.addEventListener("error", () => resolve(), { once: true });
-        }),
+        loadAndDecode(),
         new Promise<void>((resolve) => window.setTimeout(resolve, 1500)),
       ]);
-      if (logo.complete && logo.naturalWidth > 0 && typeof logo.decode === "function") {
-        try { await logo.decode(); } catch { /* use the 1.5s fallback */ }
-      }
     };
 
     const run = async () => {
@@ -259,10 +260,7 @@ export function HanumanIntro() {
       timeline.timeScale(Math.max(1, 2.7 / Math.max(0.5, remaining / 1000)));
     };
 
-    void run().catch((error: unknown) => {
-      console.error("Sriram Travels intro failed open:", error);
-      finish();
-    });
+    void run().catch(() => finish());
 
     return () => {
       window.clearTimeout(skipTimer);
