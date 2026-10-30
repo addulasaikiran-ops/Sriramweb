@@ -34,3 +34,8 @@ Then use targeted audits such as `/seo technical`, `/seo schema`, `/seo sitemap`
 ## Deployment
 
 Cloudflare Workers/OpenNext configuration is included. Run `npm run preview` before `npm run deploy`; verify the actual deployed domain, contact links, sitemap, robots route and mobile layout after deployment. Owner confirmation is still required for phone number, fleet details, fares and the canonical domain.
+
+
+## Lead capture setup
+
+The enquiry form posts to `POST /api/leads`. To persist leads, deploy a Google Apps Script web app that validates the request (including `x-lead-secret` when configured) and appends the received JSON fields to your Google Sheet. Set `GOOGLE_SHEETS_WEBHOOK_URL` in the hosting environment to that web app URL. Optionally set `LEADS_WEBHOOK_SECRET` and validate it in Apps Script. Without the webhook URL, the API returns a configuration error; the form still hands the visitor off to WhatsApp and displays a warning. The API includes a hidden honeypot and a best-effort in-memory per-IP rate limit; add provider-level rate limiting for stronger production protection.
