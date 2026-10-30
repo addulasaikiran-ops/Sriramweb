@@ -7,6 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { services, site, SHOW_RATES } from "@/data/site";
 import { fleet } from "@/data/fleet";
+import { rates } from "@/data/rates";
 import { TowingEmergency } from "@/components/TowingEmergency";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { StickyContactBar } from "@/components/StickyContactBar";
@@ -237,6 +238,22 @@ export default function HomePage() {
           <div className="fleet-disclaimer">Vehicle photos are illustrative references, not guaranteed fleet photos. Confirm the assigned vehicle, seating, availability and fare with Sriram Travels before booking.</div>
         </section>
 
+
+        <section className="rates-section section-pad" id="rates" aria-labelledby="rates-title">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> TRANSPARENT QUOTES</div><h2 id="rates-title">Rates &amp; <em>fare guide.</em></h2></div><p>These editable placeholders must be replaced with your current rates. Request a written quote for your exact trip before booking.</p></div>
+          <div className="rates-policy-grid reveal">
+            <article><span>Minimum daily distance</span><strong>{rates.minimumDailyKm} km</strong></article>
+            <article><span>Driver bata</span><strong>{rates.driverBata}</strong></article>
+            <article><span>Night halt</span><strong>{rates.nightHalt}</strong></article>
+            <article><span>Toll policy</span><strong>{rates.tollPolicy}</strong></article>
+          </div>
+          <div className="rates-tables">
+            <div className="rates-table-wrap reveal"><h3>Per-kilometre rates</h3><div className="table-scroll"><table><thead><tr><th scope="col">Vehicle</th><th scope="col">Rate per km</th></tr></thead><tbody>{rates.vehicleRates.map((item) => <tr key={item.vehicle}><th scope="row">{item.vehicle}</th><td>{item.perKm}</td></tr>)}</tbody></table></div></div>
+            <div className="rates-table-wrap reveal"><h3>Sample route fares</h3><div className="table-scroll"><table><thead><tr><th scope="col">Route from Gooty</th><th scope="col">Sample fare</th></tr></thead><tbody>{rates.sampleRoutes.map((item) => <tr key={item.route}><th scope="row">{item.route}</th><td>{item.fare}</td></tr>)}</tbody></table></div></div>
+          </div>
+          <p className="rates-disclaimer">Fare may depend on vehicle, route, total distance, minimum daily km, trip duration, driver bata, tolls, parking and night halt. Replace all bracketed values in <code>src/data/rates.ts</code> before publishing rates.</p>
+          <div className="rates-cta"><WhatsAppLink label="Request an exact quote" className="button button-dark" message="Hello Sriram Travels, please share an exact fare quote. Pickup: ____. Destination: ____. Travel date: ____. Vehicle: ____. Please include minimum km, driver bata, tolls and night-halt charges." /></div>
+        </section>
 
         <section className="cinematic-journey" id="journey-story" aria-labelledby="journey-title">
           <div className="cinematic-intro">
