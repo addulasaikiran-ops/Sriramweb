@@ -62,12 +62,14 @@ export function HanumanIntro() {
     };
 
     let timeline: gsap.core.Timeline | null = null;
+    let windTween: gsap.core.Tween | null = null;
     let safetyTimer = 0;
     const revealHomepage = () => {
       if (finished) return;
       finished = true;
       window.clearTimeout(safetyTimer);
       timeline?.kill();
+      windTween?.kill();
       html.classList.remove("hanuman-intro-active");
       html.classList.add("hanuman-home-reveal");
       html.dataset.hanumanIntroSeen = "true";
@@ -110,6 +112,14 @@ export function HanumanIntro() {
           },
           0.38,
         );
+        // A light crosswind gives the sacred mark a living, airborne quality.
+        const logoImage = artStage.querySelector<HTMLElement>("img");
+        if (logoImage) {
+          windTween = gsap.to(logoImage, {
+            x: 5, y: -3, rotation: 0.35, duration: 1.15,
+            ease: "sine.inOut", yoyo: true, repeat: -1,
+          });
+        }
         // Soft optical settle; restrained enough to feel art-directed, not templated.
         timeline.to(artStage, { scale: 1.018, duration: 0.42, ease: "power2.out" }, 1.72);
         timeline.to(artStage, { scale: 1, duration: 0.7, ease: "power2.inOut" }, 2.14);
@@ -134,6 +144,7 @@ export function HanumanIntro() {
     return () => {
       window.clearTimeout(safetyTimer);
       timeline?.kill();
+      windTween?.kill();
       html.classList.remove("hanuman-intro-active");
       restoreScroll();
     };
