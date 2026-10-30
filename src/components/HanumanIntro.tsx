@@ -4,15 +4,17 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { Flip } from "gsap/Flip";
+import { CustomEase } from "gsap/CustomEase";
 import { Phone, MessageCircle } from "lucide-react";
 import { site } from "@/data/site";
 import { buildWhatsAppUrl } from "./whatsapp";
 import styles from "./HanumanIntro.module.css";
 
-gsap.registerPlugin(Flip);
+gsap.registerPlugin(Flip, CustomEase);
+CustomEase.create("sriramCinematic", "0.76, 0, 0.24, 1");
 
 const SESSION_KEY = "sriram-hanuman-intro-seen";
-const EASE = "cubic-bezier(0.76, 0, 0.24, 1)";
+const EASE = "sriramCinematic";
 const TOTAL_MS = 2850;
 const NAVY = "#111b2b";
 const SAFFRON = "#e7a34b";
@@ -103,6 +105,8 @@ export function HanumanIntro() {
     document.body.style.overflow = "hidden";
     html.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
+    const onSkipEvent = () => skipIntro();
+    window.addEventListener("sriram:skip-intro", onSkipEvent);
     skipTimer = window.setTimeout(() => {
       if (skipRef.current) skipRef.current.dataset.ready = "true";
     }, 300);
@@ -133,6 +137,7 @@ export function HanumanIntro() {
       const elapsed = performance.now() - startedAt;
       const remaining = Math.max(650, TOTAL_MS - elapsed);
       const duration = alreadySeen ? 0.4 : remaining / 1000;
+      if (alreadySeen || reduceMotion) window.dispatchEvent(new Event("sriram:intro-exit-start"));
       setRepeatVisit(alreadySeen);
 
       if (reduceMotion || alreadySeen) {
@@ -204,6 +209,7 @@ export function HanumanIntro() {
 
       // At 2.05s, prepare a Flip-style logo handoff to the real navbar mark.
       timeline.call(() => {
+        window.dispatchEvent(new Event("sriram:intro-exit-start"));
         const target = document.querySelector<HTMLImageElement>(".brand-logo");
         if (!target || !logoStage || !logo) return;
         const sourceRect = logo.getBoundingClientRect();
@@ -261,6 +267,7 @@ export function HanumanIntro() {
       window.clearTimeout(skipTimer);
       window.clearTimeout(safetyTimer);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("sriram:skip-intro", onSkipEvent);
       if (parallaxHandler) window.removeEventListener("mousemove", parallaxHandler);
       timeline?.kill();
       if (flightClone) flightClone.remove();
@@ -280,20 +287,9 @@ export function HanumanIntro() {
 
   return (
     <div ref={rootRef} className={styles.root} style={style} aria-label="Sriram Travels intro">
-      <a className={styles.skipMain} href="#main-content">Skip to main content</a>
-      <button ref={skipRef} type="button" className={styles.skipIntro} onClick={() => {
-        const root = rootRef.current;
-        if (!root) return;
-        gsap.to(root, { autoAlpha: 0, duration: 0.22, ease: "power2.in", onComplete: () => {
-          finishedRef.current = true;
-          document.documentElement.dataset.hanumanIntroSeen = "true";
-          try { window.sessionStorage.setItem(SESSION_KEY, "1"); } catch { /* optional */ }
-          document.body.style.overflow = "";
-          document.documentElement.style.overflow = "";
-          document.documentElement.classList.remove("hanuman-intro-active");
-          setVisible(false);
-        } });
-      }}>Skip intro <span aria-hidden="true">↗</span></button>
+      <button ref={skipRef} type="button" className={styles.skipIntro} onClick={() => window.dispatchEvent(new Event("sriram:skip-intro"))}>
+        Skip intro <span aria-hidden="true">↗</span>
+      </button>
 
       <div className={styles.grain} aria-hidden="true" />
       <div className={styles.road} data-road aria-hidden="true">
