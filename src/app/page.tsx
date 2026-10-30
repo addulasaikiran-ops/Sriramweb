@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Briefcase, Check, ChevronDown, Clock3, MapPin, Menu, Phone, ShieldCheck, Snowflake, UserRound, Users, X, Zap } from "lucide-react";
+import { ArrowDown, ArrowDownRight, ArrowUpRight, Briefcase, Check, ChevronDown, Clock3, MapPin, Menu, Phone, ShieldCheck, Snowflake, UserRound, Users, X, Zap } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { services, site, SHOW_RATES } from "@/data/site";
