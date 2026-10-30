@@ -1111,3 +1111,31 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 .rates-cta{margin-top:20px}
 @media(max-width:760px){.rates-policy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rates-tables{grid-template-columns:1fr}.rates-table-wrap{padding:16px}.table-scroll th,.table-scroll td{padding:12px 8px}}
 @media(max-width:380px){.rates-policy-grid{grid-template-columns:1fr}}
+
+
+/* Trust, reviews and contact details */
+.trust-proof-section{background:#111b2b;color:#f5f3ee}
+.trust-proof-section .section-heading p{color:#b9c0ca}
+.trust-facts-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:34px}
+.trust-facts-grid article{border:1px solid #ffffff24;padding:22px;min-width:0}
+.trust-facts-grid article svg{color:var(--gold)}
+.trust-facts-grid h3{font-size:16px;margin:16px 0 8px}
+.trust-facts-grid p{font-size:13px;line-height:1.7;color:#c4cbd4;overflow-wrap:anywhere}
+.years-highlight{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 0 0;margin-top:20px;border-top:1px solid #ffffff24}
+.years-highlight span{color:#c4cbd4;font-size:13px}.years-highlight strong{color:var(--gold);font-size:20px;overflow-wrap:anywhere}
+.reviews-section{background:#f5f3ee}
+.review-placeholder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.review-placeholder-card{padding:24px;background:#fff;border:1px solid var(--line);min-width:0}
+.review-placeholder-label{font-size:10px;letter-spacing:.14em;color:#795b29;font-weight:700}
+.review-placeholder-card p{font-family:var(--font-cormorant),Georgia,serif;font-size:24px;line-height:1.3;overflow-wrap:anywhere}
+.review-placeholder-card strong,.review-placeholder-card small{display:block;overflow-wrap:anywhere}
+.review-placeholder-card small{margin-top:10px;color:#626977;font-size:11px;line-height:1.6}
+.contact-map-section{background:#eeeae2}
+.contact-map-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;margin-top:32px}
+.contact-map-copy{padding:24px;background:#fff;border:1px solid var(--line);overflow-wrap:anywhere}
+.contact-map-copy h3{margin-top:0}.contact-map-copy p{font-size:13px;line-height:1.8}
+.contact-map-copy a:not(.button){text-decoration:underline;text-underline-offset:3px}
+.contact-map-frame{min-height:330px;background:#d8d5cd;border:1px solid var(--line)}
+.contact-map-frame iframe{width:100%;height:100%;min-height:330px;border:0}
+@media(max-width:900px){.trust-facts-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.contact-map-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.review-placeholder-grid{grid-template-columns:1fr}.trust-facts-grid{gap:10px}.trust-facts-grid article{padding:16px}.years-highlight{align-items:flex-start;flex-direction:column;gap:8px}.contact-map-copy{padding:18px}}
