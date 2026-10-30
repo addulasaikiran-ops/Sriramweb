@@ -198,10 +198,10 @@ export default function HomePage() {
           <div className="hero-grid">
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-line" /> YOUR JOURNEY, OUR RESPONSIBILITY</div>
-              <h1>Go further.<br /><em>Feel at home.</em></h1>
-              <p className="hero-subtitle">The road is yours. We make the journey better.</p>
-              <p className="hero-description">Reliable car rentals for the moments that matter, backed by towing support when the unexpected happens.</p>
-              <div className="hero-buttons"><a href="#enquiry" className="button button-gold">Plan your trip <ArrowUpRight size={17} /></a><a href="#fleet" className="button button-outline"><span className="play-icon"><ArrowRight size={13} /></span> Explore our fleet</a></div>
+              <h1>Car Rental &amp;<br /><em>Outstation Taxi</em><br />in Gooty</h1>
+              <p className="hero-subtitle">Etios · Innova · Ertiga · Tempo Traveller</p>
+              <p className="hero-description">Local rides, outstation trips and towing enquiries from Gooty, Andhra Pradesh. Tell us your route and travel date for a quote.</p>
+              <div className="hero-buttons"><a href={`tel:+${site.phone}`} className="button button-gold"><Phone size={16} /> Call Now</a><WhatsAppLink label="WhatsApp Enquiry" className="button button-outline" message="Hello Sriram Travels, I'd like a car rental / outstation taxi quote. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
               <div className="hero-proof"><div className="proof-icon"><ShieldCheck size={19} /></div><div><strong>Travel with confidence</strong><span>Comfortable rides · Responsive support</span></div><span className="proof-check"><Check size={13} /></span></div>
             </div>
             <div className="hero-visual">
