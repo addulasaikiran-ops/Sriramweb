@@ -39,6 +39,7 @@ export default function HomePage() {
   const [openFaq, setOpenFaq] = useState(0);
   const [language, setLanguage] = useState<Language>("en");
   const t = copy[language];
+  const translatedServices: readonly { title: string; copy: string }[] = t.services;
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const active = fleet[activeVehicle];
 
@@ -331,7 +332,7 @@ export default function HomePage() {
         <section className="manifesto" id="about"><div className="manifesto-image"><Image src="/images/manifesto-road.svg" alt="Mountain road landscape" fill sizes="100vw" /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
 
         <section className="services-section section-pad" id="services"><div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> {t.servicesEyebrow}</div><h2>{language === "en" ? <>Ready for the road.<br /><em>There when it isn&apos;t.</em></> : t.servicesTitle}</h2></div><p>{t.servicesIntro}</p></div>
-          <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{t.services[Number(service.number) - 1]?.title ?? service.title}</h3><p>{t.services[Number(service.number) - 1]?.copy ?? service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
+          <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{translatedServices[Number(service.number) - 1]?.title ?? service.title}</h3><p>{translatedServices[Number(service.number) - 1]?.copy ?? service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
         </section>
 
         <section className="trust-proof-section section-pad" id="why-us" aria-labelledby="why-us-title">
