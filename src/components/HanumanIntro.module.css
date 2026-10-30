@@ -242,3 +242,5 @@
 @media (prefers-reduced-motion: reduce) {
   .root *, .root *::before, .root *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+:global(.skip-link) { z-index: 10020; }
