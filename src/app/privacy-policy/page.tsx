@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { site } from "@/data/site";
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function PrivacyPolicyPage() {
   return (
     <main className="legal-page">
-      <header className="legal-header"><a href="/">SRIRAM TRAVELS</a><a href="/">Back to website</a></header>
+      <header className="legal-header"><Link href="/">SRIRAM TRAVELS</Link><Link href="/">Back to website</Link></header>
       <article className="legal-content">
         <p className="eyebrow dark-eyebrow">WEBSITE INFORMATION</p>
         <h1>Privacy Policy</h1>
@@ -38,7 +39,7 @@ export default function PrivacyPolicyPage() {
         <h2>Owner review required</h2>
         <p>Before launch, replace the date and contact placeholders, confirm the actual data processors and retention practices, and obtain appropriate legal review for applicable Indian privacy and consumer requirements.</p>
       </article>
-      <footer className="legal-footer"><span>{site.name} · {site.location}</span><a href="/terms">Terms</a><a href="/">Home</a></footer>
+      <footer className="legal-footer"><span>{site.name} · {site.location}</span><Link href="/terms">Terms</Link><Link href="/">Home</Link></footer>
     </main>
   );
 }
