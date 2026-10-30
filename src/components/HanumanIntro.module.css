@@ -122,7 +122,7 @@
   user-select: none;
   pointer-events: none;
   -webkit-user-drag: none;
-  filter: drop-shadow(0 10px 26px #00000020);
+  filter: drop-shadow(0 10px 26px #111b2b33);
 }
 .wordmark {
   display: flex;
