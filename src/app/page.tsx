@@ -8,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { services, site, SHOW_RATES } from "@/data/site";
 import { fleet } from "@/data/fleet";
 import { rates } from "@/data/rates";
+import { destinations } from "@/data/destinations";
 import { TowingEmergency } from "@/components/TowingEmergency";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { StickyContactBar } from "@/components/StickyContactBar";
@@ -305,9 +306,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="destinations-section section-pad" id="destinations">
-          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> YOUR NEXT STOP</div><h2>Where to <em>next?</em></h2></div><p>Have a destination in mind? Send us your route and dates to enquire about your trip.</p></div>
-          <div className="destination-cta reveal"><div><span className="destination-kicker">YOUR ROUTE, YOUR PLANS</span><h3>Let’s talk about<br /><em>where you’re going.</em></h3><p>Share the pickup point, destination, travel date and number of passengers. We’ll discuss availability and pricing with you.</p></div><WhatsAppLink label="Enquire about a trip" className="button button-gold" message="Hello Sriram Travels, I'd like to enquire about a trip. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
+        <section className="destinations-section section-pad" id="destinations" aria-labelledby="destinations-title">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> POPULAR ROUTES</div><h2 id="destinations-title">Where to <em>next?</em></h2></div><p>Distances and journey times are editable planning placeholders. Message us to confirm route availability, current conditions and your exact fare.</p></div>
+          <div className="destination-route-grid">
+            {destinations.map((destination) => <article className="destination-route-card reveal" key={destination.slug}><span className="destination-kicker">FROM GOOTY</span><h3>{destination.name}</h3><div className="destination-route-meta"><span><MapPin size={14}/>{destination.distance}</span><span><Clock3 size={14}/>{destination.duration}</span></div><WhatsAppLink label="Enquire about route" className="text-link" message={`Hello Sriram Travels, please quote for Gooty to ${destination.name}. Pickup: Gooty. Destination: ${destination.name}. Date: ____. Passengers: ____. Please confirm distance, travel time, vehicle availability and fare.`} /></article>)}
+          </div>
+          <div className="destination-cta reveal"><div><span className="destination-kicker">YOUR ROUTE, YOUR PLANS</span><h3>Going somewhere <em>else?</em></h3><p>Share the pickup point, destination, travel date and number of passengers. We’ll discuss availability and pricing with you.</p></div><WhatsAppLink label="Enquire about another route" className="button button-gold" message="Hello Sriram Travels, I'd like to enquire about a trip. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
         </section>
 
         <BookingSteps />
@@ -316,11 +320,14 @@ export default function HomePage() {
           <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p>Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
           <div className="faq-list reveal">
             {[
-              { question: "How do I book a vehicle?", answer: "Message us on WhatsApp or call. Share where you are going, your travel date and how many people are travelling. We’ll discuss availability and next steps with you." },
-              { question: "Which places do you travel to?", answer: "Please message us with your pickup point and destination so we can confirm whether your requested route is available." },
-              { question: "How is the fare decided?", answer: "Fare can depend on the vehicle, route and trip details. Ask us for a confirmed quote before booking; any rates shown on this page are reference-only until confirmed by Sriram Travels." },
-              { question: "Can I confirm the vehicle before booking?", answer: "Yes—please ask us to confirm the vehicle, seating and availability for your dates before you finalise the trip." },
-              { question: "What if my plans change?", answer: "Contact us as soon as possible. We’ll explain what changes can be accommodated for your booking." }
+              { question: "How do I book a vehicle?", answer: "Call or message Sriram Travels on WhatsApp. Share your pickup location, destination, travel date, return plan (if any), passenger count and luggage needs. We’ll check availability and send you a quote. Before paying an advance, ask us to confirm the assigned vehicle, pickup time, inclusions, exclusions and cancellation/change terms in writing." },
+              { question: "Which routes are available?", answer: "The route cards on this page are enquiry options, not a guarantee that a vehicle is available on every date. Send your pickup point, destination and date so we can confirm whether we can take the trip. For longer journeys, also share whether you need a one-way trip, round trip or multi-day booking." },
+              { question: "How is my fare calculated?", answer: "Your quote may depend on the selected vehicle, chargeable kilometres, minimum daily kilometres, trip duration, one-way or round-trip plan, driver bata, night halt, tolls, parking and any agreed extra stops. Ask for an itemised quote and confirm which costs are included before booking. The bracketed values in the Rates section are placeholders until Sriram Travels fills them in." },
+              { question: "Can I confirm the vehicle before booking?", answer: "Yes. Ask us to confirm the vehicle model, seat count, AC status, luggage capacity and availability for your dates. Fleet details shown as bracketed placeholders still need to be filled in, so please get the exact vehicle and passenger capacity confirmed in writing before finalising the trip." },
+              { question: "Are driver, tolls and night halt included?", answer: "Inclusions depend on the quote. Ask whether driver bata, tolls, parking, state permits and night-halt charges are included or charged separately. Do not assume these are included unless the written quote explicitly says so." },
+              { question: "What is the cancellation or change policy?", answer: "Contact us as early as possible if you need to change the date, pickup point, destination or passenger count. Whether a change is possible may depend on vehicle availability and how close it is to pickup. Sriram Travels must provide the applicable cancellation, rescheduling and advance-refund terms before you pay; no fixed cancellation fee or refund promise is published here." },
+              { question: "Can I request towing or roadside recovery?", answer: "Call or WhatsApp your current location or nearest landmark, vehicle type and the problem. We’ll discuss whether help is available for your location and situation. Coverage and response-time fields on this page are editable placeholders, not guaranteed service levels. If anyone is in immediate danger, contact local emergency services first." },
+              { question: "How do I get a final quote?", answer: "Send your route, date, passenger count, vehicle preference, trip type and any stops or overnight stays. Ask us to confirm the total fare, what it includes, any extra charges and the assigned vehicle in writing before you commit." }
             ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} id={`faq-question-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div className="faq-answer" id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
           </div>
         </section>
