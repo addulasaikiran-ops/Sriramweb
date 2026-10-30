@@ -1186,3 +1186,24 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 .seo-landing-footer{padding:24px 5.25%;display:flex;flex-wrap:wrap;gap:20px;border-top:1px solid #ffffff22;font-size:12px;color:#c4cbd4}
 .seo-landing-footer span{margin-right:auto}
 @media(max-width:760px){.seo-landing-content{grid-template-columns:1fr}.seo-landing-header{align-items:flex-start;flex-direction:column}.seo-landing-actions .button{width:100%}.seo-fare-card{padding:20px}}
+
+
+/* Footer contact and legal pages */
+.footer-main{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+.footer-business-details{display:grid;gap:8px;font-size:12px;color:#c4cbd4;overflow-wrap:anywhere}
+.footer-business-details strong{color:#f5f3ee}
+.footer-business-details span,.footer-business-details a{display:flex;align-items:flex-start;gap:7px}
+.footer-business-details svg{flex:0 0 auto;color:var(--gold)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-top:28px;padding-top:18px;border-top:1px solid #ffffff20}
+.footer-legal-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;font-size:11px}
+.footer-legal-links a:hover,.legal-footer a:hover{text-decoration:underline;text-underline-offset:3px}
+.legal-page{min-height:100vh;background:#f5f3ee;color:var(--ink)}
+.legal-header{padding:22px 5.25%;display:flex;align-items:center;justify-content:space-between;gap:16px;background:var(--ink);color:#f5f3ee;font-size:12px}
+.legal-header a:first-child{font-weight:800;letter-spacing:.12em}
+.legal-content{max-width:900px;margin:0 auto;padding:clamp(32px,6vw,72px) 24px}
+.legal-content h1{font-family:var(--font-manrope),sans-serif;font-size:clamp(38px,7vw,64px);line-height:1.05;letter-spacing:-.06em;margin:20px 0}
+.legal-content h2{font-family:var(--font-manrope),sans-serif;font-size:22px;letter-spacing:-.03em;margin:34px 0 10px}
+.legal-content p{font-size:14px;line-height:1.9;color:#414a58;overflow-wrap:anywhere}
+.legal-footer{padding:22px 5.25%;display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid var(--line);font-size:12px}
+.legal-footer span{margin-right:auto}
+@media(max-width:600px){.footer-main{align-items:flex-start;flex-direction:column}.footer-bottom{align-items:flex-start;flex-direction:column}.footer-legal-links{gap:14px}.legal-header{align-items:flex-start;flex-direction:column}}
