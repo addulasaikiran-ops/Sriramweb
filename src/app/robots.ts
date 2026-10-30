@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  const siteUrl = configuredSiteUrl ? new URL(configuredSiteUrl).origin : undefined;
+  const siteUrl = configuredSiteUrl ? new URL(configuredSiteUrl).origin : "https://sriramweb-zctj.vercel.app";
 
   return {
     rules: {
