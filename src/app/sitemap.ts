@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/gooty-to-bengaluru-cab", priority: 0.8 },
     { path: "/tempo-traveller-on-rent-gooty", priority: 0.8 },
     { path: "/towing-service-gooty", priority: 0.8 },
+    { path: "/privacy-policy", priority: 0.3 },
+    { path: "/terms", priority: 0.3 },
   ];
 
   return routes.map((route) => ({ url: new URL(route.path, siteUrl).toString(), priority: route.priority }));
