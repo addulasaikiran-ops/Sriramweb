@@ -1089,3 +1089,25 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 .brand-logo{display:block;width:142px;height:auto;max-height:64px;object-fit:contain;object-position:left center;flex:0 0 auto}
 .footer-brand .brand-logo{width:174px;max-height:84px}
 @media(max-width:760px){.brand-logo{width:112px;max-height:54px}.footer-brand .brand-logo{width:150px;max-height:74px}}
+
+
+/* Editable fare guide */
+.rates-section{background:#eeeae2}
+.rates-policy-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:34px 0}
+.rates-policy-grid article{padding:20px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;gap:12px;min-width:0}
+.rates-policy-grid article span{font-size:12px;color:#596170}
+.rates-policy-grid article strong{font-size:16px;overflow-wrap:anywhere}
+.rates-tables{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.rates-table-wrap{min-width:0;background:#fff;border:1px solid var(--line);padding:22px}
+.rates-table-wrap h3{margin:0 0 16px;font-family:var(--font-manrope),sans-serif;font-size:20px;letter-spacing:-.03em}
+.table-scroll{overflow-x:auto;max-width:100%}
+.table-scroll table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}
+.table-scroll th,.table-scroll td{padding:13px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.table-scroll thead th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#596170}
+.table-scroll tbody th{font-weight:600}
+.table-scroll td{overflow-wrap:anywhere}
+.rates-disclaimer{max-width:900px;font-size:12px;line-height:1.8;color:#596170;margin:22px 0 0}
+.rates-disclaimer code{font-size:11px;overflow-wrap:anywhere}
+.rates-cta{margin-top:20px}
+@media(max-width:760px){.rates-policy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.rates-tables{grid-template-columns:1fr}.rates-table-wrap{padding:16px}.table-scroll th,.table-scroll td{padding:12px 8px}}
+@media(max-width:380px){.rates-policy-grid{grid-template-columns:1fr}}
