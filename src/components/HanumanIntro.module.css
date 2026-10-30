@@ -165,9 +165,9 @@
   font-weight: 700;
   letter-spacing: .12em;
   text-transform: uppercase;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 160ms ease, border-color 160ms ease;
+  opacity: 1;
+  pointer-events: auto;
+  transition: border-color 160ms ease; 
 }
 .skipIntro[data-ready="true"] { opacity: 1; pointer-events: auto; }
 .skipIntro:hover, .skipIntro:focus-visible { border-color: var(--intro-saffron); outline: 2px solid var(--intro-saffron); outline-offset: 3px; }
