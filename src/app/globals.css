@@ -1157,3 +1157,8 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 .language-toggle{min-height:38px;min-width:64px;padding:0 11px;border:1px solid var(--line);background:transparent;color:var(--ink);font-size:12px;font-weight:700;cursor:pointer}
 .language-toggle:hover{border-color:var(--gold-deep);background:#c9a96e18}
 @media(max-width:760px){.header-actions{gap:8px}.language-toggle{min-width:56px;padding:0 8px;font-size:11px}}
+
+
+/* Lead form spam protection and submission status */
+.lead-honeypot{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.form-status{font-size:13px;line-height:1.6;padding:12px 14px;background:#e9e4d9;border-left:3px solid var(--gold-deep)}
