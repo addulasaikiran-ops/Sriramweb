@@ -79,6 +79,7 @@ export function EnquiryForm({ selectedVehicle }: Props) {
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
+    window.dispatchEvent(new Event("sriram:lead-submit"));
     // Open a blank tab synchronously to avoid popup blockers while the lead is saved.
     const whatsappWindow = window.open("about:blank", "_blank");
     setStatusMessage("Saving your enquiry…");
