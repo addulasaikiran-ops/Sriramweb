@@ -22,7 +22,6 @@ const PAPER = "#f5f3ee";
 
 export function HanumanIntro() {
   const [visible, setVisible] = useState(true);
-  const [repeatVisit, setRepeatVisit] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
   const skipRef = useRef<HTMLButtonElement>(null);
@@ -44,12 +43,6 @@ export function HanumanIntro() {
     let flightClone: HTMLImageElement | undefined;
     let previousBodyOverflow = "";
     let previousHtmlOverflow = "";
-
-    try {
-      setRepeatVisit(window.sessionStorage.getItem(SESSION_KEY) === "1");
-    } catch {
-      setRepeatVisit(false);
-    }
 
     let alreadySeen = false;
     try {
@@ -131,14 +124,13 @@ export function HanumanIntro() {
     };
 
     const run = async () => {
-      await decodeLogo();
+      if (!reduceMotion && !alreadySeen) await decodeLogo();
       if (finishedRef.current) return;
 
       const elapsed = performance.now() - startedAt;
       const remaining = Math.max(650, TOTAL_MS - elapsed);
       const duration = alreadySeen ? 0.4 : remaining / 1000;
       if (alreadySeen || reduceMotion) window.dispatchEvent(new Event("sriram:intro-exit-start"));
-      setRepeatVisit(alreadySeen);
 
       if (reduceMotion || alreadySeen) {
         timeline = gsap.timeline({ onComplete: finish });
