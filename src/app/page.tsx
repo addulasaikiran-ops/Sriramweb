@@ -207,7 +207,7 @@ export default function HomePage() {
             <div className="hero-visual">
               <div className="visual-arc arc-one" /><div className="visual-arc arc-two" />
               <div className="hero-number">01<span> / JOURNEY</span></div>
-              <div className="image-frame hero-image-frame"><Image src="https://www.jaipurcarrentalwithdriver.com/img/urbania.webp" alt="Force Urbania passenger van on a scenic Indian road; shown as a reference vehicle" fill priority unoptimized sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
+              <div className="image-frame hero-image-frame"><Image src="/fleet/urbania-placeholder.svg" alt="Placeholder for a Sriram Travels fleet photograph" fill priority sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
               <div className="image-caption"><span className="caption-line" /><span>THE JOURNEY IS PART OF THE DESTINATION</span></div>
               <div className="floating-note"><span className="note-star">✳</span><span>Made for the<br /><em>long way home.</em></span></div>
               
@@ -229,7 +229,7 @@ export default function HomePage() {
               <div className="fleet-sidebar-foot"><span className="sidebar-foot-line" /> <span>YOUR NEXT MEMORY<br />IS JUST A RIDE AWAY.</span></div>
             </aside>
             <div className="fleet-feature" key={active.number}>
-              <div className="fleet-feature-image"><Image src={active.image} alt={`Illustrative reference photograph for ${active.name}; actual vehicle may vary`} fill unoptimized sizes="(max-width: 900px) 100vw, 65vw" className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><FleetControls index={activeVehicle} total={fleet.length} onChange={chooseVehicle} /></div>
+              <div className="fleet-feature-image"><Image src={active.image} alt={`Placeholder for a Sriram Travels ${active.name} photograph`} fill sizes="(max-width: 900px) 100vw, 65vw" className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><FleetControls index={activeVehicle} total={fleet.length} onChange={chooseVehicle} /></div>
               <div className="fleet-feature-detail"><div className="fleet-detail-copy">{SHOW_RATES && <div className="fleet-rate"><strong>₹{active.ratePerKm}</strong><span>per km · indicative, confirm on call</span></div>}<h4>{active.description}</h4><div className="spec-list"><span><Users size={15} /> {active.seats}</span>{active.features.length > 0 && <span><ShieldCheck size={15} /> {active.features.join(" · ")}</span>}<span><MapPin size={15} /> {active.use}</span></div></div><WhatsAppLink label="Enquire about this vehicle" className="text-link" message={`Hello Sriram Travels, I'd like to enquire about the ${active.name}. Please confirm current pricing, availability, seating and vehicle details.`} /></div>
             </div>
           </div>
