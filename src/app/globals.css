@@ -1162,3 +1162,27 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 /* Lead form spam protection and submission status */
 .lead-honeypot{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
 .form-status{font-size:13px;line-height:1.6;padding:12px 14px;background:#e9e4d9;border-left:3px solid var(--gold-deep)}
+
+
+/* Search landing pages */
+.seo-landing-page{min-height:100vh;background:var(--ink);color:#f5f3ee}
+.seo-landing-header{min-height:76px;padding:16px 5.25%;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #ffffff22}
+.seo-landing-header>a{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:.08em}
+.seo-landing-hero{padding:clamp(48px,8vw,112px) 5.25%;max-width:1200px;margin:0 auto}
+.seo-landing-hero h1{font-family:var(--font-manrope),sans-serif;font-size:clamp(40px,7vw,78px);line-height:1.05;letter-spacing:-.06em;max-width:900px;margin:26px 0}
+.seo-landing-description{max-width:760px;font-size:16px;line-height:1.9;color:#c4cbd4}
+.seo-landing-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.seo-landing-content{display:grid;grid-template-columns:.7fr 1.3fr;gap:26px;background:#f5f3ee;color:var(--ink)}
+.seo-fare-card{padding:26px;background:#fff;border:1px solid var(--line);align-self:start;overflow-wrap:anywhere}
+.seo-fare-card>span{font-size:12px;color:#626977}
+.seo-fare-card>strong{display:block;font-size:clamp(22px,3vw,34px);margin:18px 0;overflow-wrap:anywhere}
+.seo-fare-card p,.seo-route-details p{font-size:13px;line-height:1.8;color:#596170}
+.seo-route-details h2{font-family:var(--font-manrope),sans-serif;font-size:clamp(26px,4vw,38px);letter-spacing:-.04em}
+.seo-route-details p svg{vertical-align:middle}
+.seo-route-details li{margin:10px 0;line-height:1.7}
+.seo-landing-bottom{padding:56px 5.25%;text-align:center}
+.seo-landing-bottom h2{font-family:var(--font-manrope),sans-serif;font-size:clamp(28px,5vw,48px);letter-spacing:-.04em}
+.seo-landing-bottom p{color:#c4cbd4}
+.seo-landing-footer{padding:24px 5.25%;display:flex;flex-wrap:wrap;gap:20px;border-top:1px solid #ffffff22;font-size:12px;color:#c4cbd4}
+.seo-landing-footer span{margin-right:auto}
+@media(max-width:760px){.seo-landing-content{grid-template-columns:1fr}.seo-landing-header{align-items:flex-start;flex-direction:column}.seo-landing-actions .button{width:100%}.seo-fare-card{padding:20px}}
