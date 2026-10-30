@@ -322,8 +322,7 @@ export default function HomePage() {
         <section className="faq-section section-pad" id="faq">
           <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>{t.faqTitle}</h2><p>{t.faqIntro}</p><WhatsAppLink label={t.askOnWhatsApp} className="text-link" /></div>
           <div className="faq-list reveal">
-            {t.faq}
-.map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} id={`faq-question-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div className="faq-answer" id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
+            {t.faq.map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} id={`faq-question-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div className="faq-answer" id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
           </div>
         </section>
 
