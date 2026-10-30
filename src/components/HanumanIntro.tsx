@@ -179,7 +179,7 @@ export function HanumanIntro() {
       </div>
       <div className={styles.artStage} ref={artRef} data-layer="art">
         <Image
-          src="/Hanuman%20Flight%20Sriram%20Travels%20Logo.png"
+          src="/sriram-travels-logo-transparent%20(1).png"
           alt="Sriram Travels logo with flying Lord Hanuman carrying the Sanjeevani mountain"
           width={1000}
           height={1000}
