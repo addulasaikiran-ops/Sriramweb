@@ -150,6 +150,8 @@ export function HanumanIntro() {
       const bottomPanel = root.querySelector<HTMLElement>("[data-panel-bottom]");
       const wordLetters = root.querySelectorAll<HTMLElement>("[data-letter]");
       const progressNumber = { value: 0 };
+      const digitStrips = Array.from(root.querySelectorAll<HTMLElement>("[data-digit-strip]"));
+      let previousDigits = "000";
 
       gsap.set([road, lane, counter, logoStage, wordmark, tagline, eyebrow, glow, topPanel, bottomPanel], { willChange: "transform, opacity, clip-path" });
       gsap.set(logoStage, { autoAlpha: 0, clipPath: "inset(0 100% 0 0)", scale: 1.08 });
@@ -175,7 +177,13 @@ export function HanumanIntro() {
         duration: 1.28,
         ease: "power2.inOut",
         onUpdate: () => {
-          if (counter) counter.textContent = String(Math.round(progressNumber.value)).padStart(2, "0");
+          const digits = String(Math.round(progressNumber.value)).padStart(3, "0");
+          if (counter && progressNumber.value >= 100) counter.classList.add(styles.counterHundredsVisible);
+          digitStrips.forEach((strip, index) => {
+            if (digits[index] === previousDigits[index]) return;
+            gsap.to(strip, { yPercent: -Number(digits[index]) * 10, duration: 0.12, ease: "power2.out", overwrite: true });
+          });
+          previousDigits = digits;
         },
         onComplete: () => {
           if (counter) counter.classList.add(styles.counterHit);
@@ -288,7 +296,15 @@ export function HanumanIntro() {
       <div className={styles.road} data-road aria-hidden="true">
         <span className={styles.lane} data-lane />
       </div>
-      <div className={styles.counter} data-counter aria-live="off" aria-label="Loading progress">00</div>
+      <div className={styles.counter} data-counter aria-live="off" aria-label="Loading progress">
+        {["hundreds", "tens", "ones"].map((place) => (
+          <span className={styles.digitWindow} data-digit-place={place} key={place} aria-hidden="true">
+            <span className={styles.digitStrip} data-digit-strip>
+              {"0123456789".split("").map((digit) => <span className={styles.digit} key={digit}>{digit}</span>)}
+            </span>
+          </span>
+        ))}
+      </div>
 
       <div className={styles.logoComposition} data-logo-stage>
         <div className={styles.logoGlow} data-glow aria-hidden="true" />
