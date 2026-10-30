@@ -7,7 +7,7 @@ const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 const cormorant = Cormorant_Garamond({ subsets: ["latin"], style: ["italic", "normal"], weight: ["400", "500", "600"], variable: "--font-cormorant", display: "swap" });
 const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-const siteUrl = configuredSiteUrl ? new URL(configuredSiteUrl).origin : undefined;
+const siteUrl = configuredSiteUrl ? new URL(configuredSiteUrl).origin : "https://sriramweb-zctj.vercel.app";
 
 const siteDescription =
   "Explore car rental, local and outstation travel, family and group journeys, and towing enquiries with Sriram Travels in Gooty, Andhra Pradesh.";
@@ -21,15 +21,6 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   applicationName: "Sriram Travels",
-  keywords: [
-    "Sriram Travels",
-    "car rentals in Gooty",
-    "outstation car rental",
-    "family travel",
-    "group travel",
-    "towing services in Gooty",
-    "Andhra Pradesh travel",
-  ],
   openGraph: {
     type: "website",
     title: "Sriram Travels | Car Rentals & Towing in Gooty",
@@ -61,7 +52,7 @@ const structuredData = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "AutoRental",
+      "@type": ["LocalBusiness", "TaxiService"],
       ...(businessId ? { "@id": businessId } : {}),
       name: site.name,
       ...(siteUrl ? {
@@ -71,6 +62,8 @@ const structuredData = {
       } : {}),
       description: siteDescription,
       telephone: `+${site.phone}`,
+      ...(site.email !== "[BUSINESS_EMAIL]" ? { email: site.email } : {}),
+      ...(site.address !== "[BUSINESS_ADDRESS]" ? { address: { "@type": "PostalAddress", streetAddress: site.address, addressLocality: "Gooty", addressRegion: "Andhra Pradesh", addressCountry: "IN" } } : {}),
       areaServed: {
         "@type": "Place",
         name: "Gooty, Andhra Pradesh, India",
@@ -90,7 +83,7 @@ const structuredData = {
       ...(siteUrl ? { "@id": `${siteUrl}/#website`, url: siteUrl } : {}),
       name: site.name,
       inLanguage: "en-IN",
-      ...(businessId ? { publisher: { "@id": businessId } } : { publisher: { "@type": "AutoRental", name: site.name } }),
+      ...(businessId ? { publisher: { "@id": businessId } } : { publisher: { "@type": ["LocalBusiness", "TaxiService"], name: site.name } }),
     },
   ],
 };
