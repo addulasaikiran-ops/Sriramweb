@@ -57,6 +57,8 @@ export default function HomePage() {
       };
       document.addEventListener("sriram:intro-exit-start", startHeroReveal, { once: true });
       const heroRevealFallback = window.setTimeout(startHeroReveal, 3000);
+      // Keep natural document scrolling on touch/coarse-pointer devices; skip scrubbed scroll choreography.
+      if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
         gsap.from(element, {
           y: 32, opacity: 0, duration: 0.85, ease: "power2.out",
