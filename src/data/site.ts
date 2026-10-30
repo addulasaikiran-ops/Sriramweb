@@ -37,7 +37,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Local & outstation",
-    image: "https://cdn-s3.autocarindia.com/legacy/cdni/Galleries/20160920123111_DSP_9248.jpg?q=85&w=1200",
+    image: "/fleet/etios-placeholder.svg",
   },
   {
     number: "02",
@@ -48,7 +48,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Family & outstation",
-    image: "https://stimg.cardekho.com/images/car-images/930x620/Toyota/Innova-Crysta/9612/1780562886859/Platinum-White-Pearl_898c89.jpg?impolicy=resize&imwidth=1200",
+    image: "/fleet/innova-placeholder.svg",
   },
   {
     number: "03",
@@ -59,7 +59,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Group journeys",
-    image: "https://forceurbania.co.in/wp-content/uploads/2022/12/STYLING-2.jpg",
+    image: "/fleet/urbania-placeholder.svg",
   },
   {
     number: "04",
@@ -70,7 +70,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "https://buscdn.cardekho.com/in/force/traveller-3700/force-traveller-3700.jpg",
+    image: "/fleet/traveller-12-seat-placeholder.svg",
   },
   {
     number: "05",
@@ -81,7 +81,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Family & local",
-    image: "https://cdn-s3.autocarindia.com/legacy/cdni/ExtraImages/20220415113510_Ertiga_FL.jpg?q=85&w=1200",
+    image: "/fleet/ertiga-placeholder.svg",
   },
   {
     number: "06",
@@ -92,7 +92,7 @@ export const fleet: Vehicle[] = [
     ratePerKm: 0,
     features: [],
     use: "Tours & group trips",
-    image: "https://www.trucksbuses.com/uploads/43492_7d10764c11ff4ec2b1465a5e2243bc743700a.jpg",
+    image: "/fleet/traveller-large-placeholder.svg",
   },
 ];
 
