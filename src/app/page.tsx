@@ -9,6 +9,7 @@ import { services, site, SHOW_RATES } from "@/data/site";
 import { fleet } from "@/data/fleet";
 import { rates } from "@/data/rates";
 import { destinations } from "@/data/destinations";
+import { copy, type Language } from "@/data/i18n";
 import { TowingEmergency } from "@/components/TowingEmergency";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { StickyContactBar } from "@/components/StickyContactBar";
@@ -36,6 +37,8 @@ export default function HomePage() {
   const [hasChosenVehicle, setHasChosenVehicle] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState(0);
+  const [language, setLanguage] = useState<Language>("en");
+  const t = copy[language];
   const menuToggleRef = useRef<HTMLButtonElement>(null);
   const active = fleet[activeVehicle];
 
@@ -191,7 +194,7 @@ export default function HomePage() {
         <nav id="primary-navigation" className={`main-nav ${menuOpen ? "is-open" : ""}`} aria-label="Main navigation">
           <a onClick={() => setMenuOpen(false)} href="#home">Home</a><a onClick={() => setMenuOpen(false)} href="#fleet">Our fleet</a><a onClick={() => setMenuOpen(false)} href="#services">Services</a><a onClick={() => setMenuOpen(false)} href="#about">About</a><a onClick={() => setMenuOpen(false)} href="#destinations">Destinations</a><a onClick={() => setMenuOpen(false)} href="#faq">FAQ</a><a onClick={() => setMenuOpen(false)} href="#contact">Contact</a>
         </nav>
-        <div className="header-actions"><a className="header-phone" href={`tel:+${site.phone}`}><Phone size={14} /> <span>{site.phoneDisplay}</span></a><WhatsAppLink label="Enquire now" className="button button-dark header-cta" /></div>
+        <div className="header-actions"><button type="button" className="language-toggle" onClick={() => setLanguage(language === "en" ? "te" : "en")} aria-label={t.switchLabel}>{t.languageSwitch}</button><a className="header-phone" href={`tel:+${site.phone}`}><Phone size={14} /> <span>{site.phoneDisplay}</span></a><WhatsAppLink label={t.enquireNow} className="button button-dark header-cta" /></div>
         <button ref={menuToggleRef} className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="primary-navigation">{menuOpen ? <X /> : <Menu />}</button>
       </header>
 
@@ -201,10 +204,10 @@ export default function HomePage() {
           <div className="hero-grid">
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-line" /> YOUR JOURNEY, OUR RESPONSIBILITY</div>
-              <h1>Car Rental &amp;<br /><em>Outstation Taxi</em><br />in Gooty</h1>
-              <p className="hero-subtitle">Etios · Innova · Ertiga · Tempo Traveller</p>
-              <p className="hero-description">Local rides, outstation trips and towing enquiries from Gooty, Andhra Pradesh. Tell us your route and travel date for a quote.</p>
-              <div className="hero-buttons"><a href={`tel:+${site.phone}`} className="button button-gold"><Phone size={16} /> Call Now</a><WhatsAppLink label="WhatsApp Enquiry" className="button button-outline" message="Hello Sriram Travels, I'd like a car rental / outstation taxi quote. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
+              <h1>{language === "en" ? <>Car Rental &amp;<br /><em>Outstation Taxi</em><br />in Gooty</> : <>గుత్తిలో కార్ రెంటల్<br /><em>&amp; అవుట్‌స్టేషన్ టాక్సీ</em></>}</h1>
+              <p className="hero-subtitle">{t.heroSubtitle}</p>
+              <p className="hero-description">{t.heroDescription}</p>
+              <div className="hero-buttons"><a href={`tel:+${site.phone}`} className="button button-gold"><Phone size={16} /> {t.callNow}</a><WhatsAppLink label={t.whatsappEnquiry} className="button button-outline" message="Hello Sriram Travels, I'd like a car rental / outstation taxi quote. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
               <div className="hero-proof"><div className="proof-icon"><ShieldCheck size={19} /></div><div><strong>Travel with confidence</strong><span>Comfortable rides · Responsive support</span></div><span className="proof-check"><Check size={13} /></span></div>
             </div>
             <div className="hero-visual">
@@ -317,25 +320,17 @@ export default function HomePage() {
         <BookingSteps />
 
         <section className="faq-section section-pad" id="faq">
-          <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p>Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
+          <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>{t.faqTitle}</h2><p>{t.faqIntro}</p><WhatsAppLink label={t.askOnWhatsApp} className="text-link" /></div>
           <div className="faq-list reveal">
-            {[
-              { question: "How do I book a vehicle?", answer: "Call or message Sriram Travels on WhatsApp. Share your pickup location, destination, travel date, return plan (if any), passenger count and luggage needs. We’ll check availability and send you a quote. Before paying an advance, ask us to confirm the assigned vehicle, pickup time, inclusions, exclusions and cancellation/change terms in writing." },
-              { question: "Which routes are available?", answer: "The route cards on this page are enquiry options, not a guarantee that a vehicle is available on every date. Send your pickup point, destination and date so we can confirm whether we can take the trip. For longer journeys, also share whether you need a one-way trip, round trip or multi-day booking." },
-              { question: "How is my fare calculated?", answer: "Your quote may depend on the selected vehicle, chargeable kilometres, minimum daily kilometres, trip duration, one-way or round-trip plan, driver bata, night halt, tolls, parking and any agreed extra stops. Ask for an itemised quote and confirm which costs are included before booking. The bracketed values in the Rates section are placeholders until Sriram Travels fills them in." },
-              { question: "Can I confirm the vehicle before booking?", answer: "Yes. Ask us to confirm the vehicle model, seat count, AC status, luggage capacity and availability for your dates. Fleet details shown as bracketed placeholders still need to be filled in, so please get the exact vehicle and passenger capacity confirmed in writing before finalising the trip." },
-              { question: "Are driver, tolls and night halt included?", answer: "Inclusions depend on the quote. Ask whether driver bata, tolls, parking, state permits and night-halt charges are included or charged separately. Do not assume these are included unless the written quote explicitly says so." },
-              { question: "What is the cancellation or change policy?", answer: "Contact us as early as possible if you need to change the date, pickup point, destination or passenger count. Whether a change is possible may depend on vehicle availability and how close it is to pickup. Sriram Travels must provide the applicable cancellation, rescheduling and advance-refund terms before you pay; no fixed cancellation fee or refund promise is published here." },
-              { question: "Can I request towing or roadside recovery?", answer: "Call or WhatsApp your current location or nearest landmark, vehicle type and the problem. We’ll discuss whether help is available for your location and situation. Coverage and response-time fields on this page are editable placeholders, not guaranteed service levels. If anyone is in immediate danger, contact local emergency services first." },
-              { question: "How do I get a final quote?", answer: "Send your route, date, passenger count, vehicle preference, trip type and any stops or overnight stays. Ask us to confirm the total fare, what it includes, any extra charges and the assigned vehicle in writing before you commit." }
-            ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} id={`faq-question-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div className="faq-answer" id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
+            {t.faq}
+.map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} id={`faq-question-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div className="faq-answer" id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
           </div>
         </section>
 
         <section className="manifesto" id="about"><div className="manifesto-image"><Image src="/images/manifesto-road.svg" alt="Mountain road landscape" fill sizes="100vw" /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
 
-        <section className="services-section section-pad" id="services"><div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> WHAT WE DO</div><h2>Ready for the road.<br /><em>There when it isn&apos;t.</em></h2></div><p>From planning the miles ahead to helping when the road gets difficult, we’re one call away from your next step.</p></div>
-          <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{service.title}</h3><p>{service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
+        <section className="services-section section-pad" id="services"><div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> {t.servicesEyebrow}</div><h2>{language === "en" ? <>Ready for the road.<br /><em>There when it isn&apos;t.</em></> : t.servicesTitle}</h2></div><p>{t.servicesIntro}</p></div>
+          <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{t.services[Number(service.number) - 1]?.title ?? service.title}</h3><p>{t.services[Number(service.number) - 1]?.copy ?? service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
         </section>
 
         <section className="trust-proof-section section-pad" id="why-us" aria-labelledby="why-us-title">
