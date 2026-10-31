@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import type { FormEvent, InputHTMLAttributes } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { fleet } from "@/data/site";
+import { fleet } from "@/data/fleet";
 import { buildWhatsAppUrl } from "./whatsapp";
 
 type Props = { selectedVehicle: string };
