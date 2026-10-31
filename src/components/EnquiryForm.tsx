@@ -53,8 +53,11 @@ export function EnquiryForm({ selectedVehicle }: Props) {
     setErrors((current) => ({ ...current, [key]: "" }));
   };
 
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const form = event.currentTarget;
+    const honeypot = new FormData(form).get("website");
+    if (typeof honeypot === "string" && honeypot.trim()) return;
 
     const next: Partial<Record<keyof Values, string>> = {};
     if (!values.name.trim()) next.name = "Enter your name.";
@@ -86,7 +89,15 @@ export function EnquiryForm({ selectedVehicle }: Props) {
       `Additional details: ${values.notes.trim() || "Not specified"}`,
     ];
 
-    window.open(buildWhatsAppUrl(messageLines.join("\n")), "_blank", "noopener,noreferrer");
+    const whatsappUrl = buildWhatsAppUrl(messageLines.join("\n"));
+    const whatsappWindow = window.open("about:blank", "_blank", "noopener,noreferrer");
+    try {
+      await fetch("/api/leads", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ ...values, website: honeypot || "" }) });
+    } catch {
+      // Keep the direct WhatsApp enquiry available if the lead endpoint is unavailable.
+    }
+    if (whatsappWindow) whatsappWindow.location.href = whatsappUrl;
+    else window.location.href = whatsappUrl;
   };
 
   const field = (
@@ -120,6 +131,7 @@ export function EnquiryForm({ selectedVehicle }: Props) {
       </div>
 
       <form className="enquiry-form" onSubmit={submit} noValidate>
+        <div className="form-field honeypot-field" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
         {field("name", "Your name", { autoComplete: "name", placeholder: "Enter your name", required: true })}
         {field("phone", "Phone number", { type: "tel", inputMode: "tel", autoComplete: "tel", placeholder: "+91", required: true })}
 
