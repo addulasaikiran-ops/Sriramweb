@@ -28,12 +28,13 @@ export async function POST(request: Request) {
   for (const [key, timestamp] of recentSubmissions) if (now - timestamp > WINDOW_MS) recentSubmissions.delete(key);
 
   const webhook = process.env.LEAD_WEBHOOK_URL;
+  const webhookSecret = process.env.LEADS_WEBHOOK_SECRET;
   if (!webhook) return NextResponse.json({ ok: false, saved: false, error: "Lead destination is not configured. WhatsApp enquiry can still continue." }, { status: 503 });
 
   try {
     const response = await fetch(webhook, {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", ...(webhookSecret ? { "x-lead-secret": webhookSecret } : {}) },
       body: JSON.stringify({ ...body, name, phone, pickup, destination, date, receivedAt: new Date().toISOString(), source: "Sriram Travels website" }),
       cache: "no-store",
     });
