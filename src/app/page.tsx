@@ -21,6 +21,10 @@ import { HanumanIntro } from "@/components/HanumanIntro";
 
 gsap.registerPlugin(ScrollTrigger);
 
+function isConfigured(value: string) {
+  return value.trim() !== "" && !/^\\[[A-Z0-9_]+\\]$/.test(value.trim());
+}
+
 function WhatsAppLink({ label = "Book your journey", className = "", message = "Hello Sriram Travels, I'd like to enquire about car rental / towing service." }: { label?: string; className?: string; message?: string }) {
   return (
     <a className={className} href={buildWhatsAppUrl(message)} target="_blank" rel="noreferrer">
@@ -276,7 +280,7 @@ export default function HomePage() {
               { name: "Puttaparthi", distance: "[DISTANCE_TO_PUTTAPARTHI]", time: "[TRAVEL_TIME_TO_PUTTAPARTHI]" },
               { name: "Chennai", distance: "[DISTANCE_TO_CHENNAI]", time: "[TRAVEL_TIME_TO_CHENNAI]" },
               { name: "Vijayawada", distance: "[DISTANCE_TO_VIJAYAWADA]", time: "[TRAVEL_TIME_TO_VIJAYAWADA]" },
-            ].map((route) => <article className="destination-route-card" key={route.name}><span className="destination-kicker">FROM GOOTY</span><h3>{route.name}</h3><p>{route.distance} · {route.time}</p><WhatsAppLink label="Ask for route quote" className="text-link" message={`Hello Sriram Travels, please share a quote from Gooty to ${route.name}. Please confirm distance, travel time, vehicle availability and total fare.`} /></article>)}
+            ].map((route) => <article className="destination-route-card" key={route.name}><span className="destination-kicker">FROM GOOTY</span><h3>{route.name}</h3><p>{isConfigured(route.distance) && isConfigured(route.time) ? `${route.distance} · ${route.time}` : "Ask us to confirm distance and travel time."}</p><WhatsAppLink label="Ask for route quote" className="text-link" message={`Hello Sriram Travels, please share a quote from Gooty to ${route.name}. Please confirm distance, travel time, vehicle availability and total fare.`} /></article>)}
           </div>
         </section>
 
@@ -304,19 +308,16 @@ export default function HomePage() {
         <section className="trust-details-section section-pad" aria-labelledby="trust-details-title">
           <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> TRAVEL WITH CLARITY</div><h2 id="trust-details-title">Details that build<br /><em>confidence.</em></h2></div><p>Replace each bracketed field with a verified business detail before publishing. No customer reviews or compliance claims are invented.</p></div>
           <div className="trust-detail-grid">
-            <article className="trust-detail-card"><ShieldCheck /><h3>Driver details</h3><p>{site.trust.verifiedDrivers}</p></article>
-            <article className="trust-detail-card"><ShieldCheck /><h3>Insurance</h3><p>{site.trust.insurance}</p></article>
-            <article className="trust-detail-card"><ShieldCheck /><h3>Tourist permit</h3><p>{site.trust.touristPermit}</p></article>
-            <article className="trust-detail-card"><MapPin /><h3>GPS availability</h3><p>{site.trust.gps}</p></article>
+            {isConfigured(site.trust.verifiedDrivers) && <article className="trust-detail-card"><ShieldCheck /><h3>Driver details</h3><p>{site.trust.verifiedDrivers}</p></article>}
+            {isConfigured(site.trust.insurance) && <article className="trust-detail-card"><ShieldCheck /><h3>Insurance</h3><p>{site.trust.insurance}</p></article>}
+            {isConfigured(site.trust.touristPermit) && <article className="trust-detail-card"><ShieldCheck /><h3>Tourist permit</h3><p>{site.trust.touristPermit}</p></article>}
+            {isConfigured(site.trust.gps) && <article className="trust-detail-card"><MapPin /><h3>GPS availability</h3><p>{site.trust.gps}</p></article>}
           </div>
-          <p className="form-note">Years in business: {site.yearsInBusiness}</p>
-          <div className="section-heading review-heading"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> CUSTOMER EXPERIENCES</div><h2>Words from <em>our travellers.</em></h2></div><p>These are placeholders. Add real customer feedback only with permission.</p></div>
-          <div className="review-placeholder-grid">
-            {["[CUSTOMER_REVIEW_1]", "[CUSTOMER_REVIEW_2]", "[CUSTOMER_REVIEW_3]"].map((review, index) => <article className="review-placeholder-card" key={review}><span>REVIEW 0{index + 1}</span><p>{review}</p><strong>[CUSTOMER_NAME_WITH_PERMISSION]</strong></article>)}
-          </div>
+          {isConfigured(site.yearsInBusiness) && <p className="form-note">Years in business: {site.yearsInBusiness}</p>}
+          <div className="section-heading review-heading"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> CUSTOMER EXPERIENCES</div><h2>Words from <em>our travellers.</em></h2></div><p>We publish customer feedback only after it has been verified and permission has been given.</p></div>
         </section>
 
-        <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {site.address}, {site.location}</span><span><Clock3 size={14} /> Operating hours: {site.operatingHours}</span><span>{site.email}</span><span>Years in business: {site.yearsInBusiness}</span></div></div>{site.googleMapsEmbedUrl.startsWith("https://") && <div className="contact-map"><iframe title="Sriram Travels location map" src={site.googleMapsEmbedUrl} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>}</section>
+        <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {isConfigured(site.address) ? `${site.address}, ${site.location}` : site.location}</span>{isConfigured(site.operatingHours) && <span><Clock3 size={14} /> Operating hours: {site.operatingHours}</span>}{isConfigured(site.email) && <span>{site.email}</span>}{isConfigured(site.yearsInBusiness) && <span>Years in business: {site.yearsInBusiness}</span>}</div></div>{site.googleMapsEmbedUrl.startsWith("https://") && <div className="contact-map"><iframe title="Sriram Travels location map" src={site.googleMapsEmbedUrl} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen /></div>}</section>
         <TowingEmergency />
         <EnquiryForm selectedVehicle={hasChosenVehicle ? active.name : ""} />
       </main>
