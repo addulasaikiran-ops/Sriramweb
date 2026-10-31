@@ -1,4 +1,20 @@
-export const SHOW_RATES = false; // TODO(owner): enable only after all fares are confirmed.
+export const SHOW_RATES = false; // Keep false until actual rates are filled in and verified.
+
+export const pricing = {
+  perKm: "[RATE_PER_KM_BY_VEHICLE]",
+  minimumDailyKm: "[MINIMUM_DAILY_KM]",
+  driverBata: "[DRIVER_BATA]",
+  nightHalt: "[NIGHT_HALT_CHARGE]",
+  tollPolicy: "[TOLL_POLICY]",
+  routes: [
+    { name: "Tirupati", fare: "[GOOTY_TO_TIRUPATI_SAMPLE_FARE]" },
+    { name: "Bengaluru", fare: "[GOOTY_TO_BENGALURU_SAMPLE_FARE]" },
+    { name: "Hyderabad", fare: "[GOOTY_TO_HYDERABAD_SAMPLE_FARE]" },
+    { name: "Mantralayam", fare: "[GOOTY_TO_MANTRALAYAM_SAMPLE_FARE]" },
+    { name: "Srisailam", fare: "[GOOTY_TO_SRISAILAM_SAMPLE_FARE]" },
+    { name: "Puttaparthi", fare: "[GOOTY_TO_PUTTAPARTHI_SAMPLE_FARE]" },
+  ],
+};
 
 export const site = {
   name: "Sriram Travels",
