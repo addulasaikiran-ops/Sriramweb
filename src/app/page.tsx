@@ -26,9 +26,10 @@ function isConfigured(value: string) {
 }
 
 function WhatsAppLink({ label = "Book your journey", className = "", message = "Hello Sriram Travels, I'd like to enquire about car rental / towing service." }: { label?: string; className?: string; message?: string }) {
+  const i18nKey = label === "WhatsApp Enquiry" ? "whatsapp-enquiry" : label === "Book your journey" ? "book-journey" : undefined;
   return (
     <a className={className} href={buildWhatsAppUrl(message)} target="_blank" rel="noreferrer">
-      {label}<ArrowUpRight size={16} strokeWidth={1.7} />
+      <span data-i18n={i18nKey}>{label}</span><ArrowUpRight size={16} strokeWidth={1.7} />
     </a>
   );
 }
@@ -302,7 +303,7 @@ export default function HomePage() {
         <section className="manifesto" id="about"><div className="manifesto-image"><Image src="/images/manifesto-road.svg" alt="Mountain road landscape" fill sizes="100vw" /></div><div className="manifesto-shade" /><div className="manifesto-content reveal"><span className="manifesto-kicker">MORE THAN JUST THE MILES</span><h2>It&apos;s not just<br />where you go.<br /><em>It&apos;s how you get there.</em></h2><p>Every trip has a reason. A family gathering, a new place, an important day. We’re here to help you get there with comfort and care.</p><a href="#contact" className="button button-light">Let&apos;s plan your journey <ArrowUpRight size={16} /></a></div><span className="manifesto-side-note">SRIRAM TRAVELS · EST. FOR THE ROAD AHEAD</span></section>
 
         <section className="services-section section-pad" id="services"><div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> WHAT WE DO</div><h2>Ready for the road.<br /><em>There when it isn&apos;t.</em></h2></div><p>From planning the miles ahead to helping when the road gets difficult, we’re one call away from your next step.</p></div>
-          <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{service.title}</h3><p>{service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
+          <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3 data-i18n={`service-title-${service.number}`}>{service.title}</h3><p data-i18n={`service-copy-${service.number}`}>{service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
         </section>
 
         <section className="trust-details-section section-pad" aria-labelledby="trust-details-title">
