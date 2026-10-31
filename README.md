@@ -25,6 +25,7 @@ Copy `.env.example` to `.env.local` for local development and configure these va
 
 - `NEXT_PUBLIC_SITE_URL` — optional canonical origin override. Defaults to the current Vercel URL; update it if a custom domain becomes the primary site.
 - `LEAD_WEBHOOK_URL` — required to forward website form submissions to a lead destination such as a secured Google Apps Script webhook. Without it, the form still hands off to WhatsApp but the API does not persist the lead.
+- `LEADS_WEBHOOK_SECRET` — optional shared secret sent as `x-lead-secret`; the receiving webhook must validate it.
 - `NEXT_PUBLIC_GA_ID` — optional GA4 measurement ID.
 
 Never commit secrets or private webhook URLs.
