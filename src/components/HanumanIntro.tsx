@@ -72,6 +72,20 @@ export function HanumanIntro() {
     root.classList.toggle(styles.reduced, reduce);
     root.classList.toggle(styles.lowPower, isLowPower);
 
+    // Avoid a blocking cinematic gate on phones, low-memory devices, and users
+    // who request reduced motion. The homepage and its contact actions appear immediately.
+    const coarsePointer = window.matchMedia("(pointer: coarse)").matches;
+    if (reduce || isLowPower || coarsePointer) {
+      html.dataset.hanumanIntroSeen = "true";
+      try {
+        window.sessionStorage.setItem(HANUMAN_INTRO.sessionKey, "1");
+      } catch {
+        // Dismissal must work even when storage is unavailable.
+      }
+      setVisible(false);
+      return;
+    }
+
     try {
       window.sessionStorage.setItem(HANUMAN_INTRO.sessionKey, "1");
     } catch {
