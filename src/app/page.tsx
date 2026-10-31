@@ -165,7 +165,7 @@ export default function HomePage() {
             <div className="hero-visual">
               <div className="visual-arc arc-one" /><div className="visual-arc arc-two" />
               <div className="hero-number">01<span> / JOURNEY</span></div>
-              <div className="image-frame hero-image-frame"><Image src="https://www.jaipurcarrentalwithdriver.com/img/urbania.webp" alt="Force Urbania passenger van on a scenic Indian road; shown as a reference vehicle" fill priority unoptimized sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
+              <div className="image-frame hero-image-frame"><Image src="/fleet/urbania.svg" alt="Illustration placeholder for the Force Urbania; replace with your own fleet photo" fill priority sizes="(max-width: 900px) 100vw, 60vw" className="hero-car-image" /></div>
               <div className="image-caption"><span className="caption-line" /><span>THE JOURNEY IS PART OF THE DESTINATION</span></div>
               <div className="floating-note"><span className="note-star">✳</span><span>Made for the<br /><em>long way home.</em></span></div>
               
