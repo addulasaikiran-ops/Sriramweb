@@ -6,6 +6,8 @@ const routes = [
   "/gooty-to-bengaluru-cab",
   "/tempo-traveller-on-rent-gooty",
   "/towing-service-gooty",
+  "/privacy-policy",
+  "/terms",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
