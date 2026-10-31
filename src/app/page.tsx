@@ -5,7 +5,8 @@ import Image from "next/image";
 import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, Clock3, MapPin, Menu, Phone, ShieldCheck, Users, X, Zap } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { fleet, services, site, SHOW_RATES } from "@/data/site";
+import { services, site, SHOW_RATES } from "@/data/site";
+import { fleet } from "@/data/fleet";
 import { TowingEmergency } from "@/components/TowingEmergency";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { StickyContactBar } from "@/components/StickyContactBar";
@@ -187,8 +188,8 @@ export default function HomePage() {
               <div className="fleet-sidebar-foot"><span className="sidebar-foot-line" /> <span>YOUR NEXT MEMORY<br />IS JUST A RIDE AWAY.</span></div>
             </aside>
             <div className="fleet-feature" key={active.number}>
-              <div className="fleet-feature-image"><Image src={active.image} alt={`Illustrative reference photograph for ${active.name}; actual vehicle may vary`} fill unoptimized sizes="(max-width: 900px) 100vw, 65vw" className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><FleetControls index={activeVehicle} total={fleet.length} onChange={chooseVehicle} /></div>
-              <div className="fleet-feature-detail"><div className="fleet-detail-copy">{SHOW_RATES && <div className="fleet-rate"><strong>₹{active.ratePerKm}</strong><span>per km · indicative, confirm on call</span></div>}<h4>{active.description}</h4><div className="spec-list"><span><Users size={15} /> {active.seats}</span>{active.features.length > 0 && <span><ShieldCheck size={15} /> {active.features.join(" · ")}</span>}<span><MapPin size={15} /> {active.use}</span></div></div><WhatsAppLink label="Enquire about this vehicle" className="text-link" message={`Hello Sriram Travels, I'd like to enquire about the ${active.name}. Please confirm current pricing, availability, seating and vehicle details.`} /></div>
+              <div className="fleet-feature-image"><Image src={active.image} alt={`Illustrative reference photograph for ${active.name}; actual vehicle may vary`} fill sizes="(max-width: 900px) 100vw, 65vw" className="fleet-car-image" /><div className="fleet-image-shade" /><span className="fleet-image-num">{active.number}</span><span className="fleet-image-badge"><span className="status-dot" /> AVAILABLE FOR ENQUIRY</span><div className="fleet-image-title"><span>{active.className}</span><h3>{active.name}</h3></div><FleetControls index={activeVehicle} total={fleet.length} onChange={chooseVehicle} /></div>
+              <div className="fleet-feature-detail"><div className="fleet-detail-copy">{SHOW_RATES && <div className="fleet-rate"><strong>₹{active.ratePerKm}</strong><span>per km · indicative, confirm on call</span></div>}<h4>{active.description}</h4><div className="spec-list"><span><Users size={15} /> {active.seats}</span><span><Check size={15} /> AC: {active.ac}</span><span><MapPin size={15} /> Luggage: {active.luggage}</span><span><ShieldCheck size={15} /> {active.driverIncluded ? "Driver included" : "Driver not included"}</span>{active.features.length > 0 && <span><Check size={15} /> {active.features.join(" · ")}</span>}<span><MapPin size={15} /> {active.use}</span></div></div><WhatsAppLink label="Enquire about this vehicle" className="text-link" message={`Hello Sriram Travels, I'd like to enquire about the ${active.name}. Please confirm current pricing, availability, seating and vehicle details.`} /></div>
             </div>
           </div>
           <div className="fleet-disclaimer">Vehicle photos are illustrative references, not guaranteed fleet photos. Confirm the assigned vehicle, seating, availability and fare with Sriram Travels before booking.</div>
