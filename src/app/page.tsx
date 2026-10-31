@@ -5,7 +5,7 @@ import Image from "next/image";
 import { ArrowDown, ArrowDownRight, ArrowRight, ArrowUpRight, Check, ChevronDown, Clock3, MapPin, Menu, Phone, ShieldCheck, Users, X, Zap } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { services, site, SHOW_RATES } from "@/data/site";
+import { services, site, SHOW_RATES, pricing } from "@/data/site";
 import { fleet } from "@/data/fleet";
 import { TowingEmergency } from "@/components/TowingEmergency";
 import { EnquiryForm } from "@/components/EnquiryForm";
@@ -195,6 +195,21 @@ export default function HomePage() {
           <div className="fleet-disclaimer">Vehicle photos are illustrative references, not guaranteed fleet photos. Confirm the assigned vehicle, seating, availability and fare with Sriram Travels before booking.</div>
         </section>
 
+
+        <section className="rates-section section-pad" id="rates" aria-labelledby="rates-title">
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> CLEAR FARE DETAILS</div><h2 id="rates-title">Know the fare<br />before <em>you travel.</em></h2></div><p>Use these editable rate fields to publish your confirmed prices. Final fares depend on route, vehicle and trip details.</p></div>
+          <div className="rates-grid">
+            <div className="rates-table-wrap"><h3>Rate policy</h3><table className="rates-table"><tbody>
+              <tr><th scope="row">Rate per kilometre</th><td>{pricing.perKm}</td></tr>
+              <tr><th scope="row">Minimum daily kilometres</th><td>{pricing.minimumDailyKm}</td></tr>
+              <tr><th scope="row">Driver bata</th><td>{pricing.driverBata}</td></tr>
+              <tr><th scope="row">Night halt</th><td>{pricing.nightHalt}</td></tr>
+              <tr><th scope="row">Tolls &amp; parking</th><td>{pricing.tollPolicy}</td></tr>
+            </tbody></table></div>
+            <div className="rates-table-wrap"><h3>Sample route fares from Gooty</h3><table className="rates-table"><tbody>{pricing.routes.map((route) => <tr key={route.name}><th scope="row">{route.name}</th><td>{route.fare}</td></tr>)}</tbody></table></div>
+          </div>
+          <p className="form-note">The bracketed values are setup placeholders, not quoted prices. Replace them with confirmed rates before advertising fares.</p>
+        </section>
 
         <section className="cinematic-journey" id="journey-story" aria-labelledby="journey-title">
           <div className="cinematic-intro">
