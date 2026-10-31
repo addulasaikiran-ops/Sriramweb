@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { ServiceLandingPage } from "@/components/ServiceLandingPage";
+export const metadata: Metadata = { title: "Towing Service in Gooty", description: "Contact Sriram Travels to enquire about vehicle recovery and towing around Gooty. Coverage and response time depend on confirmation.", alternates: { canonical: "/towing-service-gooty" } };
+export default function Page() { return <ServiceLandingPage title="Towing Service in Gooty" service="towing or vehicle recovery" description="Contact Sriram Travels to discuss vehicle recovery needs. Share your location, vehicle type and issue; coverage and response time must be confirmed for each request." fareLabel="Recovery charge: [TOWING_RATE_OR_CALL_OUT_CHARGE]. Replace with verified pricing or quote guidance before publishing." />; }
