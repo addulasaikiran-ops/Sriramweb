@@ -14,6 +14,7 @@ import { buildWhatsAppUrl } from "@/components/whatsapp";
 import { Brand } from "@/components/Brand";
 import { TrustStrip } from "@/components/TrustStrip";
 import { BookingSteps } from "@/components/BookingSteps";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { Footer } from "@/components/Footer";
 import { FleetControls } from "@/components/FleetControls";
 import { HanumanIntro } from "@/components/HanumanIntro";
@@ -158,9 +159,9 @@ export default function HomePage() {
             <div className="hero-copy">
               <div className="eyebrow"><span className="eyebrow-line" /> YOUR JOURNEY, OUR RESPONSIBILITY</div>
               <h1>Car Rental &amp;<br /><em>Outstation Taxi in Gooty</em></h1>
-              <p className="hero-subtitle">Etios · Innova · Ertiga · Tempo Traveller</p>
-              <p className="hero-description">Book a car with driver for local travel, outstation trips and family journeys from Gooty. Contact us directly to discuss your route and availability.</p>
-              <div className="hero-buttons"><a href={`tel:+${site.phone}`} className="button button-gold"><Phone size={17} /> Call Now</a><WhatsAppLink label="WhatsApp Enquiry" className="button button-outline" message="Hello Sriram Travels, I'd like to enquire about a car rental from Gooty." /></div>
+              <p className="hero-subtitle" data-i18n="hero-subtitle">Etios · Innova · Ertiga · Tempo Traveller</p>
+              <p className="hero-description" data-i18n="hero-description">Book a car with driver for local travel, outstation trips and family journeys from Gooty. Contact us directly to discuss your route and availability.</p>
+              <div className="hero-buttons"><LanguageToggle /><a href={`tel:+${site.phone}`} className="button button-gold"><Phone size={17} /> <span data-i18n="call-now">Call Now</span></a><WhatsAppLink label="WhatsApp Enquiry" className="button button-outline" message="Hello Sriram Travels, I'd like to enquire about a car rental from Gooty." /></div>
               <div className="hero-proof"><div className="proof-icon"><ShieldCheck size={19} /></div><div><strong>Travel with confidence</strong><span>Comfortable rides · Responsive support</span></div><span className="proof-check"><Check size={13} /></span></div>
             </div>
             <div className="hero-visual">
@@ -280,7 +281,7 @@ export default function HomePage() {
         <BookingSteps />
 
         <section className="faq-section section-pad" id="faq">
-          <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p>Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
+          <div className="faq-intro reveal"><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> FAQ</div><h2>Good to <em>know.</em></h2><p data-i18n="faq-intro">Need something else? Ask us directly and we’ll help clarify the details.</p><WhatsAppLink label="Ask on WhatsApp" className="text-link" /></div>
           <div className="faq-list reveal">
             {[
               { question: "How do I book a vehicle?", answer: "Message us on WhatsApp or call. Share where you are going, your travel date and how many people are travelling. We’ll discuss availability and next steps with you." },
