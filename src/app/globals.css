@@ -1127,3 +1127,8 @@ html.hanuman-home-reveal .hero-visual { animation-delay: 125ms; }
 .service-landing h1{font-size:clamp(2.6rem,7vw,5.5rem);line-height:1.05;max-width:15ch;}
 .service-landing>p{max-width:60ch;line-height:1.7;}
 @media(max-width:700px){.rates-grid,.trust-detail-grid,.review-placeholder-grid,.destination-route-grid{grid-template-columns:minmax(0,1fr);}.contact-map{aspect-ratio:4/3}.rates-table th,.rates-table td{padding:.7rem .35rem;font-size:.9rem;}}
+
+.language-toggle{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem;border:1px solid currentColor;border-radius:999px;flex:0 0 auto}
+.language-toggle button{border:0;background:transparent;border-radius:999px;padding:.55rem .75rem;font-size:.8rem;cursor:pointer}
+.language-toggle button[aria-pressed="true"]{background:var(--gold);color:var(--ink);font-weight:700}
+@media(max-width:540px){.language-toggle button{padding:.45rem .55rem}.hero-buttons{gap:.65rem;flex-wrap:wrap}}
