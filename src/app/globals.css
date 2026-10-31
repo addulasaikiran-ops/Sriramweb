@@ -373,7 +373,7 @@ body{background:var(--paper);color:var(--ink)}
 .hero-proof{margin-top:43px;padding-top:21px;max-width:410px}
 .proof-icon{width:39px;height:39px;border-color:#c9a36c75}
 .hero-visual{height:530px;margin-right:-3.5%;min-width:0}
-.image-frame.hero-image-frame{height:100%;background-color:#344149;background-image:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=88");background-position:52% center;background-size:cover;clip-path:polygon(11% 0,100% 0,100% 100%,0 100%);box-shadow:0 25px 80px #0005}
+.image-frame.hero-image-frame{height:100%;background-color:#344149;background-image:url("/fleet/innova.svg");background-position:52% center;background-size:cover;clip-path:polygon(11% 0,100% 0,100% 100%,0 100%);box-shadow:0 25px 80px #0005}
 .hero-car-image{opacity:0!important}
 .hero-image-frame:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#1018208c 0%,transparent 38%),linear-gradient(0deg,#0a1016a8,transparent 48%);pointer-events:none}
 .hero-visual:before{content:"";position:absolute;z-index:2;left:2%;top:6%;width:78%;height:85%;border:1px solid #e0c28a48;pointer-events:none;clip-path:polygon(11% 0,100% 0,100% 100%,0 100%)}
@@ -429,10 +429,10 @@ body{background:var(--paper);color:var(--ink)}
 .cinematic-intro h2 em{color:#d6b582}
 .cinematic-intro p{max-width:470px;color:#bbc1c3;font-size:14px}
 .cinematic-intro-index{font-size:9px;letter-spacing:.21em;color:#c3c5c0}
-.cinematic-image-departure{background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=85")}
-.cinematic-image-ride{background-image:url("https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1600&q=85")}
-.cinematic-image-openroad{background-image:url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=85")}
-.cinematic-image-arrival{background-image:url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1600&q=85")}
+.cinematic-image-departure{background-image:url("/images/cinematic-departure.svg")}
+.cinematic-image-ride{background-image:url("/images/cinematic-ride.svg")}
+.cinematic-image-openroad{background-image:url("/images/cinematic-openroad.svg")}
+.cinematic-image-arrival{background-image:url("/images/cinematic-arrival.svg")}
 .cinematic-visual-shade{background:linear-gradient(0deg,rgba(7,12,18,.86),transparent 51%),linear-gradient(90deg,rgba(7,12,18,.28),transparent 68%)}
 .cinematic-visual-label{font-size:9px;letter-spacing:.19em}
 .cinematic-progress-fill{background:#d6b582}
@@ -445,7 +445,7 @@ body{background:var(--paper);color:var(--ink)}
 .cinematic-chapter-foot svg{color:#d6b582}
 
 .manifesto{min-height:610px;padding:clamp(80px,10vw,145px) clamp(24px,9vw,145px);background:#11191f}
-.manifesto-image{background-image:url("https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1800&q=85");background-size:cover;background-position:center}
+.manifesto-image{background-image:url("/images/cinematic-arrival.svg");background-size:cover;background-position:center}
 .manifesto-image img{opacity:0!important}
 .manifesto-shade{background:linear-gradient(90deg,#0d1419f2 0%,#10191dc9 44%,#10191d63 100%)}
 .manifesto-kicker{font-size:10px;letter-spacing:.2em;color:#d6b582}
@@ -464,9 +464,9 @@ body{background:var(--paper);color:var(--ink)}
 .story-card-copy h3,.destination-cta h3{font-size:clamp(31px,3.2vw,46px);letter-spacing:-.06em;line-height:1.05}
 .story-card-copy h3 em,.destination-cta h3 em{color:#9e7947}
 .story-card-copy p,.destination-cta p{font-size:13px;color:#646a6b;line-height:1.8}
-.story-photo-road{background-image:url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85")}
-.story-photo-cabin{background-image:url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=85")}
-.story-photo-arrival{background-image:url("https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85")}
+.story-photo-road{background-image:url("/images/story-road.svg")}
+.story-photo-cabin{background-image:url("/images/story-cabin.svg")}
+.story-photo-arrival{background-image:url("/images/story-arrival.svg")}
 .destination-cta{background:#141d23;color:#fff;padding:clamp(32px,4vw,58px)}
 .destination-cta h3{font-size:clamp(41px,5.2vw,68px)}
 .destination-cta h3 em{color:#d6b582}
