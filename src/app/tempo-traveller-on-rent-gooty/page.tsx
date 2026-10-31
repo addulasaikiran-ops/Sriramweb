@@ -1,0 +1,4 @@
+import type { Metadata } from "next";
+import { ServiceLandingPage } from "@/components/ServiceLandingPage";
+export const metadata: Metadata = { title: "Tempo Traveller on Rent in Gooty", description: "Enquire about a Force Traveller for group travel from Gooty. Confirm seat count, luggage space, availability and fare.", alternates: { canonical: "/tempo-traveller-on-rent-gooty" } };
+export default function Page() { return <ServiceLandingPage title="Tempo Traveller on Rent in Gooty" service="a Force Traveller rental" description="Planning a group trip or pilgrimage? Enquire about the Force Traveller configuration that suits your group. Confirm the exact vehicle and seating before booking." fareLabel="Rate: [TEMPO_TRAVELLER_RATE]. Replace with your confirmed rate and minimum-kilometre policy before publishing." />; }
