@@ -59,7 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         {children}
         <Analytics />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": ["LocalBusiness", "TaxiService"], name: site.name, telephone: `+${site.phone}`, address: { "@type": "PostalAddress", streetAddress: site.address, addressLocality: "Gooty", addressRegion: "Andhra Pradesh", addressCountry: "IN" }, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": ["LocalBusiness", "TaxiService"], name: site.name, telephone: `+${site.phone}`, address: { "@type": "PostalAddress", ...(site.address.startsWith("[") ? {} : { streetAddress: site.address }), addressLocality: "Gooty", addressRegion: "Andhra Pradesh", addressCountry: "IN" }, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
       </body>
     </html>
   );
