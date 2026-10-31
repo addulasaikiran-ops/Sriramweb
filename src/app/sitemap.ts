@@ -11,8 +11,7 @@ const routes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = process.env.NEXT_PUBLIC_SITE_URL;
-  if (!base) return [];
+  const base = process.env.NEXT_PUBLIC_SITE_URL || "https://sriramweb-zctj.vercel.app";
   return routes.map((route) => ({
     url: new URL(route, base).toString(),
     lastModified: new Date(),
