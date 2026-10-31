@@ -197,6 +197,7 @@ export default function HomePage() {
         </section>
 
 
+        {SHOW_RATES && (
         <section className="rates-section section-pad" id="rates" aria-labelledby="rates-title">
           <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> CLEAR FARE DETAILS</div><h2 id="rates-title">Know the fare<br />before <em>you travel.</em></h2></div><p>Use these editable rate fields to publish your confirmed prices. Final fares depend on route, vehicle and trip details.</p></div>
           <div className="rates-grid">
@@ -211,6 +212,7 @@ export default function HomePage() {
           </div>
           <p className="form-note">The bracketed values are setup placeholders, not quoted prices. Replace them with confirmed rates before advertising fares.</p>
         </section>
+        )}
 
         <section className="cinematic-journey" id="journey-story" aria-labelledby="journey-title">
           <div className="cinematic-intro">
