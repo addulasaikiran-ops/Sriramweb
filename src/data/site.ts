@@ -28,6 +28,11 @@ export const site = {
   operatingHours: "[OPERATING_HOURS]",
   towingCoverage: "[TOWING_COVERAGE]",
   towingResponseTime: "[TOWING_RESPONSE_TIME]",
+  address: "[FULL_BUSINESS_ADDRESS]",
+  email: "[BUSINESS_EMAIL]",
+  googleMapsEmbedUrl: "[GOOGLE_MAPS_EMBED_URL]",
+  yearsInBusiness: "[YEARS_IN_BUSINESS]",
+  trust: { verifiedDrivers: "[VERIFY_DRIVER_STATUS]", insurance: "[VERIFY_INSURANCE_DETAILS]", touristPermit: "[VERIFY_TOURIST_PERMIT_DETAILS]", gps: "[VERIFY_GPS_AVAILABILITY]" },
 };
 
 export const services = [
