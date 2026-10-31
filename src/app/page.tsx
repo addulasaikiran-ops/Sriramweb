@@ -22,7 +22,7 @@ import { HanumanIntro } from "@/components/HanumanIntro";
 gsap.registerPlugin(ScrollTrigger);
 
 function isConfigured(value: string) {
-  return value.trim() !== "" && !/^\\[[A-Z0-9_]+\\]$/.test(value.trim());
+  return value.trim() !== "" && !/^\[[A-Z0-9_]+\]$/.test(value.trim());
 }
 
 function WhatsAppLink({ label = "Book your journey", className = "", message = "Hello Sriram Travels, I'd like to enquire about car rental / towing service." }: { label?: string; className?: string; message?: string }) {
