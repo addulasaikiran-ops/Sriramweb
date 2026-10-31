@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, DM_Sans, Manrope } from "next/font/google";
 import { site } from "@/data/site";
 import "./globals.css";
+import { Analytics } from "@/components/Analytics";
 
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
@@ -57,6 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           }}
         />
         {children}
+        <Analytics />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@type": ["LocalBusiness", "TaxiService"], name: site.name, telephone: `+${site.phone}`, address: { "@type": "PostalAddress", streetAddress: site.address, addressLocality: "Gooty", addressRegion: "Andhra Pradesh", addressCountry: "IN" }, areaServed: { "@type": "AdministrativeArea", name: site.location } }).replace(/</g, "\\u003c") }} />
       </body>
     </html>
