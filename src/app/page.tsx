@@ -262,8 +262,19 @@ export default function HomePage() {
         </section>
 
         <section className="destinations-section section-pad" id="destinations">
-          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> YOUR NEXT STOP</div><h2>Where to <em>next?</em></h2></div><p>Have a destination in mind? Send us your route and dates to enquire about your trip.</p></div>
-          <div className="destination-cta reveal"><div><span className="destination-kicker">YOUR ROUTE, YOUR PLANS</span><h3>Let’s talk about<br /><em>where you’re going.</em></h3><p>Share the pickup point, destination, travel date and number of passengers. We’ll discuss availability and pricing with you.</p></div><WhatsAppLink label="Enquire about a trip" className="button button-gold" message="Hello Sriram Travels, I'd like to enquire about a trip. Pickup: ____. Destination: ____. Date: ____. Passengers: ____. Please confirm availability and fare." /></div>
+          <div className="section-heading reveal"><div><div className="eyebrow dark-eyebrow"><span className="eyebrow-line" /> ROUTES FROM GOOTY</div><h2>Where to <em>next?</em></h2></div><p>Ask about these popular journeys. Distances and travel times vary by pickup point and route; confirm your exact itinerary with us.</p></div>
+          <div className="destination-route-grid">
+            {[
+              { name: "Tirupati", distance: "[DISTANCE_TO_TIRUPATI]", time: "[TRAVEL_TIME_TO_TIRUPATI]" },
+              { name: "Bengaluru", distance: "[DISTANCE_TO_BENGALURU]", time: "[TRAVEL_TIME_TO_BENGALURU]" },
+              { name: "Hyderabad", distance: "[DISTANCE_TO_HYDERABAD]", time: "[TRAVEL_TIME_TO_HYDERABAD]" },
+              { name: "Mantralayam", distance: "[DISTANCE_TO_MANTRALAYAM]", time: "[TRAVEL_TIME_TO_MANTRALAYAM]" },
+              { name: "Srisailam", distance: "[DISTANCE_TO_SRISAILAM]", time: "[TRAVEL_TIME_TO_SRISAILAM]" },
+              { name: "Puttaparthi", distance: "[DISTANCE_TO_PUTTAPARTHI]", time: "[TRAVEL_TIME_TO_PUTTAPARTHI]" },
+              { name: "Chennai", distance: "[DISTANCE_TO_CHENNAI]", time: "[TRAVEL_TIME_TO_CHENNAI]" },
+              { name: "Vijayawada", distance: "[DISTANCE_TO_VIJAYAWADA]", time: "[TRAVEL_TIME_TO_VIJAYAWADA]" },
+            ].map((route) => <article className="destination-route-card" key={route.name}><span className="destination-kicker">FROM GOOTY</span><h3>{route.name}</h3><p>{route.distance} · {route.time}</p><WhatsAppLink label="Ask for route quote" className="text-link" message={`Hello Sriram Travels, please share a quote from Gooty to ${route.name}. Please confirm distance, travel time, vehicle availability and total fare.`} /></article>)}
+          </div>
         </section>
 
         <BookingSteps />
@@ -276,7 +287,7 @@ export default function HomePage() {
               { question: "Which places do you travel to?", answer: "Please message us with your pickup point and destination so we can confirm whether your requested route is available." },
               { question: "How is the fare decided?", answer: "Fare can depend on the vehicle, route and trip details. Ask us for a confirmed quote before booking; any rates shown on this page are reference-only until confirmed by Sriram Travels." },
               { question: "Can I confirm the vehicle before booking?", answer: "Yes—please ask us to confirm the vehicle, seating and availability for your dates before you finalise the trip." },
-              { question: "What if my plans change?", answer: "Contact us as soon as possible. We’ll explain what changes can be accommodated for your booking." }
+              { question: "What is the cancellation or change policy?", answer: "Please contact Sriram Travels as early as possible if you need to cancel or change your trip. Any advance-payment refund, cancellation charge, date-change fee or rescheduling depends on the booking terms agreed when you confirm. Ask for those terms in writing before paying; no fixed policy is published here yet." }
             ].map((item, index) => <article className={`faq-item ${openFaq === index ? "is-open" : ""}`} key={item.question}><button className="faq-question" aria-expanded={openFaq === index} aria-controls={`faq-answer-${index}`} id={`faq-question-${index}`} onClick={() => setOpenFaq(openFaq === index ? -1 : index)}><span>{item.question}</span><ChevronDown size={18} /></button><div className="faq-answer" id={`faq-answer-${index}`} role="region" aria-labelledby={`faq-question-${index}`} hidden={openFaq !== index}><p>{item.answer}</p></div></article>)}
           </div>
         </section>
@@ -287,7 +298,7 @@ export default function HomePage() {
           <div className="services-grid">{services.map((service) => <article className="service-card reveal" key={service.number}><span className="service-num">{service.number}</span><div className="service-icon">{service.number === "01" ? <MapPin /> : service.number === "02" ? <Users /> : <Zap />}</div><h3>{service.title}</h3><p>{service.copy}</p><a href={service.number === "03" ? `tel:+${site.phone}` : "#contact"} aria-label={`Enquire about ${service.title}`}><ArrowUpRight size={17} /></a></article>)}</div>
         </section>
 
-        <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {site.location}</span><span><Clock3 size={14} /> Towing availability to be confirmed</span></div></div></section>
+        <section className="contact-section" id="contact"><div className="contact-watermark">SR.</div><div className="contact-copy reveal"><div className="eyebrow"><span className="eyebrow-line" /> THE NEXT CHAPTER STARTS HERE</div><h2>Where to<br /><em>next?</em></h2><p>Tell us what your journey needs. We’ll help you work out the next step.</p><div className="contact-actions"><WhatsAppLink label="Start a WhatsApp enquiry" className="button button-gold" /><a href={`tel:+${site.phone}`} className="button button-contact-outline"><Phone size={15} /> {site.phoneDisplay}</a></div></div><div className="contact-side reveal"><div className="contact-orbit"><ArrowDownRight size={30} strokeWidth={1} /></div><span className="contact-side-label">YOUR JOURNEY.<br />OUR RESPONSIBILITY.</span><div className="contact-details"><span><MapPin size={14} /> {site.location}</span><span><Clock3 size={14} /> Operating hours: {site.operatingHours}</span></div></div></section>
         <TowingEmergency />
         <EnquiryForm selectedVehicle={hasChosenVehicle ? active.name : ""} />
       </main>
