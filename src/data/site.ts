@@ -4,10 +4,14 @@ export const site = {
   name: "Sriram Travels",
   descriptor: "Travels & Towing Services",
   location: "Gooty, Andhra Pradesh",
-  // TODO(owner): confirm business details before publishing.
+  // Verify and complete the editable business details below before publishing.
   phoneDisplay: "+91 99493 79737",
   phone: "919949379737",
   whatsapp: "919949379737",
+  // Replace these clearly marked values with verified business details before publishing.
+  operatingHours: "[OPERATING_HOURS]",
+  towingCoverage: "[TOWING_COVERAGE]",
+  towingResponseTime: "[TOWING_RESPONSE_TIME]",
 };
 
 export type Vehicle = {
